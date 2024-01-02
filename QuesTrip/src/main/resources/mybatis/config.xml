@@ -10,8 +10,4 @@
   	<setting name="jdbcTypeForNull" value="NULL"/>
   </settings>
   
-  <typeAliases>
-  	<typeAlias type="com.kh.questrip.member.vo.MemberVo" alias="MemberVo"/>
-  </typeAliases>
-  
 </configuration>
