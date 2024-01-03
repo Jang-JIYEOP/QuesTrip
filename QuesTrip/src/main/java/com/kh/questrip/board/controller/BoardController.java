@@ -20,7 +20,7 @@ public class BoardController {
 	
 	private final BoardService service;
 	
-	//°Ô½Ã±Û ÀÛ¼º
+	//ê²Œì‹œê¸€ ì‘ì„±
 	@PostMapping("write")
 	public String write(BoardVo vo) throws Exception {
 		
@@ -33,7 +33,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	//°Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	//ê²Œì‹œê¸€ ëª©ë¡ ì¡°íšŒ
 	@GetMapping("list")
 	public String list(Model model) {
 		List<BoardVo> voList = service.list();
@@ -45,7 +45,7 @@ public class BoardController {
 	}
 	
 	
-	//°Ô½Ã±Û »èÁ¦
+	//ê²Œì‹œê¸€ ì‚­ì œ
 	@GetMapping("delete")
 	public String delete(BoardVo vo) throws Exception {
 		
@@ -57,7 +57,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	//°Ô½Ã±Û ¼öÁ¤
+	//ê²Œì‹œê¸€ ìˆ˜ì •
 	@PostMapping("edit")
 	public String edit(BoardVo vo) throws Exception {
 		int result = service.edit(vo);
