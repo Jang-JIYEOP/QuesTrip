@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.questrip.board.vo.BoardVo;
 import com.kh.questrip.comment.vo.CommentVo;
 import com.kh.questrip.member.service.MemberService;
 
@@ -18,7 +19,7 @@ public class CommentController {
 	
 	@GetMapping("list")
 	public String list(BoardVo boardVo) {
-		CommentVo vo = service.list(boardVo);
+//		CommentVo vo = service.list(boardVo);
 		return "comment/list";
 	}
 }

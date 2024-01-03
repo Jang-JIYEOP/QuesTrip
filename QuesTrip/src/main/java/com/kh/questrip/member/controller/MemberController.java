@@ -40,6 +40,8 @@ public class MemberController {
 	@PostMapping("login")
 	public String login(MemberVo vo, HttpSession session) throws Exception {
 		
+		System.out.println(vo);
+		
 		MemberVo loginMember = service.login(vo);
 		
 		if(loginMember == null) {
