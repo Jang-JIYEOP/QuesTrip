@@ -22,3 +22,4 @@ bin/*.txt
 # /** matches 0 or more directories
 doc/**/*.pdf
 Servers/
+Questrip_/

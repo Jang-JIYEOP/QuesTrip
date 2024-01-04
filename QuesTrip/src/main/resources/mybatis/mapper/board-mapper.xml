@@ -18,7 +18,7 @@
   		, #{memberNo}
   		, #{title}
   		, #{content}
-  	)
+  	);
   </insert>
   
   <select id="list" resultType="com.kh.questrip.board.vo.BoardVo">
@@ -31,6 +31,6 @@
   		DEL_YN
   	FROM COMMUNITY_BOARD
   	WHERE DEL_YN = 'N'
-  	ORDER BY NO DESC
+  	ORDER BY NO DESC;
   </select>
 </mapper>
