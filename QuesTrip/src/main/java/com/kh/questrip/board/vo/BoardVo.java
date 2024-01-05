@@ -8,5 +8,9 @@ public class BoardVo {
 	private String memberNo;
 	private String title;
 	private String content;
+	private String enrollDate;
+	private String hit;
+	private String likes;
 	private String delYn;
+	private String nick;
 }

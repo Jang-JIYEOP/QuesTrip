@@ -18,19 +18,27 @@
   		, #{memberNo}
   		, #{title}
   		, #{content}
-  	);
+  	)
   </insert>
   
   <select id="list" resultType="com.kh.questrip.board.vo.BoardVo">
   	SELECT
-  		NO,
-  		MEMBER_NO,
-  		TITLE,
-  		CONTENT,
-  		ENROLL_DATE,
-  		DEL_YN
-  	FROM COMMUNITY_BOARD
-  	WHERE DEL_YN = 'N'
-  	ORDER BY NO DESC;
+	    CB.NO,
+	    M.NICK,
+	    CB.TITLE,
+	    CB.CONTENT,
+	    CB.ENROLL_DATE,
+	    CB.HIT,
+	    CB.LIKES,
+	    CB.DEL_YN,
+	    CB.MEMBER_NO
+	FROM 
+	    COMMUNITY_BOARD CB
+	JOIN 
+	    MEMBER M ON CB.MEMBER_NO = M.NO
+	WHERE 
+	    CB.DEL_YN = 'N'
+	ORDER BY 
+	    CB.NO DESC
   </select>
 </mapper>
