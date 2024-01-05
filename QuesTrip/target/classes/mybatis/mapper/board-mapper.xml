@@ -41,4 +41,38 @@
 	ORDER BY 
 	    CB.NO DESC
   </select>
+  
+  <select id="detail" resultType="com.kh.questrip.board.vo.BoardDetailVo">
+  	SELECT
+	    CB.NO,
+	    M.NICK,
+	    CB.TITLE,
+	    CB.CONTENT,
+	    CB.ENROLL_DATE,
+	    CB.HIT,
+	    CB.LIKES,
+	    CB.DEL_YN,
+	    CB.MEMBER_NO,
+	    COUNT(CMT.NO) AS COMMENT_COUNT
+	FROM 
+	    COMMUNITY_BOARD CB
+	JOIN 
+	    MEMBER M ON CB.MEMBER_NO = M.NO
+	LEFT JOIN  
+	    COMMT CMT ON CB.NO = CMT.BOARD_NO AND CMT.DEL_YN = 'N'
+	WHERE 
+	    CB.DEL_YN = 'N' AND CB.NO = #{no}
+	GROUP BY 
+	    CB.NO,
+	    M.NICK,
+	    CB.TITLE,
+	    CB.CONTENT,
+	    CB.ENROLL_DATE,
+	    CB.HIT,
+	    CB.LIKES,
+	    CB.DEL_YN,
+	    CB.MEMBER_NO
+	ORDER BY 
+	    CB.NO DESC
+  </select>
 </mapper>
