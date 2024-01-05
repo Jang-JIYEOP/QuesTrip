@@ -66,4 +66,12 @@ public class BoardController {
 		}
 		return "redirect:/board/detail?no=" + vo.getNo();
 	}
+	
+	//게시글 상세 조회
+	@GetMapping("detail")
+	public String detail(BoardVo vo , Model model) {
+		BoardVo boardVo = service.detail(vo);
+		model.addAttribute("boardVo" , boardVo);
+		return "board/detail";
+	}
 }

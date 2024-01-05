@@ -46,7 +46,7 @@ const Header = () => {
 
     return (
         <StyledHeaderDiv>
-            <div className='logoArea' onClick={ () => { navigate("/home") } }></div>
+            <div className='logoArea' onClick={ () => { navigate("/") } }></div>
             <StyledSearchDiv>
                 <form action="">
                     <select name="search">

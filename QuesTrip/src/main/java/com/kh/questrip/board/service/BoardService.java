@@ -14,26 +14,31 @@ public class BoardService {
 	private final BoardDao dao;
 	private final SqlSessionTemplate sst;
 	
-	//°Ô½Ã±Û ÀÛ¼º
+	//ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½
 	public int write(BoardVo vo) {
 		return dao.write(sst, vo);
 	}
 
-	//°Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public List<BoardVo> list() {
 		return dao.list(sst);
 	}
 	
 	
-	//°Ô½Ã±Û »èÁ¦
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int delete(BoardVo vo) {
 		return dao.delete(sst, vo);
 	}
 	
 	
-	//°Ô½Ã±Û ¼öÁ¤
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int edit(BoardVo vo) {
 		return dao.edit(sst, vo);
-	}	
+	}
+
+	public BoardVo detail(BoardVo vo) {
+		return dao.detail(sst, vo);
+	}
+
 
 }

@@ -10,24 +10,28 @@ import com.kh.questrip.board.vo.BoardVo;
 @Repository
 public class BoardDao {
 
-	//°Ô½Ã±Û ÀÛ¼º
+	//ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½
 	public int write(SqlSessionTemplate sst, BoardVo vo) {
 		return sst.insert("BoardMapper.write", vo);
 	}
 
-	//°Ô½Ã±Û ¸ñ·Ï Á¶È¸
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public List<BoardVo> list(SqlSessionTemplate sst) {
 		return sst.selectList("BoardMapper.list");
 	}
 
-	//°Ô½Ã±Û »èÁ¦
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int delete(SqlSessionTemplate sst, BoardVo vo) {
 		return sst.delete("BoardMapper.delete", vo);
 	}
 	
-	//°Ô½Ã±Û ¼öÁ¤
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int edit(SqlSessionTemplate sst, BoardVo vo) {
 		return sst.update("BoardMapper.edit", vo);
+	}
+
+	public BoardVo detail(SqlSessionTemplate sst, BoardVo vo) {
+		return sst.selectOne("BoarderMapper.list");
 	}
 	
 	

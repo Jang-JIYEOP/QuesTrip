@@ -25,13 +25,13 @@ const Main = () => {
     return (
         <StyledMainDiv>
             <Routes>
-                <Route path='/home' element={<Home/>}></Route>
+                <Route path='/' element={<Home/>}></Route>
                 <Route path='/community/*' element={<CommunityMain/>}></Route>
                 <Route path='/diary/*' element={<DiaryMain/>}></Route>
                 <Route path='/quest/*' element={<QuestMain/>}></Route>
                 <Route path='/notice/*' element={<NoticeMain/>}></Route>
                 <Route path='/icon/*' element={<IconMain/>}></Route>
-                <Route path='*' element={<ErrorPageNotFound/>}></Route>
+                <Route path='/*' element={<ErrorPageNotFound/>}></Route>
                 <Route></Route>
             </Routes>
         </StyledMainDiv>
