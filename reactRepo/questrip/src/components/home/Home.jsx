@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import MapContainer from '../map/MapContainer';
+
+
 
 
 const StyledHomeDiv = styled.div`
@@ -15,13 +18,52 @@ const StyledHomeDiv = styled.div`
         height: 100%;
         border: 1px solid black;
     }
+
+    
+    & > div:nth-child(2){
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        & > :nth-child(1){
+            width: 100%;
+            height: 100%;
+            & > form{
+                padding: 50px 50px 10px 50px;
+            }
+            &>div{
+                width: 100%;
+                height: 80%;
+            }
+        }
+        & > :nth-child(2){
+            width: 100%;
+            height: 100%;
+        }
+    }
+    
+   
 `;
 
 const Home = () => {
     return (
         <StyledHomeDiv>
             <div>자유게시판</div>
-            <div>퀘스트</div>
+            <div>
+                <div>
+                    <form action="">
+                        <select name="search">
+                            <option value="">지역</option>
+                            <option value="">지역</option>
+                            <option value="">지역</option>
+                        </select>
+                        <input type="submit" value="검색"/>
+                    </form>
+                    <div>aaa</div>
+                </div>
+                <MapContainer/>
+            </div>
         </StyledHomeDiv>
     );
 };
