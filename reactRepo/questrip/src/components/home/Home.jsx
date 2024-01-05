@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
+import { useQuestMemory } from '../community/context/QuestContext';
 
 
 
@@ -47,6 +48,8 @@ const StyledHomeDiv = styled.div`
 `;
 
 const Home = () => {
+
+    const {questVoList, setCategoryNo} = useQuestMemory();
     return (
         <StyledHomeDiv>
             <div>자유게시판</div>

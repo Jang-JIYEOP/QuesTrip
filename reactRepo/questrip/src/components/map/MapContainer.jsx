@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
-
+import { useQuestMemory } from '../community/context/QuestContext';
 
 const MapContainer = (props) => {
-    const [showInfoWindow, setShowInfoWindow] = useState(false);
+  const { questVoList } = useQuestMemory();
 
-  const onMarkerClick = () => {
+  const [showInfoWindow, setShowInfoWindow] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const onMarkerClick = (quest) => {
+
+    console.log("Clicked Marker Lat:", quest.latitude);
+    console.log("Clicked Marker Lng:", quest.longitude);
+
+    
+    
+    setSelectedMarker(quest);
     setShowInfoWindow(true);
   };
 
   const onCloseInfoWindow = () => {
+    setSelectedMarker(null);
     setShowInfoWindow(false);
   };
   const mapStyles = {
@@ -18,6 +29,8 @@ const MapContainer = (props) => {
   };
 
   return (
+
+    
     <Map
       google={props.google}
       zoom={12}
@@ -27,23 +40,29 @@ const MapContainer = (props) => {
         lng: 126.9780, // 경도
       }}
     >
-    <Marker
-        title="경복궁"
-        name="경복궁"
-        position={{ lat: 37.5775, lng: 126.9769 }}
-        onClick={onMarkerClick}
+    {questVoList.map((quest) => (
+        <Marker
+        key={quest.no}
+        title={quest.title}
+        name={quest.title}
+        position={{ lat: quest.latitude, lng: quest.longitude }}
+        quest={quest}
+        onClick={() => onMarkerClick(quest)}
       />
+      ))}
 
-      <InfoWindow
-        visible={showInfoWindow}
-        onClose={onCloseInfoWindow}
-        position={{ lat: 37.5775, lng: 126.9769 }}
-      >
-        <div>
-          <h2>경복궁</h2>
-          <p>경복궁 어디서든 한복입고 사진찍기</p>
-        </div>
-      </InfoWindow>
+{selectedMarker && (
+  <InfoWindow
+    visible={showInfoWindow}
+    onClose={onCloseInfoWindow}
+    position={selectedMarker ? { lat: selectedMarker.latitude, lng: selectedMarker.longitude } : null}
+  >
+    <div>
+      <h2>{selectedMarker.title}</h2>
+      <p>{selectedMarker.content}</p>
+    </div>
+  </InfoWindow>
+)}
     </Map>
   );
 };
