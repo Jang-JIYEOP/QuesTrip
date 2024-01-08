@@ -37,7 +37,6 @@ public class BoardApiController {
 	@PostMapping("detail")
 	public BoardDetailVo detail(@RequestBody BoardVo vo)  {
 		 BoardDetailVo detail = service.detail(vo);
-		System.out.println(detail);
 		return service.detail(vo);
 	
 	}
