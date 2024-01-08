@@ -4,6 +4,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import com.kh.questrip.board.dao.BoardDao;
+import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
 import lombok.RequiredArgsConstructor;
 
@@ -36,9 +37,10 @@ public class BoardService {
 		return dao.edit(sst, vo);
 	}
 
-	public BoardVo detail(BoardVo vo) {
+	public BoardDetailVo detail(BoardVo vo) {
 		return dao.detail(sst, vo);
 	}
+
 
 
 }

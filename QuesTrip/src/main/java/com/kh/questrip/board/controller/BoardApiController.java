@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.board.service.BoardService;
+import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("api/board")
+@RequestMapping("api/community")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class BoardApiController {
@@ -29,6 +31,14 @@ public class BoardApiController {
 	@GetMapping("list")
 	public List<BoardVo> list(){
 		return service.list();
+	}
+	
+	//게시글 상세 조회
+	@PostMapping("detail")
+	public BoardDetailVo detail(@RequestBody BoardVo vo)  {
+		 BoardDetailVo detail = service.detail(vo);
+		return service.detail(vo);
+	
 	}
 	
 	//게시글 작성하기

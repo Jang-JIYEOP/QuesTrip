@@ -1,17 +1,17 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import BoardList from './CommunityList';
-import BoardWrite from './CommunityWrite';
-import BoardEdit from './CommunityEdit';
-import BoardDetail from './CommunityDetail';
+import CommunityDetail from './CommunityDetail';
+import CommunityList from './CommunityList';
+import CommunityEdit from './CommunityEdit';
+import CommunityWrite from './CommunityWrite';
 
 const CommunityMain = () => {
     return (
         <Routes>
-            <Route path='list' element={<BoardList/>}/>
-            <Route path='write' element={<BoardWrite/>}/>
-            <Route path='detail' element={<BoardDetail/>}/>
-            <Route path='edit' element={<BoardEdit/>}/>
+            <Route path='list' element={<CommunityList/>}/>
+            <Route path='write' element={<CommunityWrite/>}/>
+            <Route path='detail/:id' element={<CommunityDetail />} />
+            <Route path='edit' element={<CommunityEdit/>}/>
         </Routes>
     );
 };

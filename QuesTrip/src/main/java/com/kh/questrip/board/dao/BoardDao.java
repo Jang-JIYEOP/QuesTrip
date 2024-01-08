@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
 
 @Repository
@@ -30,8 +31,8 @@ public class BoardDao {
 		return sst.update("BoardMapper.edit", vo);
 	}
 
-	public BoardVo detail(SqlSessionTemplate sst, BoardVo vo) {
-		return sst.selectOne("BoarderMapper.list");
+	public BoardDetailVo detail(SqlSessionTemplate sst, BoardVo vo) {
+		return sst.selectOne("BoardMapper.detail", vo);
 	}
 	
 	
