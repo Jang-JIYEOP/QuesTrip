@@ -20,7 +20,7 @@ const StyledCommunityListDiv = styled.div`
             
             width: 700px;
         }
-        & > tbody > .topthree{
+        & > tbody > .bestThree{
             background-color: lightgray;
             border: none;
         }
@@ -30,33 +30,31 @@ const StyledCommunityListDiv = styled.div`
 
 const CommunityList = () => {
 
-    console.log("BoardList 컴포넌트 렌더링 ~~~ ");
 
     const navigate = useNavigate();
 
     const handleRowClick = (id) => {
         // 클릭한 게시글의 상세 페이지로 이동
-        console.log("Clicked ID:", id);
         navigate(`/community/detail/${id}`);
+        
     };
 
     //fetch 를 이용해서 데이터 준비
     const [boardVoList , setBoardVoList] = useState([]);
-    const [topThreeLikes, setTopThreeLikes] = useState([]);
+    const [boardBestList, setBoardBestList] = useState([]);
     const loadBoardVoList = () => {
         fetch("http://127.0.0.1:8888/questrip/api/community/list")
         .then(resp => resp.json())
             .then(data => {
-                setBoardVoList(data);
-                // likes 기준으로 상위 3개를 추출하여 저장
-                const sortedByLikes = [...data].sort((a, b) => b.likes - a.likes).slice(0, 3);
-                setTopThreeLikes(sortedByLikes);
+                setBoardVoList(data.voList);
+                setBoardBestList(data.bestList);
             });
-    }
 
+    }
+    
     useEffect( () => {
-        console.log("useEffect 호출됨 ~~~");
         loadBoardVoList();
+        
     }, [] );
 
 
@@ -75,8 +73,8 @@ const CommunityList = () => {
                 </thead>
                 <tbody>
                     {
-                        topThreeLikes.map(vo => 
-                            <tr className= "topthree" key={vo.no} onClick={() => handleRowClick(vo.no)}>
+                        boardBestList.map(vo => 
+                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo.no)}>
                                 <td>{vo.title}</td>
                                 <td>{vo.nick}</td>
                                 <td>{vo.hit}</td>
@@ -85,6 +83,7 @@ const CommunityList = () => {
                             </tr>
                         )
                     }
+
                     {
                         boardVoList.length === 0 
                         ?

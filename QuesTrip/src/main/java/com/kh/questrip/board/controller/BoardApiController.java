@@ -29,18 +29,27 @@ public class BoardApiController {
 	
 	//게시글 목록 조회
 	@GetMapping("list")
-	public List<BoardVo> list(){
-		return service.list();
+	public Map<String, Object> list(){
+		List<BoardVo> boardVoList = service.list();
+		List<BoardVo> BoarBestList = service.best();
+		Map<String, Object> map = new HashMap<>();
+		map.put("voList", boardVoList);
+		map.put("bestList", BoarBestList);
+		
+		return map;
 	}
 	
 	//게시글 상세 조회
 	@PostMapping("detail")
 	public BoardDetailVo detail(@RequestBody BoardVo vo)  {
-		 BoardDetailVo detail = service.detail(vo);
+		BoardDetailVo detail = service.detail(vo);
+		service.increaseHit(vo.getNo());
 		return service.detail(vo);
 	
 	}
 	
+	
+
 	//게시글 작성하기
 	@PostMapping("write")
 	public Map<String, String> write(@RequestBody BoardVo vo, HttpSession session){
