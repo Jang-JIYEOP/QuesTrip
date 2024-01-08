@@ -7,17 +7,19 @@ const QuestMemory = createContext();
 const QuestMemoryProvider = ({children}) => {
 
     const [questVoList, setQuestVoList] = useState([]);
+
     const [categoryVo, setCategoryVo] = useState({
         no : "1",
     });
 
-    const setCategoryNo = ({no}) => {
+    const setCategoryNo = (no) => {
         setCategoryVo({
-            "no" : no,
+            no,
         });
+        loadQuestVoList();
     }
 
-
+ 
     const loadQuestVoList = () => {
         fetch("http://127.0.0.1:8888/questrip/api/quest/list", {
             method: "POST",
@@ -39,7 +41,6 @@ const QuestMemoryProvider = ({children}) => {
         questVoList,
         setCategoryNo,
     }
-
     return (<>
         <QuestMemory.Provider value={questList}>
             {children}
