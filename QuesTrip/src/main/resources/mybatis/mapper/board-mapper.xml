@@ -29,7 +29,6 @@
 	    CB.CONTENT,
 	    CB.ENROLL_DATE,
 	    CB.HIT,
-	    CB.LIKES,
 	    CB.DEL_YN,
 	    CB.MEMBER_NO
 	FROM 
@@ -51,7 +50,6 @@
 	    M.NICK,
 	    CB.ENROLL_DATE, 
 	    CB.HIT, 
-	    CB.LIKES, 
 	    CB.DEL_YN
 	FROM 
 	    COMMUNITY_BOARD CB
@@ -61,7 +59,7 @@
 	    CB.ENROLL_DATE BETWEEN SYSDATE - 1 AND SYSDATE 
 	    AND CB.DEL_YN = 'N' -- DEL_YN이 'N'인 데이터만 필터링
 	ORDER BY 
-	    CB.LIKES DESC
+	    CB.HIT DESC
 	FETCH FIRST 3 ROWS ONLY
   </select>
   
@@ -73,7 +71,6 @@
 	    CB.CONTENT,
 	    CB.ENROLL_DATE,
 	    CB.HIT,
-	    CB.LIKES,
 	    CB.DEL_YN,
 	    CB.MEMBER_NO,
 	    COUNT(CMT.NO) AS COMMENT_COUNT
@@ -92,7 +89,6 @@
 	    CB.CONTENT,
 	    CB.ENROLL_DATE,
 	    CB.HIT,
-	    CB.LIKES,
 	    CB.DEL_YN,
 	    CB.MEMBER_NO
 	ORDER BY 
@@ -103,6 +99,20 @@
   	UPDATE COMMUNITY_BOARD
   		SET
   			HIT = HIT + 1
+  		WHERE NO = #{no}
+  </update>
+  
+  <update id="increaseLikes">
+  	UPDATE COMMUNITY_BOARD
+  		SET
+  			LIKES = LIKES + 1
+  		WHERE NO = #{no}
+  </update>
+  
+  <update id="decreaseLikes">
+  	UPDATE COMMUNITY_BOARD
+  		SET
+  			LIKES = LIKES -1
   		WHERE NO = #{no}
   </update>
   

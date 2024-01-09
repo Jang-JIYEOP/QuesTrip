@@ -44,10 +44,18 @@ public class BoardApiController {
 	public BoardDetailVo detail(@RequestBody BoardVo vo)  {
 		BoardDetailVo detail = service.detail(vo);
 		service.increaseHit(vo.getNo());
+		
 		return service.detail(vo);
 	
 	}
 	
+	//게시글 추천
+	@PostMapping("detail/increaseLikes")
+	public BoardDetailVo increaseLikes(@RequestBody BoardVo vo) {
+		service.increaseLikes(vo.getNo());
+		
+		return service.detail(vo);
+	}
 	
 
 	//게시글 작성하기

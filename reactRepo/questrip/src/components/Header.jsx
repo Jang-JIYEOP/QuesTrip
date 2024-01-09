@@ -40,6 +40,8 @@ const StyledSearchDiv = styled.div`
     }
 `;
 
+
+
 const Header = () => {
 
     const navigate = useNavigate();
@@ -58,7 +60,9 @@ const Header = () => {
                 </form>
                 
             </StyledSearchDiv>
-            <div>로그인</div>
+            <div onClick={()=> {
+                navigate("member/login");
+            }}>로그인</div>
         </StyledHeaderDiv>
     );
 };

@@ -4,6 +4,39 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberMapper">
 
-
+<insert id="join">
+	INSERT INTO MEMBER (
+	    NO
+	    , NICK
+	    , ID
+	    , PWD
+	    , EMAIL
+	    ) 
+	VALUES (
+	    SEQ_MEMBER_NO.NEXTVAL
+	    , #{nick}
+	    , #{id}
+	    , #{pwd}
+	    , #{email}
+	    );
+</insert>
+	
+<select id="login" resultType="com.kh.questrip.member.vo.MemberVo">
+	SELECT 
+	    NO
+	    ,MEMBER_TITLE_NO
+	    ,ICON_NO
+	    ,ID
+	    ,PWD
+	    ,NICK
+	    ,EMAIL
+	    ,POINT
+	    ,ENROLL_DATE
+	    ,DEL_YN
+	FROM MEMBER
+	WHERE ID = #{id}
+	    AND PWD = #{pwd}
+	    AND DEL_YN = 'N'
+</select>
 	
 </mapper>
