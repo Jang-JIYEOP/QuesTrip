@@ -46,4 +46,8 @@ public class BoardDao {
 		return sst.update("BoardMapper.increaseHit", no);
 	}
 
+	public int updateBoardLikes(SqlSessionTemplate sst, String no) {
+		return sst.update("BoardMapper.increaseLikes", no);
+	}
+
 }

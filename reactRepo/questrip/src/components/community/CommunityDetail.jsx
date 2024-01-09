@@ -59,6 +59,24 @@ const CommunityDetail = () => {
 
     }, [id]);
 
+    const handleLikesClick = ()=> {
+        fetch(`http://127.0.0.1:8888/questrip/api/community/detail/increaseLikes`, {
+            method: "POST",
+            headers : {
+                "Content-Type" : "application/json" ,
+            },
+            body : JSON.stringify({no:id})
+        })
+        .then(resp => resp.json())
+        .then(updatedLikes => {
+            setBoardDetailVo(updatedLikes);
+        })
+        .catch(error => {
+            console.error("추천 수를 증가시키는 중 에러 발생:", error);
+        });
+    };
+
+
     const navigate = useNavigate();
 
     return (
@@ -70,7 +88,7 @@ const CommunityDetail = () => {
             <div>추천수 : {boardDetailVo.likes}</div>
             <div>조회수 : {boardDetailVo.hit}</div>
             <div className='main'>{boardDetailVo.content}</div>
-            <button id='like'>추천</button>
+            <button id='like' onClick={handleLikesClick}>추천</button>
             <div></div>
             <div className='login'>수정</div>
             <div className='login'>삭제</div>

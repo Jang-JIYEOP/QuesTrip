@@ -53,5 +53,9 @@ public class BoardService {
 		return dao.updateBoardHit(sst, no);
 	}
 
+	public int increaseLikes(String no) {
+		return dao.updateBoardLikes(sst, no);
+	}
+
 
 }

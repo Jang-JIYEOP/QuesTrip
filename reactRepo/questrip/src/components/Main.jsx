@@ -9,6 +9,7 @@ import ErrorPageNotFound from './error/ErrorPageNotFound';
 import QuestMain from './quest/QuestMain';
 import IconMain from './icon/IconMain';
 import { QuestMemoryProvider } from './community/context/QuestContext';
+import MemberMain from './member/MemberMain';
 
 
 const StyledMainDiv = styled.div`
@@ -30,6 +31,7 @@ const Main = () => {
                 <Routes>
                     <Route path='/' element={<Home/>}></Route>
                     <Route path='/community/*' element={<CommunityMain/>}></Route>
+                    <Route path='/member/*' element={<MemberMain/>}></Route>
                     <Route path='/diary/*' element={<DiaryMain/>}></Route>
                     <Route path='/quest/*' element={<QuestMain/>}></Route>
                     <Route path='/notice/*' element={<NoticeMain/>}></Route>
