@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.quest.service.QuestService;
-import com.kh.questrip.quest.vo.LocateCategoryVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
 import com.kh.questrip.quest.vo.QuestVo;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,9 @@ public class QuestApiController {
 	
 	//지역별 퀘스트 조회
 	@PostMapping("list")
-	public List<QuestVo> list(@RequestBody LocateCategoryVo vo ){
+	public List<QuestVo> list(@RequestBody SearchInfoVo vo){
+		System.out.println(vo);
+		System.out.println(service.list(vo));
 		return service.list(vo);
 	}
 }

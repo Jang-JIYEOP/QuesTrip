@@ -52,7 +52,7 @@ const StyledHomeDiv = styled.div`
 
 const Home = () => {
 
-    const {questVoList, setCategoryNo} = useQuestMemory();
+    const {questVoList, setSearchInfoVo} = useQuestMemory();
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
    
@@ -60,7 +60,9 @@ const Home = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const selectedOptionValue = event.target.search.value;
-        setCategoryNo(selectedOptionValue );
+        setSearchInfoVo({
+            locCateNo : selectedOptionValue,
+        });
       };
 
     const handlePClick = (quest) => {

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class QuestVo {
 	private String no;
-	private String categoryNo;
+	private String locCateNo;
 	private String title;
 	private String content;
 	private String point;
@@ -16,5 +16,10 @@ public class QuestVo {
 	private String hit;
 	private String likes;
 	private String delYn;
+	private String rating;
+	private String headCnt;
+	private String queCateNo;
+	
+	
 	
 }
