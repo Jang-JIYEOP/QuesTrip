@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.questrip.board.dao.BoardDao;
 import com.kh.questrip.quest.dao.QuestDao;
-import com.kh.questrip.quest.vo.LocateCategoryVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
 import com.kh.questrip.quest.vo.QuestVo;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class QuestService {
 	private final QuestDao dao;
 	private final SqlSessionTemplate sst;
 	
-	public List<QuestVo> list(LocateCategoryVo vo) {
+	public List<QuestVo> list(SearchInfoVo vo) {
 		return dao.list(sst, vo);
 	}
 

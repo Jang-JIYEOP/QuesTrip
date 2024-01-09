@@ -6,12 +6,44 @@
 
 	<select id="list" resultType="com.kh.questrip.quest.vo.QuestVo">
 		SELECT 
-		    NO, CATEGORY_NO, TITLE, CONTENT, POINT, ENROLL_DATE, IMAGE_PATH, LATITUDE, LONGITUDE, DEL_YN
-		FROM QUEST
+		    Q.NO, 
+		    Q.QUE_CATE_NO , 
+		    Q.LOC_CATE_NO ,
+		    Q.TITLE, 
+		    Q.CONTENT, 
+		    Q.POINT, 
+		    Q.ENROLL_DATE, 
+		    Q.IMG_PATH, 
+		    Q.LATITUDE, 
+		    Q.LONGITUDE, 
+		    Q.DEL_YN,
+		    Q.HEAD_CNT,
+		    ROUND(AVG(CQ.RATE), 2) AS RATING
+		FROM QUEST Q
+		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
 		WHERE 
-		    CATEGORY_NO = #{no}
-		    AND DEL_YN = 'N'
+			Q.DEL_YN = 'N' 
+				<if test="locCateNo !=null and locCateNo != '' ">
+					AND Q.LOC_CATE_NO = #{locCateNo}
+				</if>
+				
+				<if test="title != null and title != '' ">	
+					AND Q.TITLE = #{title}
+				</if>
+				
+				<if test="point != null and point != '' ">	
+					AND Q.POINT >= #{point}
+				</if>
+				
+				<if test="title != null and title != '' ">	
+					AND Q.HEAD_CNT = #{headCnt}
+				</if>
+				
+				<if test="title != null and title != '' ">	
+					AND QUE_CATE_NO = #{queCateNo}
+				</if>
+				
+		GROUP BY Q.NO, Q.QUE_CATE_NO ,Q.LOC_CATE_NO , Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT,Q.DEL_YN		
 	</select>
-
-  
 </mapper>
+

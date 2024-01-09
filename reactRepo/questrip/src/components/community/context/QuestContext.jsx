@@ -6,18 +6,13 @@ const QuestMemory = createContext();
 
 const QuestMemoryProvider = ({children}) => {
 
+
+
     const [questVoList, setQuestVoList] = useState([]);
 
-    const [categoryVo, setCategoryVo] = useState({
-        no : "1",
+    const [searchInfoVo, setSearchInfoVo] = useState({
+        locCateNo : "1",
     });
-
-    const setCategoryNo = (no) => {
-        setCategoryVo({
-            no,
-        });
-        loadQuestVoList();
-    }
 
  
     const loadQuestVoList = () => {
@@ -26,20 +21,21 @@ const QuestMemoryProvider = ({children}) => {
             headers: {
                 "Content-Type": "application/json", 
             },
-            body : JSON.stringify(categoryVo),
+            body : JSON.stringify(searchInfoVo),
         })
         .then(resp => resp.json())
         .then((questVoList) => {setQuestVoList(questVoList);})
         ;
     }
 
+
     useEffect(() => {
         loadQuestVoList();
-    },[]);
+    },[searchInfoVo]);
     
     const questList = {
         questVoList,
-        setCategoryNo,
+        setSearchInfoVo,
     }
     return (<>
         <QuestMemory.Provider value={questList}>

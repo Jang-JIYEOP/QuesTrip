@@ -1,10 +1,13 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import QuestList from './QuestList';
 
 const QuestMain = () => {
     return (
-        <div>
-            퀘스트
-        </div>
+        
+            <Routes>
+                <Route path='list' element={<QuestList/>}/>
+            </Routes>
     );
 };
 
