@@ -13,4 +13,5 @@ public class BoardVo {
 	private String likes;
 	private String delYn;
 	private String nick;
+	private String likesCount;
 }

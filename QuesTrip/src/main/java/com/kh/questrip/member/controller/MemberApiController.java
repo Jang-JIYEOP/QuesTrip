@@ -3,18 +3,18 @@ package com.kh.questrip.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.member.service.MemberService;
 import com.kh.questrip.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("api/member")
 @RequiredArgsConstructor
 @CrossOrigin("*")

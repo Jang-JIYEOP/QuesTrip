@@ -78,7 +78,7 @@ const CommunityList = () => {
                                 <td>{vo.title}</td>
                                 <td>{vo.nick}</td>
                                 <td>{vo.hit}</td>
-                                <td>{vo.likes}</td>
+                                <td>{vo.likesCount}</td>
                                 <td>{vo.enrollDate}</td>
                             </tr>
                         )
@@ -94,7 +94,7 @@ const CommunityList = () => {
                             <td>{vo.title}</td>
                             <td>{vo.nick}</td>
                             <td>{vo.hit}</td>
-                            <td>{vo.likes}</td>
+                            <td>{vo.likesCount}</td>
                             <td>{vo.enrollDate}</td>
                         </tr>
                         )

@@ -59,25 +59,99 @@ const CommunityDetail = () => {
 
     }, [id]);
 
-    const handleLikesClick = ()=> {
-        fetch(`http://127.0.0.1:8888/questrip/api/community/detail/increaseLikes`, {
-            method: "POST",
-            headers : {
-                "Content-Type" : "application/json" ,
-            },
-            body : JSON.stringify({no:id})
-        })
-        .then(resp => resp.json())
-        .then(updatedLikes => {
-            setBoardDetailVo(updatedLikes);
-        })
-        .catch(error => {
-            console.error("추천 수를 증가시키는 중 에러 발생:", error);
-        });
+    
+
+    // 게시글 추천 버튼 클릭 시 동작하는 함수 예시
+    const handleLikeButtonClick = async () => {
+        const sessionData = sessionStorage.getItem('loginMemberVo');
+        const memberNo = JSON.parse(sessionData).no;
+        const boardNo = boardDetailVo.no;
+        const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
+        console.log("클라이언트에서 넘기는 값: "+memberNo, boardNo);
+        if (alreadyLiked) {
+            console.log('이미 추천한 게시글입니다.');
+            // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
+            decreaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
+        } 
+        else {
+            console.log('아직 추천하지 않은 게시글입니다.');
+            // 추천 버튼 활성화 또는 추천 로직 구현
+            increaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 기능을 수행할 수 있습니다.
+        }
     };
 
+    // 이미 추천한 게시글인지 확인하는 함수
+    const checkIfAlreadyLiked = async (memberNo, boardNo) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/checkIfAlreadyLiked", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ memberNo, boardNo })
+            });
+    
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');  
+            }
+    
+            const data = await response.json();
+            return data;
+    
+        } catch (error) {
+            console.error('이미 추천한 게시글 확인 중 에러 발생:', error);
+            return false;
+        }
+    };
+    
+    // 추천을 증가시키는 함수
+    const increaseLikes = async (sessionMemberNo, boardNo) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/detail/increaseLikes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ memberNo: sessionMemberNo, boardNo: boardNo})
+            });
+            if (!response.ok) throw new Error('서버 응답 실패');
+            const updatedBoardDetail = await response.json();
+            window.location.reload()
+            console.log("증가 : "+updatedBoardDetail);
+
+        } catch (error) {
+            console.error("추천 수를 증가시키는 중 에러 발생:", error);
+        }
+    };
+
+    // 추천을 감소시키는 함수
+    const decreaseLikes = async (sessionMemberNo, boardNo) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/detail/decreaseLikes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ memberNo: sessionMemberNo, boardNo: boardNo})
+            });
+            if (!response.ok) throw new Error('서버 응답 실패');
+            const updatedBoardDetail = await response.json();
+            window.location.reload()
+            console.log("감소 : "+updatedBoardDetail);
+        } catch (error) {
+            console.error("추천 수를 감소시키는 중 에러 발생:", error);
+        }
+    };
+    
+    
 
     const navigate = useNavigate();
+
+    // 세션 스토리지에서 'loginMemberVo' 키의 값을 가져옵니다.
+    const loginMemberVoString = sessionStorage.getItem('loginMemberVo');
+
+    // JSON 형태의 문자열을 객체로 파싱합니다.
+    const loginMemberVo = JSON.parse(loginMemberVoString);
 
     return (
         <StyledCommunityDetailDiv>
@@ -85,13 +159,30 @@ const CommunityDetail = () => {
             <div className='writeDate'>작성일 : {boardDetailVo.enrollDate}</div>
             
             <div>작성자 : {boardDetailVo.nick}</div>
-            <div>추천수 : {boardDetailVo.likes}</div>
+            <div>추천수 : {boardDetailVo.likesCount}</div>
             <div>조회수 : {boardDetailVo.hit}</div>
             <div className='main'>{boardDetailVo.content}</div>
-            <button id='like' onClick={handleLikesClick}>추천</button>
+            {
+            loginMemberVo && loginMemberVo.nick === boardDetailVo.nick ? (
+                <button id='like' disabled>추천</button>
+                
+            ) : (
+                <button id='like' onClick={handleLikeButtonClick}>추천</button>
+            )
+             }
             <div></div>
-            <div className='login'>수정</div>
-            <div className='login'>삭제</div>
+            {/* 세션 스토리지의 id값과 boardDetailVo의 memberNo 비교 */}
+            {sessionStorage.getItem("loginMemberVo") && JSON.parse(sessionStorage.getItem("loginMemberVo")).nick === boardDetailVo.nick ? (
+            <>
+                <div className='login'>수정</div>
+                <div className='login'>삭제</div>
+            </>
+            ) : 
+            <>
+                <div></div>
+                <div></div>
+            </>}
+
             <div></div>
             <div></div>
             <div onClick={ ()=> {
