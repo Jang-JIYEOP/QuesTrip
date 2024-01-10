@@ -1,6 +1,8 @@
 package com.kh.questrip.board.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import com.kh.questrip.board.dao.BoardDao;
@@ -52,10 +54,22 @@ public class BoardService {
 	public int increaseHit(String no) {
 		return dao.updateBoardHit(sst, no);
 	}
-
-	public int increaseLikes(String no) {
-		return dao.updateBoardLikes(sst, no);
-	}
-
+	
+	
+	//게시글 추천시 추천 수 증가
+	public int increaseBoardLikes(String memberNo, String boardNo) {
+        return dao.increaseBoardLikes(sst, memberNo, boardNo);
+    }
+	
+	//게시글 추천 취소
+	public int decreaseBoardLikes(String memberNo, String boardNo) {
+        return dao.decreaseBoardLikes(sst, memberNo, boardNo);
+    }
+	
+	
+	//게시글 추천 여부 판단
+	public boolean checkIfAlreadyLiked(Map<String, Object> params) {
+        return dao.checkIfAlreadyLiked(sst, params);
+    }
 
 }

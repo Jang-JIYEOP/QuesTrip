@@ -1,6 +1,8 @@
 package com.kh.questrip.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,9 +47,27 @@ public class BoardDao {
 	public int updateBoardHit(SqlSessionTemplate sst, String no) {
 		return sst.update("BoardMapper.increaseHit", no);
 	}
+	
+	//게시글 추천
+	public int increaseBoardLikes(SqlSessionTemplate sst, String memberNo, String boardNo) {
 
-	public int updateBoardLikes(SqlSessionTemplate sst, String no) {
-		return sst.update("BoardMapper.increaseLikes", no);
-	}
+        return sst.insert("BoardMapper.increaseLikes", Map.of("memberNo", memberNo, "boardNo", boardNo));
+    }
+	
+	//게시글 추천 취소
+	public int decreaseBoardLikes(SqlSessionTemplate sst, String memberNo, String boardNo) {
+		System.out.println(memberNo);
+		System.out.println(boardNo);
+        return sst.delete("BoardMapper.decreaseLikes", Map.of("memberNo", memberNo, "boardNo", boardNo));
+    }
+
+	
+	//게시글 추천 여부 판단
+	public boolean checkIfAlreadyLiked(SqlSessionTemplate sst, Map<String, Object> params) {
+		
+		boolean result = sst.selectOne("BoardMapper.checkIfAlreadyLiked", params);
+		System.out.println("result: "+result);
+        return sst.selectOne("BoardMapper.checkIfAlreadyLiked", params);
+    }
 
 }

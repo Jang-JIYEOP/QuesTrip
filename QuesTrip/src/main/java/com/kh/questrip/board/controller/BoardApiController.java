@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.questrip.board.service.BoardService;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,13 +50,37 @@ public class BoardApiController {
 	
 	}
 	
+	
+	//게시글 추천 판단
+	@PostMapping("checkIfAlreadyLiked")
+    public boolean checkIfAlreadyLiked(@RequestBody Map<String, Object> params) {
+		System.out.println("params: "+params);
+        return service.checkIfAlreadyLiked(params);
+    }
+	
+	
+	
 	//게시글 추천
 	@PostMapping("detail/increaseLikes")
-	public BoardDetailVo increaseLikes(@RequestBody BoardVo vo) {
-		service.increaseLikes(vo.getNo());
-		
-		return service.detail(vo);
-	}
+    public int increaseLikes(@RequestBody Map<String, String> requestMap) {
+        String memberNo = requestMap.get("memberNo");
+        String boardNo = requestMap.get("boardNo");
+        
+        return service.increaseBoardLikes(memberNo, boardNo);
+        
+        
+    }
+	
+	//게사글 추천 취소
+	@PostMapping("detail/decreaseLikes")
+    public int decreaseLikes(@RequestBody Map<String, String> requestMap) {
+        String memberNo = requestMap.get("memberNo");
+        String boardNo = requestMap.get("boardNo");
+        
+        return service.decreaseBoardLikes(memberNo, boardNo);
+        
+        
+    }
 	
 
 	//게시글 작성하기
