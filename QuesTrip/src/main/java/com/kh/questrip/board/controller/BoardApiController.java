@@ -98,4 +98,12 @@ public class BoardApiController {
 		
 		return map;
 	}
+	
+	//게시글 삭제
+	@PostMapping("detail/delete")
+	public int delete(@RequestBody BoardVo vo) {
+		return service.delete(vo);
+	}
+	
+	
 }

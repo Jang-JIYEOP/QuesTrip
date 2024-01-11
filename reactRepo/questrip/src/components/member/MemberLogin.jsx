@@ -29,14 +29,20 @@ const StyledLoginDiv = styled.div`
             height: 80%;
             }
         }
+
+        #loginButton{
+            width: 35%;
+            height: 30%;
+            background-color: #2f92e4;
+            color: white;
+            border-radius: 5%;
+            border: none;
+        }
     
     }
     
 
-    button{
-        width: 30%;
-        height: 30%;
-    }
+    
 
 
 
@@ -107,9 +113,11 @@ const MemberLogin = () => {
                 </div>
                 <div></div>
                 <div></div>
-                <input type='submit' value="로그인"/>
+                <input id='loginButton' type='submit' value="로그인"/>
                 <div></div>
-                <link rel="stylesheet" href="" /> 회원가입
+                <div onClick={()=>{
+                    navigate("/member/join")
+                }}>회원가입</div> 
                 <div></div>
                 <link rel="stylesheet" href="" />아이디/비밀번호 찾기
             </form>

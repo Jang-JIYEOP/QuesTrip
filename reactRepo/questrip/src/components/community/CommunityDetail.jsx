@@ -36,6 +36,9 @@ const CommunityDetail = () => {
     const [boardVo, setBoardVo] = useState({
         no: id
     });
+    
+
+    
 
     useEffect(() => {
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
@@ -59,25 +62,44 @@ const CommunityDetail = () => {
 
     }, [id]);
 
-    
+    //게시글 삭제
+    const handleDeleteButton = () => {
+        
+        fetch("http://127.0.0.1:8888/questrip/api/community/detail/delete", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json",
+            }, 
+            body: JSON.stringify({ no: boardDetailVo.no })
+        }).then(resp => resp.json())
+        .then(
+            navigate("/community/list")
+        )
+    }
 
     // 게시글 추천 버튼 클릭 시 동작하는 함수 예시
     const handleLikeButtonClick = async () => {
         const sessionData = sessionStorage.getItem('loginMemberVo');
-        const memberNo = JSON.parse(sessionData).no;
-        const boardNo = boardDetailVo.no;
-        const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
-        console.log("클라이언트에서 넘기는 값: "+memberNo, boardNo);
-        if (alreadyLiked) {
-            console.log('이미 추천한 게시글입니다.');
-            // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
-            decreaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
-        } 
-        else {
-            console.log('아직 추천하지 않은 게시글입니다.');
-            // 추천 버튼 활성화 또는 추천 로직 구현
-            increaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 기능을 수행할 수 있습니다.
+        if (sessionData == null){
+            alert("로그인 후 이용해주세요");
+            window.location.reload();
+        }else{
+            const memberNo = JSON.parse(sessionData).no;
+            const boardNo = boardDetailVo.no;
+            const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
+            console.log("클라이언트에서 넘기는 값: "+memberNo, boardNo);
+            if (alreadyLiked) {
+                console.log('이미 추천한 게시글입니다.');
+                // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
+                decreaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
+            } 
+            else {
+                console.log('아직 추천하지 않은 게시글입니다.');
+                // 추천 버튼 활성화 또는 추천 로직 구현
+                increaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 기능을 수행할 수 있습니다.
+            }
         }
+        
     };
 
     // 이미 추천한 게시글인지 확인하는 함수
@@ -143,6 +165,8 @@ const CommunityDetail = () => {
         }
     };
     
+
+    
     
 
     const navigate = useNavigate();
@@ -175,7 +199,7 @@ const CommunityDetail = () => {
             {sessionStorage.getItem("loginMemberVo") && JSON.parse(sessionStorage.getItem("loginMemberVo")).nick === boardDetailVo.nick ? (
             <>
                 <div className='login'>수정</div>
-                <div className='login'>삭제</div>
+                <div className='login' onClick={handleDeleteButton}>삭제</div>
             </>
             ) : 
             <>
