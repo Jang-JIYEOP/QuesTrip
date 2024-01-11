@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
+import Page from '../page/Page';
 
 
 
@@ -45,6 +46,25 @@ const StyledHomeDiv = styled.div`
             width: 100%;
             height: 100%;
         }
+
+        #questList {
+            height: 310px;
+        }
+        & #questList > div{
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2.7fr 1.3fr;
+            grid-template-rows: 1fr;
+            margin-top: 10px;
+        }
+        #questHead{
+            height: 15px;
+            margin-left: 20px;
+        }
+
+        #page{
+            height: 35px;
+        }
     }
     
    
@@ -52,31 +72,40 @@ const StyledHomeDiv = styled.div`
 
 const Home = () => {
 
-    const {questVoList, setSearchInfoVo} = useQuestMemory();
+    const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
-   
+    useEffect(() => {
+        setSearchInfoVo({
+          locCateNo : 1,
+          pageNo : 1,
+          limit : 10,
+        });
+      },[]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const selectedOptionValue = event.target.search.value;
         setSearchInfoVo({
             locCateNo : selectedOptionValue,
+            pageNo : 1,
+            limit : 10,
         });
       };
 
-    const handlePClick = (quest) => {
-        setSelectedQuest(quest);
+    const handlePClick = (questVo) => {
+        setSelectedQuest(questVo);
         if (mapContainerRef.current) {
-          mapContainerRef.current.onMarkerClick(quest);
+          mapContainerRef.current.onMarkerClick(questVo);
         }
-  };
+    };
 
     return (
         <StyledHomeDiv>
             <div>자유게시판</div>
             <div>
                 <div>
+                    <b id='questHead'>평점 순 퀘스트 </b>
                     <form onSubmit={handleSubmit}>
                         <select name="search">
                             <option value="1">서울</option>
@@ -85,12 +114,17 @@ const Home = () => {
                         </select>
                         <input type="submit" value="검색"/>
                     </form>
-                    <div>
-                        {questVoList.map((quest) => (
-                            <p key={quest.no} onClick={() => handlePClick(quest)}>
-                                ⚔    {quest.title}   ⚔
-                            </p>
+                    <div id='questList'>
+                        {questVoList.map((questVo) => (
+                            <div key={questVo.no} onClick={() => handlePClick(questVo)}>
+                                <div>⚔    {questVo.title}   ⚔  </div>
+                                <div>🕸    {questVo.rating}     </div>
+                            </div>
                         ))}
+
+                    </div>
+                    <div id="page">
+                        <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
 
                     </div>
                 </div>

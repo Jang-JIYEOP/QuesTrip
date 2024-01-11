@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate} from 'react-router-dom';
 const StyledWrqpDiv = styled.div`
     width: 100%;
     height: 100%;
@@ -9,12 +10,17 @@ const StyledWrqpDiv = styled.div`
     justify-content: center;
     align-items: center;
 `;
-const QuestListItem = ({title, content}) => {
+const QuestListItem = ({vo}) => {
+
+    const navigate = useNavigate();
+    const handleClickQuestList = () => {
+        navigate('/quest/detail', { state:  {vo}  });
+    };
 
     return (
-        <StyledWrqpDiv>
-            <span>{title} </span>
-            <span>{content}</span>
+        <StyledWrqpDiv onClick={handleClickQuestList}>
+            <span>{vo.title} </span>
+            <span>{vo.content}</span>
         </StyledWrqpDiv>
     );
 };

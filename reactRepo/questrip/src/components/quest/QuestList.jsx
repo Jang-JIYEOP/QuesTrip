@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { QuestMemoryProvider, useQuestMemory } from '../community/context/QuestContext';
+import { useQuestMemory } from '../community/context/QuestContext';
 import QuestListItem from './QuestListItem';
+import Page from '../page/Page';
 
 const StyledQuestListDiv = styled.div`
   width: 100% ;
@@ -62,8 +63,15 @@ const StyledQuestListDiv = styled.div`
 const QuestList = () => {
 
   
-  const {questVoList, setSearchInfoVo} = useQuestMemory();
+  const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
 
+  useEffect(() => {
+    setSearchInfoVo({
+      locCateNo : 1,
+      pageNo : 1,
+      limit : 6,
+    });
+  },[]);
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     const locCateNo = event.target.locCateNo.value;
@@ -78,9 +86,14 @@ const QuestList = () => {
         queCateNo,
         headCnt,
         title,
+        pageNo : 1,
+        limit : 6,
     });
+
   };
 
+  
+ 
     return (
         <StyledQuestListDiv>
           <div id='searchArea'>
@@ -138,13 +151,14 @@ const QuestList = () => {
           </div>
           <div id='itemArea'>
             {questVoList.map( (vo) => {
-              console.log(vo);
-                  return <QuestListItem key = {vo.no} title ={vo.title} content={vo.content}/>
+                  return <QuestListItem key = {vo.no} vo = {vo} />
                 }
               )
             }
           </div>
-          <div id='pageArea'></div>
+          <div id='pageArea'>
+            <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
+          </div>
         </StyledQuestListDiv>
     );
 };

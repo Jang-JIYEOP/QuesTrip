@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="QusetMapper">
+<mapper namespace="QuestMapper">
 
-	<select id="list" resultType="com.kh.questrip.quest.vo.QuestVo">
+	<select id="allList" resultType="com.kh.questrip.quest.vo.QuestVo">
 		SELECT 
 		    Q.NO, 
 		    Q.QUE_CATE_NO , 
@@ -19,6 +19,7 @@
 		    Q.DEL_YN,
 		    Q.HEAD_CNT,
 		    ROUND(AVG(CQ.RATE), 2) AS RATING
+<!--             COUNT(CQ.RATE) AS RATE_CNT -->
 		FROM QUEST Q
 		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
 		WHERE 
@@ -35,15 +36,62 @@
 					AND Q.POINT >= #{point}
 				</if>
 				
-				<if test="title != null and title != '' ">	
+				<if test="headCnt != null and headCnt != '' ">	
 					AND Q.HEAD_CNT = #{headCnt}
 				</if>
 				
+				<if test="queCateNo != null and queCateNo != '' ">	
+					AND QUE_CATE_NO = #{queCateNo}
+				</if>
+				
+		GROUP BY Q.NO, Q.QUE_CATE_NO ,Q.LOC_CATE_NO , Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT,Q.DEL_YN
+		ORDER BY RATING DESC
+	</select>
+	
+	<select id="pageList" resultType="com.kh.questrip.quest.vo.QuestVo">
+		SELECT 
+		    Q.NO, 
+		    Q.QUE_CATE_NO , 
+		    Q.LOC_CATE_NO ,
+		    Q.TITLE, 
+		    Q.CONTENT, 
+		    Q.POINT, 
+		    Q.ENROLL_DATE, 
+		    Q.IMG_PATH, 
+		    Q.LATITUDE, 
+		    Q.LONGITUDE, 
+		    Q.DEL_YN,
+		    Q.HEAD_CNT,
+		    ROUND(AVG(CQ.RATE), 2) AS RATING
+<!--             COUNT(CQ.RATE) AS RATE_CNT -->
+		FROM QUEST Q
+		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
+		WHERE 
+			Q.DEL_YN = 'N' 
+				<if test="locCateNo !=null and locCateNo != '' ">
+					AND Q.LOC_CATE_NO = #{locCateNo}
+				</if>
+				
 				<if test="title != null and title != '' ">	
+					AND Q.TITLE = #{title}
+				</if>
+				
+				<if test="point != null and point != '' ">	
+					AND Q.POINT >= #{point}
+				</if>
+				
+				<if test="headCnt != null and headCnt != '' ">	
+					AND Q.HEAD_CNT = #{headCnt}
+				</if>
+				
+				<if test="queCateNo != null and queCateNo != '' ">	
 					AND QUE_CATE_NO = #{queCateNo}
 				</if>
 				
 		GROUP BY Q.NO, Q.QUE_CATE_NO ,Q.LOC_CATE_NO , Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT,Q.DEL_YN		
+		ORDER BY RATING DESC
+
+    	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
 </mapper>
 
