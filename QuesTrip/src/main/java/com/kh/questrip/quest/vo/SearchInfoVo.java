@@ -9,6 +9,8 @@ public class SearchInfoVo {
 	private String point;
 	private String headCnt;
 	private String queCateNo;
+	private String pageNo;
+	private String limit;
 	
 }
 	

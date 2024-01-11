@@ -19,6 +19,7 @@ public class QuestVo {
 	private String rating;
 	private String headCnt;
 	private String queCateNo;
+	private String rateCnt;
 	
 	
 	

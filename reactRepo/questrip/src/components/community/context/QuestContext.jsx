@@ -9,11 +9,19 @@ const QuestMemoryProvider = ({children}) => {
 
 
     const [questVoList, setQuestVoList] = useState([]);
-
+    const [pageTotal, setpageTotal] = useState([]);
     const [searchInfoVo, setSearchInfoVo] = useState({
         locCateNo : "1",
+        pageNo : 1,
+        limit : 10,
     });
 
+    const handlePageChange = (pageNumber) => {
+        setSearchInfoVo((prevSearchInfoVo) => ({
+          ...prevSearchInfoVo,
+          pageNo: pageNumber,
+        }));
+      };
  
     const loadQuestVoList = () => {
         fetch("http://127.0.0.1:8888/questrip/api/quest/list", {
@@ -24,7 +32,10 @@ const QuestMemoryProvider = ({children}) => {
             body : JSON.stringify(searchInfoVo),
         })
         .then(resp => resp.json())
-        .then((questVoList) => {setQuestVoList(questVoList);})
+        .then((data) => {
+            setQuestVoList(data.questVoList);
+            setpageTotal(data.pageTotal);
+        })
         ;
     }
 
@@ -36,6 +47,9 @@ const QuestMemoryProvider = ({children}) => {
     const questList = {
         questVoList,
         setSearchInfoVo,
+        pageTotal,
+        searchInfoVo,
+        handlePageChange,
     }
     return (<>
         <QuestMemory.Provider value={questList}>

@@ -10,8 +10,13 @@ import com.kh.questrip.quest.vo.QuestVo;
 @Repository
 public class QuestDao {
 
-	public List<QuestVo> list(SqlSessionTemplate sst, SearchInfoVo vo) {
-		return sst.selectList("QusetMapper.list", vo);
+
+	public List<QuestVo> allList(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("QuestMapper.allList", vo);
+	}
+
+	public List<QuestVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("QuestMapper.pageList",vo);
 	}
 
 }
