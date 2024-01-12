@@ -41,5 +41,21 @@ public class MemberApiController {
 		return map;
 	}
 	
+	//아이디 중복확인
+	@PostMapping("join/dupCheck")
+	public Map<String, Object> dupCheck(@RequestBody MemberVo vo){
+		int dupCheck = service.dupCheck(vo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(dupCheck == 0) {
+			map.put("msg", "notDup");
+		}else {
+			map.put("msg", "dup");			
+		}
+		System.out.println(map.get("msg"));
+		return map;
+
+		
+	}
+	
 	
 }

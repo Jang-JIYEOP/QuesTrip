@@ -10,6 +10,7 @@ import QuestMain from './quest/QuestMain';
 import IconMain from './icon/IconMain';
 import { QuestMemoryProvider } from './community/context/QuestContext';
 import MemberMain from './member/MemberMain';
+import { MemberMemoryProvider } from './community/context/LoginContext';
 
 
 const StyledMainDiv = styled.div`
@@ -26,20 +27,21 @@ const StyledMainDiv = styled.div`
 const Main = () => {
     return (
         <StyledMainDiv>
-            
-            <QuestMemoryProvider>
-                <Routes>
-                    <Route path='/' element={<Home/>}></Route>
-                    <Route path='/community/*' element={<CommunityMain/>}></Route>
-                    <Route path='/member/*' element={<MemberMain/>}></Route>
-                    <Route path='/diary/*' element={<DiaryMain/>}></Route>
-                    <Route path='/quest/*' element={<QuestMain/>}></Route>
-                    <Route path='/notice/*' element={<NoticeMain/>}></Route>
-                    <Route path='/icon/*' element={<IconMain/>}></Route>
-                    <Route path='/*' element={<ErrorPageNotFound/>}></Route>
-                    <Route></Route>
-                </Routes>
-            </QuestMemoryProvider>
+            <MemberMemoryProvider>
+                <QuestMemoryProvider>
+                    <Routes>
+                        <Route path='/' element={<Home/>}></Route>
+                        <Route path='/community/*' element={<CommunityMain/>}></Route>
+                        <Route path='/member/*' element={<MemberMain/>}></Route>
+                        <Route path='/diary/*' element={<DiaryMain/>}></Route>
+                        <Route path='/quest/*' element={<QuestMain/>}></Route>
+                        <Route path='/notice/*' element={<NoticeMain/>}></Route>
+                        <Route path='/icon/*' element={<IconMain/>}></Route>
+                        <Route path='/*' element={<ErrorPageNotFound/>}></Route>
+                        <Route></Route>
+                    </Routes>
+                </QuestMemoryProvider>
+            </MemberMemoryProvider>
         </StyledMainDiv>
     );
 };

@@ -1,5 +1,7 @@
 package com.kh.questrip.member.service;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,10 @@ public class MemberService {
 
 	public MemberVo login(MemberVo vo) {
 		return dao.login(sst, vo);
+	}
+
+	public int dupCheck(MemberVo vo) {
+		return dao.dupCheck(sst, vo);
 	}
 	
 
