@@ -21,6 +21,13 @@
   	)
   </insert>
   
+  <update id="delete">
+  	 UPDATE COMMUNITY_BOARD
+  	 	SET
+  	 		DEL_YN = 'Y'
+  	 	WHERE NO = #{no}
+  </update>
+  
   <select id="list" resultType="com.kh.questrip.board.vo.BoardVo">
   	SELECT
 	    CB.NO,
@@ -83,7 +90,7 @@
 	    CB.HIT, 
 	    CB.DEL_YN
 	ORDER BY 
-	    CB.HIT DESC
+	    LIKES_COUNT DESC
 	FETCH FIRST 3 ROWS ONLY
   </select>
   
