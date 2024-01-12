@@ -9,7 +9,9 @@ const QuestMemoryProvider = ({children}) => {
 
 
     const [questVoList, setQuestVoList] = useState([]);
+    
     const [pageTotal, setpageTotal] = useState([]);
+
     const [searchInfoVo, setSearchInfoVo] = useState({
         locCateNo : "1",
         pageNo : 1,
@@ -50,6 +52,7 @@ const QuestMemoryProvider = ({children}) => {
         pageTotal,
         searchInfoVo,
         handlePageChange,
+        setQuestVoList,
     }
     return (<>
         <QuestMemory.Provider value={questList}>

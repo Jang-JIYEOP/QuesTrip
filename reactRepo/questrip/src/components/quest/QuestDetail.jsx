@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import MapContainer from '../map/MapContainer';
+import { useQuestMemory } from '../community/context/QuestContext';
 
 const QuestDetail = () => {
 
@@ -30,11 +32,20 @@ const QuestDetail = () => {
     `;
   const location = useLocation();
   const vo = location.state.vo;
-    console.log("퀘스트 디테일",vo);
+    const {setSearchInfoVo} = useQuestMemory();
+    useEffect(() => {
+        setSearchInfoVo({
+          locCateNo : 1,
+          pageNo : 0,
+          limit : 0,
+        });
+      },[]);
     
     return (
         <StyledQuestListDiv>
-            <div id='map'>지도</div>
+            <div id ='map'>
+                <MapContainer  vo = {vo} />
+            </div>
             <div id='img'>이미지</div>
             <div id='title'>위치이름 : {vo.title}</div>
             <div id='headCnt'>인원수 : {vo.headCnt}</div>

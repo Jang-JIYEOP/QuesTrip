@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MapContainer = (props) => {
   const navigate = useNavigate();
-  const { questVoList } = useQuestMemory();
+  const { questVoList, setQuestVoList } = useQuestMemory();
 
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -32,10 +32,10 @@ const MapContainer = (props) => {
     setShowInfoWindow(false);
   };
  
-  const mapStyles = {
+  const [mapStyles, setMapStyles]= useState({
     width: '45.7%',
     height: '45%',
-  };
+  });
 
   useEffect(() => {
     // questVoList이 변경될 때마다 맵의 중심을 첫 번째 마커의 위치로 변경
@@ -44,8 +44,36 @@ const MapContainer = (props) => {
         lat: questVoList[0].latitude,
         lng: questVoList[0].longitude,
       });
+    } 
+    else{
+      setMapCenter({
+        lat : props.vo.latitude,
+        lng : props.vo.longitude,
+      })
+      setQuestVoList((prevQuestVoList) => [
+        
+        ...prevQuestVoList,
+        props.vo,
+      ]);
     }
   }, [questVoList]);
+
+  useEffect(() => {
+    // questVoList이 비어있을 때 처리할 내용
+    if (questVoList.length === 1) {
+      setMapStyles({
+        width: '30.2%',
+        height: '39.8%',
+      });
+    }
+    return ()=>{ 
+      setMapStyles({
+        width: '45.7%',
+        height: '45%',
+    });
+       
+    };
+  }, [questVoList, props]);
   
   
   const handleClickQuestList = () => {
