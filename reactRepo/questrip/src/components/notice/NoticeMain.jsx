@@ -1,10 +1,14 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import NoticeList from './NoticeList';
+import NoticeDetail from './NoticeDetail';
 
 const NoticeMain = () => {
     return (
-        <div>
-            공지사항
-        </div>
+        <Routes>
+            <Route path='list' element={<NoticeList/>}/>
+            <Route path='detail' element={<NoticeDetail/>}/>
+        </Routes>
     );
 };
 
