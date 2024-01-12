@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLoginMemory } from './context/LoginContext';
 
 const StyledCommunityListDiv = styled.div`
     width: 100%;
@@ -29,8 +30,8 @@ const StyledCommunityListDiv = styled.div`
 
 
 const CommunityList = () => {
-
-
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    console.log(loginMemberVo);                                                                                     
     const navigate = useNavigate();
 
     const handleRowClick = (id) => {

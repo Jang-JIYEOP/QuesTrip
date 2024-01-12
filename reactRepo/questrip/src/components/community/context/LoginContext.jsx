@@ -1,22 +1,23 @@
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MemberMemory  = createContext();
 
 const MemberMemoryProvider = ({children}) => {
 
-    const [LoginMemberVo, setLoginMemberVo] = useState([]);
+    const [loginMemberVo, setLoginMemberVo] = useState([]);
 
     const [loginInfo, setLoginInfo] = useState([]);
 
+    const location = useLocation();
     const navigate = useNavigate();
-
+    const sessionMemberVo = sessionStorage.getItem(loginMemberVo.no);
+    
     const loadLoginMember = () => {
 
         const MemberVo = loginInfo;
-        console.log(MemberVo);
         fetch("http://127.0.0.1:8888/questrip/api/member/login", {
             method: "POST",
             headers: {
@@ -27,39 +28,38 @@ const MemberMemoryProvider = ({children}) => {
         .then(resp => resp.json())
         .then((data) => {
             if(data.msg === "good"){
-                alert("로그인 성공 !");
-                setLoginMemberVo(data.LoginMemberVo);
-                navigate("/");
+                setLoginMemberVo(data.loginMemberVo);
+                sessionStorage.setItem('loginInfo', JSON.stringify(data.loginMemberVo.no));
+                if (location.pathname === '/member/login') {
+                    // 로그인 페이지이므로 다른 경로로 이동합니다.
+                    navigate('/');
+                  }
             }else{
                 alert("로그인 실패 ...");
             }
-
-
-            
-        })
-        ;
+        });
     }
 
     useEffect(() => {
         loadLoginMember();
     },[loginInfo]);
     
-    const LoginMember = {
-        LoginMemberVo,
+    const loginMember = {
+        loginMemberVo,
         setLoginMemberVo,
         setLoginInfo,
     }
 
     return (<>
-        <MemberMemory.Provider value={LoginMember}>
+        <MemberMemory.Provider value={loginMember}>
             {children}
         </MemberMemory.Provider>
     </>);
 }
 
 const useLoginMemory = () => {
-    const LoginMember = useContext(MemberMemory);
-    return LoginMember;
+    const loginMember = useContext(MemberMemory);
+    return loginMember;
 }
 
 export {MemberMemoryProvider, useLoginMemory};

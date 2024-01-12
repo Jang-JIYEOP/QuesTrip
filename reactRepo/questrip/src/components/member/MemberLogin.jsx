@@ -41,17 +41,14 @@ const StyledLoginDiv = styled.div`
         }
     
     }
-    
-
-    
-
-
 
 `;
 
 const MemberLogin = () => {
 
-    const  {LoginMemberVo, setLoginInfo} = useLoginMemory();
+    const  {setLoginInfo, loginMemberVo} = useLoginMemory();
+    
+    
 
     const navigate = useNavigate();
     
@@ -76,6 +73,7 @@ const MemberLogin = () => {
             pwd: vo.pwd
         })
 
+                              
     }
     
     return (
