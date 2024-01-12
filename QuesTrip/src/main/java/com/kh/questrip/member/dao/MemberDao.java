@@ -1,5 +1,7 @@
 package com.kh.questrip.member.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,11 @@ public class MemberDao {
 
 	public MemberVo login(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("MemberMapper.login", vo);
+	}
+
+	public int dupCheck(SqlSessionTemplate sst, MemberVo vo) {
+		System.out.println(vo.getId());
+		return sst.selectOne("MemberMapper.dupCheck", vo);
 	}
 
 }

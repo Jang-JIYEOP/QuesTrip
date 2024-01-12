@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledJoinDiv = styled.div`
@@ -64,16 +64,53 @@ const StyledJoinDiv = styled.div`
 
 const MemberJoin = () => {
 
+    const [idInput, setIdInput] = useState('');
+    const [MemberVo, setMemberVo] = useState({});
 
+    useEffect(()=>{
+        if(MemberVo.id != null){
+            aa();
+        }
+        
+    }, [MemberVo]);
+    
+
+    const handleInputChange = (e) => {
+        setIdInput(e.target.value); // 입력값을 상태에 설정
+    }
 
     const handleClickJoin = () => {
 
     }
 
+    const  aa = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify(MemberVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
 
+                if (data.msg ==="dup") {
+                    alert("이미 사용 중인 아이디입니다.");
+                } else {
+                   alert("사용 가능한 아이디입니다.");
+                }
+            })
+    };
 
-
-
+    const handleClickDupCheck = () => {
+        if(!idInput.trim()){
+            alert("아이디를 입력하세요.")
+        }else{
+            setMemberVo({
+                id : idInput
+            })
+        }
+    }
 
 
     return (
@@ -86,20 +123,26 @@ const MemberJoin = () => {
                     <div>
                         <b>아이디</b>
                         <div>
-                            <input type="text" placeholder='아이디 입력(6~20자)'/>
-                            <button type='button'>중복확인</button>
+                            <input type="text" name='id' placeholder='아이디 입력(6~20자)' value={idInput} onChange={handleInputChange}/>
+                            <button type='button' onClick={handleClickDupCheck}>중복확인</button>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)'/>
+                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)' onChange={handleInputChange}/>
                         </div>
                     </div>
                     <div>
+                        <b>비밀번호 확인</b>
+                            <div>
+                                <input type="text" placeholder='비밀번호 확인' onChange={handleInputChange}/>
+                            </div>
+                        </div>
+                    <div>
                         <b>닉네임</b>
                         <div>
-                            <input type="text" placeholder='닉네임 입력(문자, 숫자 포함 8~20자)'/>
+                            <input type="text" placeholder='닉네임 입력(문자, 숫자 포함 8~20자)' onChange={handleInputChange}/>
                         </div>
                     </div>
                     <div>

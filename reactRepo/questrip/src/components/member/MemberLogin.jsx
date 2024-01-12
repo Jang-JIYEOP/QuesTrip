@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 
 const StyledLoginDiv = styled.div`
@@ -50,11 +51,10 @@ const StyledLoginDiv = styled.div`
 
 const MemberLogin = () => {
 
+    const  {LoginMemberVo, setLoginInfo} = useLoginMemory();
+
     const navigate = useNavigate();
-    // sessionStorage.removeItem("MemberVo");
-    const jsonStr = sessionStorage.getItem("loginMemberVo");
-    const sessionloginMemberVo = JSON.parse(jsonStr);
-    const [loginMemberVo , setLoginMemberVo] = useState(sessionloginMemberVo);
+    
 
     const [vo , setVo] = useState({});
 
@@ -70,31 +70,11 @@ const MemberLogin = () => {
 
     const handleClickLogin = (event) => {
         event.preventDefault();
-        fetch("http://127.0.0.1:8888/questrip/api/member/login" , {
-            method: "POST" ,
-            headers : {
-                "Content-Type": "application/json",
-            },
-            body : JSON.stringify(vo) ,
+
+        setLoginInfo({
+            id: vo.id,
+            pwd: vo.pwd
         })
-        .then( (resp) => { if (resp.ok) {  // 상태 코드가 200번대인지 확인
-                return resp.json();
-            } else {
-                throw new Error(`HTTP error! status: ${resp.status}`);
-            } } )
-        .then( (data) => { 
-            if(data.msg === "good"){
-                alert("로그인 성공 !");
-                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.loginMemberVo));
-                setLoginMemberVo(data.loginMemberVo);
-                navigate("/");
-            }else{
-                alert("로그인 실패 ...");
-            }
-         } )
-        .catch( (e) => {console.log(e);} )
-        .finally( () => {console.log("로그인 fetch 끝 ~~~");} )
-        ;
 
     }
     
