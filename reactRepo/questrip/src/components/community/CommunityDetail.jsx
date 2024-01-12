@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLoginMemory } from './context/LoginContext';
 
 const StyledCommunityDetailDiv = styled.div`
     width: 100%;
@@ -23,16 +24,17 @@ const StyledCommunityDetailDiv = styled.div`
         grid-column: span 3;
         place-items: center;
     }
-    .login{
-        
-    }
 `;
 
 
 const CommunityDetail = () => {
-
+    const loginNumber = sessionStorage.getItem('loginInfo');
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    console.log(loginMemberVo);
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
+
     const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
+    
     const [boardVo, setBoardVo] = useState({
         no: id
     });
@@ -41,6 +43,7 @@ const CommunityDetail = () => {
     
 
     useEffect(() => {
+        setLoginInfo({no : loginNumber});
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
         fetch(`http://127.0.0.1:8888/questrip/api/community/detail/?no=${id}`, {
             method: "POST",
@@ -79,15 +82,15 @@ const CommunityDetail = () => {
 
     // 게시글 추천 버튼 클릭 시 동작하는 함수 예시
     const handleLikeButtonClick = async () => {
-        const sessionData = sessionStorage.getItem('loginMemberVo');
+        const sessionData = sessionStorage.getItem('loginInfo');
         if (sessionData == null){
             alert("로그인 후 이용해주세요");
             window.location.reload();
         }else{
-            const memberNo = JSON.parse(sessionData).no;
+            const memberNo = loginMemberVo.no;
             const boardNo = boardDetailVo.no;
             const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
-            console.log("클라이언트에서 넘기는 값: "+memberNo, boardNo);
+            console.log("클라이언트에서 넘기는 값: "+ memberNo, boardNo);
             if (alreadyLiked) {
                 console.log('이미 추천한 게시글입니다.');
                 // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
@@ -172,10 +175,8 @@ const CommunityDetail = () => {
     const navigate = useNavigate();
 
     // 세션 스토리지에서 'loginMemberVo' 키의 값을 가져옵니다.
-    const loginMemberVoString = sessionStorage.getItem('loginMemberVo');
 
     // JSON 형태의 문자열을 객체로 파싱합니다.
-    const loginMemberVo = JSON.parse(loginMemberVoString);
 
     return (
         <StyledCommunityDetailDiv>
@@ -196,7 +197,7 @@ const CommunityDetail = () => {
              }
             <div></div>
             {/* 세션 스토리지의 id값과 boardDetailVo의 memberNo 비교 */}
-            {sessionStorage.getItem("loginMemberVo") && JSON.parse(sessionStorage.getItem("loginMemberVo")).nick === boardDetailVo.nick ? (
+            {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === boardDetailVo.nick ? (
             <>
                 <div className='login'>수정</div>
                 <div className='login' onClick={handleDeleteButton}>삭제</div>

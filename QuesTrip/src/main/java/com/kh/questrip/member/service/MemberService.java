@@ -28,6 +28,7 @@ public class MemberService {
 	public int dupCheck(MemberVo vo) {
 		return dao.dupCheck(sst, vo);
 	}
+
 	
 
 }

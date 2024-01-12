@@ -73,6 +73,7 @@ const StyledHomeDiv = styled.div`
 const Home = () => {
 
     const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
+    
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
     useEffect(() => {
@@ -82,7 +83,6 @@ const Home = () => {
           limit : 10,
         });
       },[]);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const selectedOptionValue = event.target.search.value;

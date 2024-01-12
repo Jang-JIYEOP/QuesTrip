@@ -68,16 +68,11 @@ const MemberJoin = () => {
     const [MemberVo, setMemberVo] = useState({});
 
     useEffect(()=>{
-        if(MemberVo.id != null){
-            aa();
-        }
+        
+        
         
     }, [MemberVo]);
     
-
-    const handleInputChange = (e) => {
-        setIdInput(e.target.value); // 입력값을 상태에 설정
-    }
 
     const handleClickJoin = () => {
 
@@ -94,23 +89,60 @@ const MemberJoin = () => {
             .then(resp => resp.json())
             .then(data => {
 
-                if (data.msg ==="dup") {
+                if (data.msg ==="dup" && MemberVo.id != null) {
                     alert("이미 사용 중인 아이디입니다.");
+                    
                 } else {
                    alert("사용 가능한 아이디입니다.");
+                }
+                if( data.msg ==="dup" && MemberVo.nick != null){
+                    alert("이미 사용중인 닉네임입니다.");
+                    
                 }
             })
     };
 
-    const handleClickDupCheck = () => {
-        if(!idInput.trim()){
+    const handleClickIdDupCheck = () => {
+        const userId = document.getElementById("userIdInput").value;
+        
+        const regex = /^[a-zA-Z0-9]{6,20}$/;
+        if(userId === ''){
             alert("아이디를 입력하세요.")
-        }else{
+        }
+        if(!regex.test(userId)){
+            alert("아이디는 영문자와 숫자로 6~20자만 가능합니다.");
+        }
+        else{
             setMemberVo({
-                id : idInput
+
+                id :  userId,
+            })
+             
+        }
+        console.log(MemberVo);
+    }
+
+    const handleClickNickDupCheck = () => {
+        const userNick = document.getElementById("userNickInput").value;
+        const regex = /^[a-zA-Z0-9]{6,20}$/;
+        if(userNick === ''){
+            alert("닉네임을 입력하세요.")
+        }
+        if(!regex.test(userNick)){
+            alert("닉네임은 영문자와 숫자로 6~20자만 가능합니다.");
+        }
+        else{
+            setMemberVo({
+
+                nick :  userNick,
             })
         }
+        console.log(MemberVo);
     }
+
+
+    
+
 
 
     return (
@@ -123,26 +155,27 @@ const MemberJoin = () => {
                     <div>
                         <b>아이디</b>
                         <div>
-                            <input type="text" name='id' placeholder='아이디 입력(6~20자)' value={idInput} onChange={handleInputChange}/>
-                            <button type='button' onClick={handleClickDupCheck}>중복확인</button>
+                            <input type="text" id='userIdInput' name='id' placeholder='아이디 입력(6~20자)'/>
+                            <button type='button' onClick={handleClickIdDupCheck}>중복확인</button>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)' onChange={handleInputChange}/>
+                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)'/>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호 확인</b>
                             <div>
-                                <input type="text" placeholder='비밀번호 확인' onChange={handleInputChange}/>
+                                <input type="text" placeholder='비밀번호 확인'/>
                             </div>
                         </div>
                     <div>
                         <b>닉네임</b>
                         <div>
-                            <input type="text" placeholder='닉네임 입력(문자, 숫자 포함 8~20자)' onChange={handleInputChange}/>
+                            <input type="text" id='userNickInput' name='nick' placeholder='닉네임 입력(문자, 숫자 포함 8~20자)'/>
+                            <button type='button' onClick={handleClickNickDupCheck}>중복확인</button>
                         </div>
                     </div>
                     <div>

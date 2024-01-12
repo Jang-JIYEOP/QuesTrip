@@ -18,7 +18,7 @@
 	    , #{id}
 	    , #{pwd}
 	    , #{email}
-	    );
+	    )
 </insert>
 	
 <select id="login" resultType="com.kh.questrip.member.vo.MemberVo">
@@ -34,16 +34,34 @@
 	    ,ENROLL_DATE
 	    ,DEL_YN
 	FROM MEMBER
-	WHERE ID = #{id}
+	WHERE 
+	    DEL_YN = 'N'
+	<if test="no ==null || no == ''">
+		AND ID = #{id}
 	    AND PWD = #{pwd}
-	    AND DEL_YN = 'N'
+	</if>
+
+	<if test="no !=null and no != ''">
+		AND NO = #{no}
+	</if>
+		
+	
 </select>
 
 <select id="dupCheck" resultType="Integer">
 	SELECT
 		COUNT(*) AS count
 	FROM MEMBER
-	WHERE ID = #{id}
-</select>
+	WHERE 
+	DEL_YN = 'N'
+	<if test="id != null and id != ''">
+		AND ID = #{id}
+	</if>
+	<if test="nick != null and nick != ''">
+		AND NICK = #{nick}
+	</if>
 	
+</select>
+
+
 </mapper>

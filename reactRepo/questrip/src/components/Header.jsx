@@ -63,10 +63,10 @@ const Header = () => {
             </StyledSearchDiv>
             
             {
-                sessionStorage.getItem("loginMemberVo") // 세션 스토리지에 "MemberVo" 값이 있는지 확인
+                sessionStorage.getItem('loginInfo') // 세션 스토리지에 "MemberVo" 값이 있는지 확인
                     ?  
                     <div onClick={() => {
-                        sessionStorage.removeItem("loginMemberVo");  // 세션 스토리지의 "MemberVo" 값 제거
+                        sessionStorage.removeItem('loginInfo');  // 세션 스토리지의 "MemberVo" 값 제거
                         alert("로그아웃 되었습니다.");
                         navigate("/");
                     }}>로그아웃</div>

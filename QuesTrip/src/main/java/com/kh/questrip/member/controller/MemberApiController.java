@@ -31,6 +31,7 @@ public class MemberApiController {
 	//로그인
 	@PostMapping("login")
 	public Map<String, Object> login(@RequestBody MemberVo vo) {
+		System.out.println(vo);
 		MemberVo loginMember = service.login(vo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", "good");
@@ -56,6 +57,8 @@ public class MemberApiController {
 
 		
 	}
+
+	
 	
 	
 }
