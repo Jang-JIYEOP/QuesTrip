@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledJoinDiv = styled.div`
-
+    
     width: 100%;
     height: 100%;
     display: grid;
@@ -64,83 +64,168 @@ const StyledJoinDiv = styled.div`
 
 const MemberJoin = () => {
 
-    const [idInput, setIdInput] = useState('');
+
     const [MemberVo, setMemberVo] = useState({});
+    const [pwdMsg, setPwdMsg] = useState('');
+    const [idDupCheck, setidDupCheck] = useState(0);
+    const [nickDupCheck, setNickDupCheck] = useState(0);
 
     useEffect(()=>{
+        if(MemberVo.id){
+            fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type" : "application/json",
+                            },
+                            body: JSON.stringify(MemberVo),
+                        })
+                        .then(resp => resp.json())
+                        .then(data => {
+                            if(data.msg ==="good"){
+                                alert("사용가능한 아이디입니다.");
+                                setidDupCheck(prevIdDupCheck => prevIdDupCheck + 1);
+                            }
+                            else{
+                                alert("중복된 아이디입니다.");
+                                setidDupCheck(0);
+                                document.getElementById("userIdInput").value = '';
+                            }
+                        });
+        }
         
         
-        
-    }, [MemberVo]);
+    }, [MemberVo.id]);
     
+    useEffect( () => {
+        if(MemberVo.nick){
+            fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type" : "application/json",
+                        },
+                        body: JSON.stringify(MemberVo),
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        if(data.msg === "good"){
+                            alert("사용가능한 닉네임입니다.");
+                            setNickDupCheck(prevNickDupCheck => prevNickDupCheck + 1);
+                        }
+                        else{
+                            alert("중복된 닉네임입니다.");
+                            setNickDupCheck(0);
+                            document.getElementById("userNickInput").value = '';
+                        }
+                    })
+        }
+    }, [MemberVo.nick]);
+
 
     const handleClickJoin = () => {
-
+        if(idDupCheck !== 0 && nickDupCheck !== 0 && MemberVo.pwd !== null){
+            
+            console.log(JSON.stringify(MemberVo));
+            alert("회원가입을 축하합니다.")
+            
+            fetch("http://127.0.0.1:8888/questrip/api/member/join", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json",
+                    },
+                    body: JSON.stringify(MemberVo),
+                })
+                .then(resp => resp.json())
+                .then(data => {
+                    
+                   
+                })
+        }
+        if(idDupCheck === 0 || nickDupCheck === 0){
+            alert("아이디 또는 닉네임 중복 여부를 확인해주세요.");
+        }
+        
     }
 
-    const  aa = () => {
-        fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json",
-                },
-                body: JSON.stringify(MemberVo),
-            })
-            .then(resp => resp.json())
-            .then(data => {
 
-                if (data.msg ==="dup" && MemberVo.id != null) {
-                    alert("이미 사용 중인 아이디입니다.");
-                    
-                } else {
-                   alert("사용 가능한 아이디입니다.");
-                }
-                if( data.msg ==="dup" && MemberVo.nick != null){
-                    alert("이미 사용중인 닉네임입니다.");
-                    
-                }
-            })
-    };
 
     const handleClickIdDupCheck = () => {
-        const userId = document.getElementById("userIdInput").value;
+        let userId = document.getElementById("userIdInput").value;
+
+        console.log("id dupCheck",idDupCheck);
+        
         
         const regex = /^[a-zA-Z0-9]{6,20}$/;
         if(userId === ''){
-            alert("아이디를 입력하세요.")
+            alert("아이디를 입력하세요.");
+            setidDupCheck(0);
         }
-        if(!regex.test(userId)){
+        else if(!regex.test(userId) && userId !== ''){
             alert("아이디는 영문자와 숫자로 6~20자만 가능합니다.");
+            userId ='';
+            document.getElementById("userIdInput").value = userId;  // userId를 비워주고 엘리멘트에 반영
+            setidDupCheck(0);
         }
         else{
-            setMemberVo({
-
-                id :  userId,
-            })
-             
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                id: userId,
+            }));
+            console.log(MemberVo);
+            
+                    
         }
-        console.log(MemberVo);
     }
 
     const handleClickNickDupCheck = () => {
-        const userNick = document.getElementById("userNickInput").value;
+        let userNick = document.getElementById("userNickInput").value;
         const regex = /^[a-zA-Z0-9]{6,20}$/;
+
+        
+
+        console.log("nick dupCheck",nickDupCheck);
         if(userNick === ''){
             alert("닉네임을 입력하세요.")
+            setNickDupCheck(0);
         }
-        if(!regex.test(userNick)){
+        else if(!regex.test(userNick) && userNick !== ''){
             alert("닉네임은 영문자와 숫자로 6~20자만 가능합니다.");
+            userNick = '';
+            document.getElementById("userNickInput").value = userNick;  // userNick을 비워주고 엘리멘트에 반영
+            setNickDupCheck(0);
         }
         else{
-            setMemberVo({
-
-                nick :  userNick,
-            })
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                nick: userNick,
+            }));
+            
+                    console.log(MemberVo);
         }
-        console.log(MemberVo);
     }
 
+    const pwdCheck = () =>{
+        const pwd = document.getElementById("userPwdInput").value;
+        const pwd2 = document.getElementById("userPwdCheckInput").value;
+        console.log("pwd",pwd);
+        console.log("pwd2",pwd2);
+        const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 
+        if (regex.test(pwd)){
+            if(pwd === pwd2){
+                setPwdMsg('비밀번호가 일치합니다.');
+                setMemberVo(prevMemberVo => ({
+                    ...prevMemberVo,
+                    pwd: pwd,
+                }));
+            }else{
+                setPwdMsg('비밀번호가 일치하지 않습니다.');
+            }
+        }else{
+            setPwdMsg('사용할 수 없는 비밀번호입니다.');
+        }
+
+        console.log(MemberVo);
+    }
     
 
 
@@ -162,13 +247,14 @@ const MemberJoin = () => {
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)'/>
+                            <input type="text" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck}/>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호 확인</b>
                             <div>
-                                <input type="text" placeholder='비밀번호 확인'/>
+                                <input type="text" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck}/>
+                                <div>{pwdMsg}</div>
                             </div>
                         </div>
                     <div>

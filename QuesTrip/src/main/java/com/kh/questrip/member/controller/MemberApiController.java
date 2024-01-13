@@ -24,7 +24,8 @@ public class MemberApiController {
 	
 	//회원가입
 	@PostMapping("join")
-	public int join(MemberVo vo) throws Exception {
+	public int join(@RequestBody MemberVo vo) throws Exception {
+		System.out.println(vo);
 		return service.join(vo);
 	}
 	
@@ -42,20 +43,18 @@ public class MemberApiController {
 		return map;
 	}
 	
-	//아이디 중복확인
+	//중복확인
 	@PostMapping("join/dupCheck")
 	public Map<String, Object> dupCheck(@RequestBody MemberVo vo){
 		int dupCheck = service.dupCheck(vo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(dupCheck == 0) {
-			map.put("msg", "notDup");
+			map.put("msg", "good");
 		}else {
-			map.put("msg", "dup");			
+			map.put("msg", "bad");			
 		}
 		System.out.println(map.get("msg"));
 		return map;
-
-		
 	}
 
 	
