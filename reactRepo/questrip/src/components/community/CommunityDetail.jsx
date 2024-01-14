@@ -168,15 +168,7 @@ const CommunityDetail = () => {
         }
     };
     
-
-    
-    
-
     const navigate = useNavigate();
-
-    // 세션 스토리지에서 'loginMemberVo' 키의 값을 가져옵니다.
-
-    // JSON 형태의 문자열을 객체로 파싱합니다.
 
     return (
         <StyledCommunityDetailDiv>

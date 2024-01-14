@@ -4,6 +4,7 @@ import Navi from './Navi';
 import Main from './Main';
 import Footer from './Footer';
 import styled from 'styled-components';
+import { MemberMemoryProvider } from './community/context/LoginContext';
 
 
 
@@ -24,10 +25,13 @@ const StlyedLayoutDiv = styled.div`
 const Layout = () => {
     return (
             <StlyedLayoutDiv>
-                <Header/>
-                <Navi/>
-                <Main/>
-                <Footer/>
+                <MemberMemoryProvider>
+                    <Header/>
+                    <Navi/>
+                    <Main/>
+                    <Footer/>
+                </MemberMemoryProvider>
+                
             </StlyedLayoutDiv>
     );
 };

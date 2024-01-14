@@ -24,5 +24,4 @@ public class MemberDao {
 		return sst.selectOne("MemberMapper.dupCheck", vo);
 	}
 
-
 }

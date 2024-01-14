@@ -69,6 +69,11 @@ const MemberJoin = () => {
     const [pwdMsg, setPwdMsg] = useState('');
     const [idDupCheck, setidDupCheck] = useState(0);
     const [nickDupCheck, setNickDupCheck] = useState(0);
+    const [emailCode, setEmailCode] = useState('');
+    const [emailPrefix, setEmailPrefix] = useState('');
+    const [emailSuffix, setEmailSuffix] = useState('');
+    const [emailAuth, setEmailAuth] = useState(0);
+    const [selectedEmailOption, setSelectedEmailOption] = useState('directInput');
 
     useEffect(()=>{
         if(MemberVo.id){
@@ -120,11 +125,40 @@ const MemberJoin = () => {
         }
     }, [MemberVo.nick]);
 
+    useEffect(()=>{
+        if(MemberVo.email){
+            fetch('http://127.0.0.1:8888/questrip/api/member/join/emailCheck', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(MemberVo),
+            })
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.verificationCode) {
+
+                    alert('이메일 인증 코드를 전송했습니다. 확인해주세요.');
+
+                    setMemberVo(prevMemberVo => ({
+                        ...prevMemberVo,
+                        emailCode : data.verificationCode,
+                    }));
+
+                } else {
+                    alert('이메일 인증 코드 전송에 실패했습니다.');
+                    setEmailAuth(0);
+                }
+            })
+            .catch((error) => {
+                console.error('Error sending email verification code:', error);
+            });
+        }
+    }, [MemberVo.email], [MemberVo.emailCode]);
 
     const handleClickJoin = () => {
-        if(idDupCheck !== 0 && nickDupCheck !== 0 && MemberVo.pwd !== null){
+        if(idDupCheck !== 0 && nickDupCheck !== 0 && MemberVo.pwd !== null && emailAuth !== 0){
             
-            console.log(JSON.stringify(MemberVo));
             alert("회원가입을 축하합니다.")
             
             fetch("http://127.0.0.1:8888/questrip/api/member/join", {
@@ -140,20 +174,15 @@ const MemberJoin = () => {
                    
                 })
         }
-        if(idDupCheck === 0 || nickDupCheck === 0){
-            alert("아이디 또는 닉네임 중복 여부를 확인해주세요.");
+        if(idDupCheck === 0 || nickDupCheck === 0 || emailAuth === 0){
+            alert("아이디 또는 닉네임 중복 여부, 이메일 인증을 확인해주세요.");
         }
         
     }
 
-
-
     const handleClickIdDupCheck = () => {
         let userId = document.getElementById("userIdInput").value;
 
-        console.log("id dupCheck",idDupCheck);
-        
-        
         const regex = /^[a-zA-Z0-9]{6,20}$/;
         if(userId === ''){
             alert("아이디를 입력하세요.");
@@ -170,8 +199,6 @@ const MemberJoin = () => {
                 ...prevMemberVo,
                 id: userId,
             }));
-            console.log(MemberVo);
-            
                     
         }
     }
@@ -180,9 +207,6 @@ const MemberJoin = () => {
         let userNick = document.getElementById("userNickInput").value;
         const regex = /^[a-zA-Z0-9]{6,20}$/;
 
-        
-
-        console.log("nick dupCheck",nickDupCheck);
         if(userNick === ''){
             alert("닉네임을 입력하세요.")
             setNickDupCheck(0);
@@ -198,16 +222,12 @@ const MemberJoin = () => {
                 ...prevMemberVo,
                 nick: userNick,
             }));
-            
-                    console.log(MemberVo);
         }
     }
 
     const pwdCheck = () =>{
         const pwd = document.getElementById("userPwdInput").value;
         const pwd2 = document.getElementById("userPwdCheckInput").value;
-        console.log("pwd",pwd);
-        console.log("pwd2",pwd2);
         const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 
         if (regex.test(pwd)){
@@ -223,9 +243,48 @@ const MemberJoin = () => {
         }else{
             setPwdMsg('사용할 수 없는 비밀번호입니다.');
         }
-
-        console.log(MemberVo);
     }
+    
+    const handleEmailAuth= ()=> {
+        if(emailPrefix !== ''){
+            const fullEmail = `${emailPrefix}@${emailSuffix}`;
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                email : fullEmail,
+        }));
+        }else{
+            alert("이메일 주소를 입력해주세요.");
+        }
+        
+
+        
+    };
+
+  const handleVerifyEmail = () => {
+        // 이메일 인증 코드 검증
+        const userAuthCodeInput = document.getElementById("userAuthCodeInput").value;
+        if (MemberVo.emailCode === userAuthCodeInput) {
+            alert('이메일이 성공적으로 인증되었습니다.');
+            setEmailAuth(prevEmailAuth => prevEmailAuth + 1);
+        } else {
+            alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
+            setEmailAuth(0);
+        }
+    };
+
+
+    // 이메일 옵션 변경 시
+    const handleEmailOptionChange = (e) => {
+        setSelectedEmailOption(e.target.value);
+        // 직접 입력이 아니라면 suffix 값을 변경
+        if (e.target.value !== 'directInput') {
+            setEmailSuffix(e.target.value);
+            
+        }else{
+            setEmailSuffix('');
+        }
+    };
+
     
 
 
@@ -247,13 +306,13 @@ const MemberJoin = () => {
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="text" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck}/>
+                            <input type="password" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck}/>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호 확인</b>
                             <div>
-                                <input type="text" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck}/>
+                                <input type="password" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck}/>
                                 <div>{pwdMsg}</div>
                             </div>
                         </div>
@@ -267,21 +326,22 @@ const MemberJoin = () => {
                     <div>
                         <b>이메일 주소</b>
                         <div id='emailDiv'>
-                            <input type="text" placeholder='이메일 주소'/>
+                            <input type="text" placeholder='이메일 주소' onChange={(e) => setEmailPrefix(e.target.value)}/>
                             <b> @ </b>
-                            <input type="text" />
-                            <select name="email" id="">
-                                <option value="">직접 입력</option>
+                            <input type="text" value={emailSuffix} onChange={(e) => setEmailSuffix(e.target.value)} disabled={selectedEmailOption !== 'directInput'} />
+
+                            <select name="email" value={selectedEmailOption} onChange={handleEmailOptionChange}>
+                                <option value="directInput">직접 입력</option>
                                 <option value="naver.com">naver.com</option>
                                 <option value="gmail.com">gmail.com</option>
                                 <option value="daum.net">daum.net</option>
                             </select>
-                            <button id='emailAuth' type='button'>인증하기</button>
+                            <button id='emailAuth' type='button' onClick={handleEmailAuth}>인증하기</button>
                         </div>
                     </div>
                     <div>
-                        <input type="text" placeholder='인증번호'/>
-                        <button type='button'>입력</button>
+                        <input type="text" id="userAuthCodeInput" placeholder='인증번호'/>
+                        <button id='emailAuthCode' type='button' onClick={handleVerifyEmail}>입력</button>
                     </div>
                     <div id='joinButton'>
                         <button>회원가입</button>                    
