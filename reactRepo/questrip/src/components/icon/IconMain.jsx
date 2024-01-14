@@ -1,10 +1,12 @@
 import React from 'react';
+import IconShop from './IconShop';
+import { Route, Routes } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const IconMain = () => {
     return (
-        <div>
-            아이콘 샵
-        </div>
+        <Routes>
+            <Route path='shop' element={<IconShop/>}/>
+        </Routes>
     );
 };
 
