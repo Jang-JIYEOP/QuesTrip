@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MemberLogin from './member/MemberLogin';
+import { useLoginMemory } from './community/context/LoginContext';
 
 const StyledHeaderDiv = styled.div`
     width: 100%;
@@ -45,6 +45,9 @@ const StyledSearchDiv = styled.div`
 
 const Header = () => {
 
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    console.log(loginMemberVo);
+    
     const navigate = useNavigate();
 
     return (
@@ -64,12 +67,18 @@ const Header = () => {
             
             {
                 sessionStorage.getItem('loginInfo') // 세션 스토리지에 "MemberVo" 값이 있는지 확인
-                    ?  
-                    <div onClick={() => {
-                        sessionStorage.removeItem('loginInfo');  // 세션 스토리지의 "MemberVo" 값 제거
-                        alert("로그아웃 되었습니다.");
-                        navigate("/");
-                    }}>로그아웃</div>
+                    ?
+                    <div>
+                        <div>닉네임 : {loginMemberVo.nick}</div>
+                        <div>보유 포인트 : {loginMemberVo.point}</div>
+                        <div onClick={() => {
+                            sessionStorage.removeItem('loginInfo');  // 세션 스토리지의 "MemberVo" 값 제거
+                            alert("로그아웃 되었습니다.");
+                            navigate("/");
+                        }}>로그아웃</div>
+                        
+                    </div>  
+                    
                     :
                     <div onClick={() => {
                         navigate("member/login");

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledJoinDiv = styled.div`
-
+    
     width: 100%;
     height: 100%;
     display: grid;
@@ -64,82 +64,226 @@ const StyledJoinDiv = styled.div`
 
 const MemberJoin = () => {
 
-    const [idInput, setIdInput] = useState('');
+
     const [MemberVo, setMemberVo] = useState({});
+    const [pwdMsg, setPwdMsg] = useState('');
+    const [idDupCheck, setidDupCheck] = useState(0);
+    const [nickDupCheck, setNickDupCheck] = useState(0);
+    const [emailCode, setEmailCode] = useState('');
+    const [emailPrefix, setEmailPrefix] = useState('');
+    const [emailSuffix, setEmailSuffix] = useState('');
+    const [emailAuth, setEmailAuth] = useState(0);
+    const [selectedEmailOption, setSelectedEmailOption] = useState('directInput');
 
     useEffect(()=>{
+        if(MemberVo.id){
+            fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type" : "application/json",
+                            },
+                            body: JSON.stringify(MemberVo),
+                        })
+                        .then(resp => resp.json())
+                        .then(data => {
+                            if(data.msg ==="good"){
+                                alert("사용가능한 아이디입니다.");
+                                setidDupCheck(prevIdDupCheck => prevIdDupCheck + 1);
+                            }
+                            else{
+                                alert("중복된 아이디입니다.");
+                                setidDupCheck(0);
+                                document.getElementById("userIdInput").value = '';
+                            }
+                        });
+        }
         
         
-        
-    }, [MemberVo]);
+    }, [MemberVo.id]);
     
+    useEffect( () => {
+        if(MemberVo.nick){
+            fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type" : "application/json",
+                        },
+                        body: JSON.stringify(MemberVo),
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        if(data.msg === "good"){
+                            alert("사용가능한 닉네임입니다.");
+                            setNickDupCheck(prevNickDupCheck => prevNickDupCheck + 1);
+                        }
+                        else{
+                            alert("중복된 닉네임입니다.");
+                            setNickDupCheck(0);
+                            document.getElementById("userNickInput").value = '';
+                        }
+                    })
+        }
+    }, [MemberVo.nick]);
 
-    const handleClickJoin = () => {
-
-    }
-
-    const  aa = () => {
-        fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
-                method: "POST",
+    useEffect(()=>{
+        if(MemberVo.email){
+            fetch('http://127.0.0.1:8888/questrip/api/member/join/emailCheck', {
+                method: 'POST',
                 headers: {
-                    "Content-Type" : "application/json",
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(MemberVo),
             })
-            .then(resp => resp.json())
-            .then(data => {
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.verificationCode) {
 
-                if (data.msg ==="dup" && MemberVo.id != null) {
-                    alert("이미 사용 중인 아이디입니다.");
-                    
+                    alert('이메일 인증 코드를 전송했습니다. 확인해주세요.');
+
+                    setMemberVo(prevMemberVo => ({
+                        ...prevMemberVo,
+                        emailCode : data.verificationCode,
+                    }));
+
                 } else {
-                   alert("사용 가능한 아이디입니다.");
-                }
-                if( data.msg ==="dup" && MemberVo.nick != null){
-                    alert("이미 사용중인 닉네임입니다.");
-                    
+                    alert('이메일 인증 코드 전송에 실패했습니다.');
+                    setEmailAuth(0);
                 }
             })
-    };
+            .catch((error) => {
+                console.error('Error sending email verification code:', error);
+            });
+        }
+    }, [MemberVo.email], [MemberVo.emailCode]);
+
+    const handleClickJoin = () => {
+        if(idDupCheck !== 0 && nickDupCheck !== 0 && MemberVo.pwd !== null && emailAuth !== 0){
+            
+            alert("회원가입을 축하합니다.")
+            
+            fetch("http://127.0.0.1:8888/questrip/api/member/join", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json",
+                    },
+                    body: JSON.stringify(MemberVo),
+                })
+                .then(resp => resp.json())
+                .then(data => {
+                    
+                   
+                })
+        }
+        if(idDupCheck === 0 || nickDupCheck === 0 || emailAuth === 0){
+            alert("아이디 또는 닉네임 중복 여부, 이메일 인증을 확인해주세요.");
+        }
+        
+    }
 
     const handleClickIdDupCheck = () => {
-        const userId = document.getElementById("userIdInput").value;
-        
+        let userId = document.getElementById("userIdInput").value;
+
         const regex = /^[a-zA-Z0-9]{6,20}$/;
         if(userId === ''){
-            alert("아이디를 입력하세요.")
+            alert("아이디를 입력하세요.");
+            setidDupCheck(0);
         }
-        if(!regex.test(userId)){
+        else if(!regex.test(userId) && userId !== ''){
             alert("아이디는 영문자와 숫자로 6~20자만 가능합니다.");
+            userId ='';
+            document.getElementById("userIdInput").value = userId;  // userId를 비워주고 엘리멘트에 반영
+            setidDupCheck(0);
         }
         else{
-            setMemberVo({
-
-                id :  userId,
-            })
-             
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                id: userId,
+            }));
+                    
         }
-        console.log(MemberVo);
     }
 
     const handleClickNickDupCheck = () => {
-        const userNick = document.getElementById("userNickInput").value;
+        let userNick = document.getElementById("userNickInput").value;
         const regex = /^[a-zA-Z0-9]{6,20}$/;
+
         if(userNick === ''){
             alert("닉네임을 입력하세요.")
+            setNickDupCheck(0);
         }
-        if(!regex.test(userNick)){
+        else if(!regex.test(userNick) && userNick !== ''){
             alert("닉네임은 영문자와 숫자로 6~20자만 가능합니다.");
+            userNick = '';
+            document.getElementById("userNickInput").value = userNick;  // userNick을 비워주고 엘리멘트에 반영
+            setNickDupCheck(0);
         }
         else{
-            setMemberVo({
-
-                nick :  userNick,
-            })
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                nick: userNick,
+            }));
         }
-        console.log(MemberVo);
     }
 
+    const pwdCheck = () =>{
+        const pwd = document.getElementById("userPwdInput").value;
+        const pwd2 = document.getElementById("userPwdCheckInput").value;
+        const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+
+        if (regex.test(pwd)){
+            if(pwd === pwd2){
+                setPwdMsg('비밀번호가 일치합니다.');
+                setMemberVo(prevMemberVo => ({
+                    ...prevMemberVo,
+                    pwd: pwd,
+                }));
+            }else{
+                setPwdMsg('비밀번호가 일치하지 않습니다.');
+            }
+        }else{
+            setPwdMsg('사용할 수 없는 비밀번호입니다.');
+        }
+    }
+    
+    const handleEmailAuth= ()=> {
+        if(emailPrefix !== ''){
+            const fullEmail = `${emailPrefix}@${emailSuffix}`;
+            setMemberVo(prevMemberVo => ({
+                ...prevMemberVo,
+                email : fullEmail,
+        }));
+        }else{
+            alert("이메일 주소를 입력해주세요.");
+        }
+        
+
+        
+    };
+
+  const handleVerifyEmail = () => {
+        // 이메일 인증 코드 검증
+        const userAuthCodeInput = document.getElementById("userAuthCodeInput").value;
+        if (MemberVo.emailCode === userAuthCodeInput) {
+            alert('이메일이 성공적으로 인증되었습니다.');
+            setEmailAuth(prevEmailAuth => prevEmailAuth + 1);
+        } else {
+            alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
+            setEmailAuth(0);
+        }
+    };
+
+
+    // 이메일 옵션 변경 시
+    const handleEmailOptionChange = (e) => {
+        setSelectedEmailOption(e.target.value);
+        // 직접 입력이 아니라면 suffix 값을 변경
+        if (e.target.value !== 'directInput') {
+            setEmailSuffix(e.target.value);
+            
+        }else{
+            setEmailSuffix('');
+        }
+    };
 
     
 
@@ -162,13 +306,14 @@ const MemberJoin = () => {
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="text" placeholder='비밀번호 입력(문자, 숫자 포함 8~20자)'/>
+                            <input type="password" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck}/>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호 확인</b>
                             <div>
-                                <input type="text" placeholder='비밀번호 확인'/>
+                                <input type="password" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck}/>
+                                <div>{pwdMsg}</div>
                             </div>
                         </div>
                     <div>
@@ -181,21 +326,22 @@ const MemberJoin = () => {
                     <div>
                         <b>이메일 주소</b>
                         <div id='emailDiv'>
-                            <input type="text" placeholder='이메일 주소'/>
+                            <input type="text" placeholder='이메일 주소' onChange={(e) => setEmailPrefix(e.target.value)}/>
                             <b> @ </b>
-                            <input type="text" />
-                            <select name="email" id="">
-                                <option value="">직접 입력</option>
+                            <input type="text" value={emailSuffix} onChange={(e) => setEmailSuffix(e.target.value)} disabled={selectedEmailOption !== 'directInput'} />
+
+                            <select name="email" value={selectedEmailOption} onChange={handleEmailOptionChange}>
+                                <option value="directInput">직접 입력</option>
                                 <option value="naver.com">naver.com</option>
                                 <option value="gmail.com">gmail.com</option>
                                 <option value="daum.net">daum.net</option>
                             </select>
-                            <button id='emailAuth' type='button'>인증하기</button>
+                            <button id='emailAuth' type='button' onClick={handleEmailAuth}>인증하기</button>
                         </div>
                     </div>
                     <div>
-                        <input type="text" placeholder='인증번호'/>
-                        <button type='button'>입력</button>
+                        <input type="text" id="userAuthCodeInput" placeholder='인증번호'/>
+                        <button id='emailAuthCode' type='button' onClick={handleVerifyEmail}>입력</button>
                     </div>
                     <div id='joinButton'>
                         <button>회원가입</button>                    

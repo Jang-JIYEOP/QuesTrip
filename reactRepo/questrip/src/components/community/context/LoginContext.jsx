@@ -31,7 +31,6 @@ const MemberMemoryProvider = ({children}) => {
                 setLoginMemberVo(data.loginMemberVo);
                 sessionStorage.setItem('loginInfo', JSON.stringify(data.loginMemberVo.no));
                 if (location.pathname === '/member/login') {
-                    // 로그인 페이지이므로 다른 경로로 이동합니다.
                     navigate('/');
                   }
             }else{

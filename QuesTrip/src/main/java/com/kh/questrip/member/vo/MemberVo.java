@@ -15,4 +15,5 @@ public class MemberVo {
 	private String point;
 	private String delYn;
 	private String enrollDate;
+	private String emailCode;
 }

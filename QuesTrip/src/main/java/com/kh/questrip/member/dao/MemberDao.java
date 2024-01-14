@@ -19,10 +19,9 @@ public class MemberDao {
 	}
 
 	public int dupCheck(SqlSessionTemplate sst, MemberVo vo) {
-		System.out.println(vo.getId());
-		System.out.println(vo.getNick());
+		System.out.println("vo아이디:"+vo.getId());
+		System.out.println("vo닉네임"+vo.getNick());
 		return sst.selectOne("MemberMapper.dupCheck", vo);
 	}
-
 
 }

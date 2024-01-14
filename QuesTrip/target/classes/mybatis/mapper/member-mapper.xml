@@ -7,17 +7,23 @@
 <insert id="join">
 	INSERT INTO MEMBER (
 	    NO
+	    , MEMBER_TITLE_NO
 	    , NICK
+	    , ICON_NO
 	    , ID
 	    , PWD
 	    , EMAIL
+	    , POINT
 	    ) 
 	VALUES (
 	    SEQ_MEMBER_NO.NEXTVAL
+	    , 1	
 	    , #{nick}
+	    , 1
 	    , #{id}
 	    , #{pwd}
 	    , #{email}
+	    , 500
 	    )
 </insert>
 	
