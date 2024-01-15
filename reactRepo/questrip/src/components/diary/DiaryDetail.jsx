@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLoginMemory } from './context/LoginContext';
+import { useLoginMemory } from '../community/context/LoginContext';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useQuestMemory } from '../community/context/QuestContext';
 
-const StyledCommunityDetailDiv = styled.div`
+const StyledDiaryDetailDiv = styled.div`
     width: 100%;
     height: 100%;
     display: grid;
@@ -27,25 +28,27 @@ const StyledCommunityDetailDiv = styled.div`
 `;
 
 
-const CommunityDetail = () => {
+
+const DiaryDetail = () => {
     let loginNumber ='';
     if(sessionStorage.getItem('loginInfo')){
         loginNumber = sessionStorage.getItem('loginInfo');
     }
-    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    const navigate = useNavigate(); 
     const location = useLocation();
     const vo = location.state.vo;
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
 
     useEffect( ()=>{
-        setLoginInfo({no : loginNumber});
-    }, [] )
-
-    
+        setLoginInfo({
+            no: loginNumber
+        })
+    }, [])
 
     //게시글 삭제
     const handleDeleteButton = () => {
         
-        fetch("http://127.0.0.1:8888/questrip/api/community/detail/delete", {
+        fetch("http://127.0.0.1:8888/questrip/api/diary/detail/delete", {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
@@ -53,7 +56,7 @@ const CommunityDetail = () => {
             body: JSON.stringify({ no: vo.no })
         }).then(resp => resp.json())
         .then(
-            navigate("/community/list")
+            navigate("/diary/list")
         )
     }
 
@@ -65,33 +68,32 @@ const CommunityDetail = () => {
             window.location.reload();
         }else{
             const memberNo = loginMemberVo.no;
-            const boardNo = vo.no;
-            const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
-            console.log("클라이언트에서 넘기는 값: "+ memberNo, boardNo);
-            console.log(alreadyLiked);
+            const diaryNo = vo.no;
+            const alreadyLiked = await checkIfAlreadyLiked(memberNo, diaryNo);
+            console.log("클라이언트에서 넘기는 값: "+ memberNo, diaryNo);
             if (alreadyLiked) {
                 console.log('이미 추천한 게시글입니다.');
                 // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
-                decreaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
+                decreaseLikes(memberNo, diaryNo);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
             } 
             else {
                 console.log('아직 추천하지 않은 게시글입니다.');
                 // 추천 버튼 활성화 또는 추천 로직 구현
-                increaseLikes(memberNo, boardNo);  // 해당 함수를 호출하면 추천 기능을 수행할 수 있습니다.
+                increaseLikes(memberNo, diaryNo);  // 해당 함수를 호출하면 추천 기능을 수행할 수 있습니다.
             }
         }
         
     };
 
     // 이미 추천한 게시글인지 확인하는 함수
-    const checkIfAlreadyLiked = async (memberNo, boardNo) => {
+    const checkIfAlreadyLiked = async (memberNo, diaryNo) => {
         try {
-            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/checkIfAlreadyLiked", {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/diary/checkIfAlreadyLiked", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ memberNo, boardNo })
+                body: JSON.stringify({ memberNo, diaryNo })
             });
     
             if (!response.ok) {
@@ -108,19 +110,19 @@ const CommunityDetail = () => {
     };
     
     // 추천을 증가시키는 함수
-    const increaseLikes = async (sessionMemberNo, boardNo) => {
+    const increaseLikes = async (sessionMemberNo, diaryNo) => {
         try {
-            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/detail/increaseLikes", {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/diary/detail/increaseLikes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ memberNo: sessionMemberNo, boardNo: boardNo})
+                body: JSON.stringify({ memberNo: sessionMemberNo, diaryNo: diaryNo})
             });
             if (!response.ok) throw new Error('서버 응답 실패');
-            const updatedBoardDetail = await response.json();
-            // window.location.reload();
-            console.log("증가 : "+updatedBoardDetail);
+            const updatedDiaryDetail = await response.json();
+            window.location.reload()
+            console.log("증가 : "+updatedDiaryDetail);
 
         } catch (error) {
             console.error("추천 수를 증가시키는 중 에러 발생:", error);
@@ -128,28 +130,27 @@ const CommunityDetail = () => {
     };
 
     // 추천을 감소시키는 함수
-    const decreaseLikes = async (sessionMemberNo, boardNo) => {
+    const decreaseLikes = async (sessionMemberNo, diaryNo) => {
         try {
-            const response = await fetch("http://127.0.0.1:8888/questrip/api/community/detail/decreaseLikes", {
+            const response = await fetch("http://127.0.0.1:8888/questrip/api/diary/detail/decreaseLikes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ memberNo: sessionMemberNo, boardNo: boardNo})
+                body: JSON.stringify({ memberNo: sessionMemberNo, diaryNo: diaryNo})
             });
             if (!response.ok) throw new Error('서버 응답 실패');
-            const updatedBoardDetail = await response.json();
-            // window.location.reload();
-            console.log("감소 : "+updatedBoardDetail);
+            const updatedDiaryDetail = await response.json();
+            window.location.reload()
+            console.log("감소 : "+updatedDiaryDetail);
         } catch (error) {
             console.error("추천 수를 감소시키는 중 에러 발생:", error);
         }
     };
     
-    const navigate = useNavigate();
 
     return (
-        <StyledCommunityDetailDiv>
+        <StyledDiaryDetailDiv>
             <div>{vo.title}</div>
             <div className='writeDate'>작성일 : {vo.enrollDate}</div>
             
@@ -181,11 +182,10 @@ const CommunityDetail = () => {
             <div></div>
             <div></div>
             <div onClick={ ()=> {
-                navigate("/community/list");
+                navigate("/diary/list");
             }}>목록으로</div>
-        </StyledCommunityDetailDiv>
+        </StyledDiaryDetailDiv>
     );
-    
 };
 
-export default CommunityDetail;
+export default DiaryDetail;

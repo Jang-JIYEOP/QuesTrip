@@ -46,7 +46,6 @@ const StyledSearchDiv = styled.div`
 const Header = () => {
 
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
-    console.log(loginMemberVo);
     
     const navigate = useNavigate();
 

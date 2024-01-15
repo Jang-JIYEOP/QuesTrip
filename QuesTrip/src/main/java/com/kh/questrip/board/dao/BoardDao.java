@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
 
 @Repository
 public class BoardDao {
@@ -19,8 +20,8 @@ public class BoardDao {
 	}
 
 	//게시글 목록 조회
-	public List<BoardVo> list(SqlSessionTemplate sst) {
-		return sst.selectList("BoardMapper.list");
+	public int list(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectOne("BoardMapper.list", vo);
 	}
 
 	//게시글 삭제
@@ -45,12 +46,12 @@ public class BoardDao {
 	
 	//게시글 상세 조회 시 조회수 증가
 	public int updateBoardHit(SqlSessionTemplate sst, String no) {
+		
 		return sst.update("BoardMapper.increaseHit", no);
 	}
 	
 	//게시글 추천
 	public int increaseBoardLikes(SqlSessionTemplate sst, String memberNo, String boardNo) {
-
         return sst.insert("BoardMapper.increaseLikes", Map.of("memberNo", memberNo, "boardNo", boardNo));
     }
 	
@@ -63,11 +64,15 @@ public class BoardDao {
 
 	
 	//게시글 추천 여부 판단
-	public boolean checkIfAlreadyLiked(SqlSessionTemplate sst, Map<String, Object> params) {
+	public boolean checkIfAlreadyLiked(SqlSessionTemplate sst, Map<String, Object> map) {
 		
-		boolean result = sst.selectOne("BoardMapper.checkIfAlreadyLiked", params);
+		boolean result = sst.selectOne("BoardMapper.checkIfAlreadyLiked", map);
 		System.out.println("result: "+result);
-        return sst.selectOne("BoardMapper.checkIfAlreadyLiked", params);
+        return sst.selectOne("BoardMapper.checkIfAlreadyLiked", map);
     }
+
+	public List<BoardVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("BoardMapper.pageList",vo);
+	}
 
 }

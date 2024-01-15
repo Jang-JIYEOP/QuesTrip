@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useLoginMemory } from './context/LoginContext';
 import Page from '../page/Page';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useLoginMemory } from '../community/context/LoginContext';
 
-const StyledCommunityListDiv = styled.div`
+
+const StyledDiaryListDiv = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -12,7 +13,6 @@ const StyledCommunityListDiv = styled.div`
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    
     & > table {
         width: 100%;
         height: 100%;
@@ -23,16 +23,16 @@ const StyledCommunityListDiv = styled.div`
             
             width: 700px;
         }
-        
-
         & > tbody > .bestThree{
+            background-color: lightgray;
+            border: none;
         }
     }
 `;
 
 
-const CommunityList = () => {
-    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+
+const DiaryList = () => {
     const [pageTotal, setPageTotal] = useState([]);
     const [searchInfoVo , setSearchInfoVo] = useState({
 
@@ -41,6 +41,7 @@ const CommunityList = () => {
     
     }
     );
+
     const navigate = useNavigate();
 
     const handlePageChange = (pageNumber) => {
@@ -53,15 +54,15 @@ const CommunityList = () => {
 
     const handleRowClick = (vo) => {
         // 클릭한 게시글의 상세 페이지로 이동
-        navigate('/community/detail', { state: {vo} });
+        navigate('/diary/detail', {state: {vo}});
         
     };
 
     //fetch 를 이용해서 데이터 준비
-    const [boardVoList , setBoardVoList] = useState([]);
-    const [boardBestList, setBoardBestList] = useState([]);
-    const loadBoardVoList = () => {
-        fetch("http://127.0.0.1:8888/questrip/api/community/list", {
+    const [diaryVoList , setDiaryVoList] = useState([]);
+    const [diaryBestList, setDiaryBestList] = useState([]);
+    const loadDiaryVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/diary/list", {
             method: "POST",
             headers: {
             "Content-Type": "application/json", 
@@ -70,18 +71,21 @@ const CommunityList = () => {
         })
         .then(resp => resp.json())
             .then(data => {
-                setBoardVoList(data.voList);
+                setDiaryVoList(data.voList);
                 setPageTotal(data.pageTotal);
-                setBoardBestList(data.bestList);
+                setDiaryBestList(data.bestList);
             });
+
     }
+    
     useEffect( () => {
-        loadBoardVoList();
+        loadDiaryVoList();
         
     }, [searchInfoVo] );
 
+
     return (
-        <StyledCommunityListDiv>
+        <StyledDiaryListDiv>
             <table>
                 <thead>
                     <tr>
@@ -95,8 +99,8 @@ const CommunityList = () => {
                 </thead>
                 <tbody>
                     {
-                        boardBestList.map(vo => 
-                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo)}>
+                        diaryBestList.map(vo => 
+                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo.no)}>
                                 <td>{vo.title}</td>
                                 <td>{vo.nick}</td>
                                 <td>{vo.hit}</td>
@@ -107,11 +111,11 @@ const CommunityList = () => {
                     }
 
                     {
-                        boardVoList.length === 0 
+                        diaryVoList.length === 0 
                         ?
                         <h1>로딩중...</h1>
                         :
-                        boardVoList.map( vo => 
+                        diaryVoList.map( vo => 
                         <tr key={vo.no} onClick={() => handleRowClick(vo)}>
                             <td>{vo.title}</td>
                             <td>{vo.nick}</td>
@@ -119,6 +123,8 @@ const CommunityList = () => {
                             <td>{vo.likesCount}</td>
                             <td>{vo.enrollDate}</td>
                         </tr>
+
+                        
                         )
                     }
                 </tbody>
@@ -129,10 +135,10 @@ const CommunityList = () => {
             </div>
             
             <button onClick={ () => {
-                navigate("/community/write");
-            } }>게시글 작성하기</button>
-        </StyledCommunityListDiv>
+                navigate("/diary/write");
+            } }>일기 작성하기</button>
+        </StyledDiaryListDiv>
     );
 };
 
-export default CommunityList;
+export default DiaryList;
