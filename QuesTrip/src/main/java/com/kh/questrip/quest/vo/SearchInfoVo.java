@@ -11,6 +11,5 @@ public class SearchInfoVo {
 	private String queCateNo;
 	private String pageNo;
 	private String limit;
-	
+	private String memberNo;
 }
-	

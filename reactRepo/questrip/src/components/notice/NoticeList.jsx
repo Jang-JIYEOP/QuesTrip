@@ -22,7 +22,7 @@ const NoticeList = () => {
         }
 
         & > tbody > tr > td {
-            height: 40px;
+            height: 60px;
         }
 
         & > thead > tr > :nth-child(1){
@@ -48,7 +48,7 @@ const [pageTotal, setPageTotal] = useState([]);
 const [searchInfoVo , setSearchInfoVo] = useState({
 
     pageNo : 1,
-    limit : 10,
+    limit : 9,
 
 }
 );

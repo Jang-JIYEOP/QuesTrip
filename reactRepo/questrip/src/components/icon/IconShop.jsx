@@ -4,6 +4,7 @@ import IconListItem from './IconListItem';
 import Page from '../page/Page';
 
 const StyledIconListDiv = styled.div`
+
     width: 100% ;
     height: 100%;
     display: grid;
@@ -11,7 +12,19 @@ const StyledIconListDiv = styled.div`
     grid-template-rows: 3fr 12fr 1fr;
     place-items: center center;
     & > div {
-        border : 1px solide #gray;
+        border : 1px solid gray;
+    }
+
+    
+    & #searchArea{
+        width: 100%;
+        height: 100%;
+
+        & button {
+        width: 50%;
+        height: 50%;
+    }
+
     }
 
     & #itemArea{
@@ -23,35 +36,45 @@ const StyledIconListDiv = styled.div`
         grid-template-rows: 1fr 1fr 1fr;
         place-items: center center;
         & > div {
-          width: 80%;
+            width: 80%;
           height: 80%;
           border: 1px solid red;
-    
+          
         }
-
-    #searchArea{
-        width: 100% ;
-        height: 100%;
-        grid-column: span 2;
-
-    }
-    #pageArea{
-        width: 100%;
-        height: 100%;
+        
+        #searchArea{
+            width: 100% ;
+            height: 100%;
+            grid-column: span 2;
+            
+        }
+        #pageArea{
+            width: 100%;
+            height: 100%;
         grid-column: span 2;
       }
+    }
 `;
-
-
-
+      
+      
+      
 const IconShop = () => {
     const [boardVoList , setBoardVoList] = useState([]);
     const [pageTotal, setPageTotal] = useState([]);
+    let loginNumber = '1';
+    if(sessionStorage.getItem('loginInfo')){
+         loginNumber = sessionStorage.getItem('loginInfo');
+    }
+    
     const [searchInfoVo , setSearchInfoVo] = useState({
+        memberNo : loginNumber,
         pageNo : 1,
         limit : 6,
     }
     );
+    const [type, setType] =useState({
+        nowType : "shop",
+    });
     
     const handlePageChange = (pageNumber) => {
         setSearchInfoVo((prevSearchInfoVo) => ({
@@ -60,9 +83,28 @@ const IconShop = () => {
         }));
       };
     
-    
+      const changeMyIcon = () => {
+        setSearchInfoVo((prevSearchInfoVo) => ({
+            ...prevSearchInfoVo,
+            pageNo: 1,
+
+          }));
+        setType({
+            nowType : "myicon",
+        })
+    };
+    const changeShop = () => {
+        setSearchInfoVo((prevSearchInfoVo) => ({
+            ...prevSearchInfoVo,
+            pageNo: 1,
+
+          }));
+        setType({
+            nowType : "shop",
+        })
+    };
     const loadBoardVoList = () => {
-        fetch("http://127.0.0.1:8888/questrip/api/icon/shop",{
+        fetch(`http://127.0.0.1:8888/questrip/api/icon/${type.nowType}`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json", 
@@ -81,17 +123,27 @@ const IconShop = () => {
     
     }
     
+
+
+
     useEffect( () => {
         loadBoardVoList();
-    }, [searchInfoVo] );
+    }, [searchInfoVo,type] );
+
 
     return (
         <StyledIconListDiv>
-            <div id="searchArea"></div>
+            <div id="searchArea">
+                <button onClick={changeShop}>아이콘 샾</button>
+                {loginNumber&& (
+                    <button onClick={changeMyIcon}>보유 아이콘</button>
+                )}
+
+            </div>
             <div id="itemArea">
 
                 {boardVoList.map( (vo) => {
-                            return <IconListItem key = {vo.no} vo = {vo} />
+                            return <IconListItem key = {vo.no} vo = {vo} type = { type }/>
                         }
                     )
                 }

@@ -3,32 +3,105 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="IconMapper">
-  <select id="list" resultType="com.kh.questrip.icon.vo.IconVo">
+  <select id="shopList" resultType="com.kh.questrip.icon.vo.IconVo">
 	SELECT 
-	  	NO
-	  	, TITLE
-	  	, PRICE
-	  	, PHOTO
-	  	, DEL_YN
-	  FROM ICON 
-	  WHERE 
-	  	DEL_YN = 'N'
+		I.NO
+		, I.TITLE
+		, I.PRICE
+		, I.PHOTO
+		, I.DEL_YN
+	FROM ICON I
+	WHERE I.NO NOT IN (
+	    SELECT MI.ICON_NO
+	    FROM MEMBER_ICON MI
+	    WHERE MI.MEMBER_NO = #{memberNo}
+	)
   </select>
   
   
-  <select id="pageList" resultType="com.kh.questrip.icon.vo.IconVo">
+  <select id="shopPageList" resultType="com.kh.questrip.icon.vo.IconVo">
 	SELECT 
-	  	NO
-	  	, TITLE
-	  	, PRICE
-	  	, PHOTO
-	  	, DEL_YN
-	  FROM ICON 
-	  WHERE 
-	  	DEL_YN = 'N'
+		I.NO
+		, I.TITLE
+		, I.PRICE
+		, I.PHOTO
+		, I.DEL_YN
+	FROM ICON I
+	WHERE I.NO NOT IN (
+	    SELECT 
+	    	MI.ICON_NO
+	    FROM MEMBER_ICON MI
+	    WHERE MI.MEMBER_NO = #{memberNo}
+	)
 	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
   
- 
+  <select id="myIconAll" resultType="com.kh.questrip.icon.vo.IconVo">
+	SELECT 
+		I.NO
+		, I.TITLE
+		, I.PRICE
+		, I.PHOTO
+		, I.DEL_YN
+	FROM ICON I
+	JOIN MEMBER_ICON MI ON I.NO = MI.ICON_NO
+	WHERE MI.MEMBER_NO = #{memberNo}
+  </select>
   
+  <select id="pageMyIcon" resultType="com.kh.questrip.icon.vo.IconVo">
+	SELECT 
+		I.NO
+		, I.TITLE
+		, I.PRICE
+		, I.PHOTO
+		, I.DEL_YN
+	FROM ICON I
+	JOIN MEMBER_ICON MI ON I.NO = MI.ICON_NO
+	WHERE MI.MEMBER_NO = #{memberNo}
+	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+  </select>
+  
+  <update id="update">
+	UPDATE MEMBER
+	SET 
+		ICON_NO = #{iconNo}
+	WHERE NO = #{memberNo}
+  </update>
+ 
+  <update id="memberPointUpdate">
+  	UPDATE MEMBER
+	SET POINT = POINT - (
+	    SELECT PRICE
+	    FROM ICON
+	    WHERE NO = #{iconNo} 
+	)
+	WHERE NO = #{memberNo}
+  </update>
+  
+  <insert id="pointInsert">
+		INSERT INTO POINT (
+			NO
+			, MEMBER_NO
+			, EOE
+			, GET_POINT
+			, SOURCE
+			)
+		VALUES (
+    		SEQ_POINT_NO.NEXTVAL
+    		, #{memberNo}
+    		, 'E'
+    		, (SELECT PRICE FROM ICON WHERE NO = #{iconNo})
+    		, (SELECT TITLE FROM ICON WHERE NO = #{iconNo})
+    	)
+  </insert>
+  
+  <insert id="memberIconInsert">
+  	INSERT INTO MEMBER_ICON (
+	    MEMBER_NO
+	    , ICON_NO)
+	VALUES (
+	    #{memberNo}
+	    , #{iconNo}
+	)
+  </insert>
 </mapper>
