@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLoginMemory } from './community/context/LoginContext';
@@ -44,10 +44,16 @@ const StyledSearchDiv = styled.div`
 
 
 const Header = () => {
-
-    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    let loginNumber ='';
+    if(sessionStorage.getItem('loginInfo')){
+        loginNumber = sessionStorage.getItem('loginInfo');
+    }
+    const {loginMemberVo, setLoginInfo} = useLoginMemory();
     
     const navigate = useNavigate();
+    useEffect( ()=>{
+        setLoginInfo({no : loginNumber});
+    }, [] )
 
     return (
         <StyledHeaderDiv>

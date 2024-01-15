@@ -72,7 +72,7 @@ public class IconController {
 	}
 	@PostMapping("buy")
 	@Transactional
-	public Map<String, String> buy(@RequestBody buyerVo vo) {
+	public Map<String, String> buy(@RequestBody buyerVo vo) throws Exception {
 		System.out.println("바이"+vo);
 
 		Map<String, String> map = new HashMap<>();
@@ -80,22 +80,24 @@ public class IconController {
 		map.put("msg", "bad");
 		
 		int memberPointUpdate = service.memberPointUpdate(vo);
-		int pointInsert	= service.pointInsert(vo);
-		int memberIconInsert = service.memberIconInsert(vo);
-		
-		if(memberPointUpdate != 1) {
-			System.out.println("멤버테이블 업데이트 오류");
+		if(memberPointUpdate == 0) {
+			map.put("msg", "lack");
+			System.out.println("예외야 외");
+			throw new Exception();
 		}
-		else if(pointInsert != 1) {
+		
+		int pointInsert	= service.pointInsert(vo);
+		if(pointInsert != 1) {
 			System.out.println("포인트 테이블에 인서트 오류");
 		}
-		else if(memberIconInsert != 1) {
+		
+		int memberIconInsert = service.memberIconInsert(vo);
+		if(memberIconInsert != 1) {
 			System.out.println("멤버아이콘 인서트 오류");
 		}
-		else {
-			map.put("msg", "good");
-		}
 		
+		
+		map.put("msg", "good");
 		
 		return map;
 	}
