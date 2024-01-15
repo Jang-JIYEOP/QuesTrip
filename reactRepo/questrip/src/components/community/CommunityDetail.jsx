@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLoginMemory } from './context/LoginContext';
 
@@ -28,19 +28,42 @@ const StyledCommunityDetailDiv = styled.div`
 
 
 const CommunityDetail = () => {
-    let loginNumber ='';
-    if(sessionStorage.getItem('loginInfo')){
-        loginNumber = sessionStorage.getItem('loginInfo');
-    }
+    const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
-    const location = useLocation();
-    const vo = location.state.vo;
+    console.log(loginMemberVo);
+    const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
 
-    useEffect( ()=>{
-        setLoginInfo({no : loginNumber});
-    }, [] )
+    const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
+    
+    const [boardVo, setBoardVo] = useState({
+        no: id
+    });
+    
 
     
+
+    useEffect(() => {
+        setLoginInfo({no : loginNumber});
+        // API를 호출하여 게시글의 상세 정보를 가져옵니다.
+        fetch(`http://127.0.0.1:8888/questrip/api/community/detail/?no=${id}`, {
+            method: "POST",
+            headers : {
+                "Content-Type" : "application/json" ,
+            },
+            body : JSON.stringify(boardVo)
+        })
+            .then(resp => resp.json())
+            .then(boardDetailVo => {
+                // 서버로부터 받은 데이터를 boardDetailVo 상태 변수에 저장합니다.
+                setBoardDetailVo(boardDetailVo);
+                
+            })
+
+            .catch(error => {
+                console.error("게시글 상세 정보를 가져오는 중 에러 발생:", error);
+            });
+
+    }, [id]);
 
     //게시글 삭제
     const handleDeleteButton = () => {
@@ -50,7 +73,7 @@ const CommunityDetail = () => {
             headers: {
                 "Content-Type" : "application/json",
             }, 
-            body: JSON.stringify({ no: vo.no })
+            body: JSON.stringify({ no: boardDetailVo.no })
         }).then(resp => resp.json())
         .then(
             navigate("/community/list")
@@ -65,10 +88,9 @@ const CommunityDetail = () => {
             window.location.reload();
         }else{
             const memberNo = loginMemberVo.no;
-            const boardNo = vo.no;
+            const boardNo = boardDetailVo.no;
             const alreadyLiked = await checkIfAlreadyLiked(memberNo, boardNo);
             console.log("클라이언트에서 넘기는 값: "+ memberNo, boardNo);
-            console.log(alreadyLiked);
             if (alreadyLiked) {
                 console.log('이미 추천한 게시글입니다.');
                 // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
@@ -119,7 +141,7 @@ const CommunityDetail = () => {
             });
             if (!response.ok) throw new Error('서버 응답 실패');
             const updatedBoardDetail = await response.json();
-            // window.location.reload();
+            window.location.reload()
             console.log("증가 : "+updatedBoardDetail);
 
         } catch (error) {
@@ -139,7 +161,7 @@ const CommunityDetail = () => {
             });
             if (!response.ok) throw new Error('서버 응답 실패');
             const updatedBoardDetail = await response.json();
-            // window.location.reload();
+            window.location.reload()
             console.log("감소 : "+updatedBoardDetail);
         } catch (error) {
             console.error("추천 수를 감소시키는 중 에러 발생:", error);
@@ -150,15 +172,15 @@ const CommunityDetail = () => {
 
     return (
         <StyledCommunityDetailDiv>
-            <div>{vo.title}</div>
-            <div className='writeDate'>작성일 : {vo.enrollDate}</div>
+            <div>{boardDetailVo.title}</div>
+            <div className='writeDate'>작성일 : {boardDetailVo.enrollDate}</div>
             
-            <div>작성자 : {vo.nick}</div>
-            <div>추천수 : {vo.likesCount}</div>
-            <div>조회수 : {vo.hit}</div>
-            <div className='main'>{vo.content}</div>
+            <div>작성자 : {boardDetailVo.nick}</div>
+            <div>추천수 : {boardDetailVo.likesCount}</div>
+            <div>조회수 : {boardDetailVo.hit}</div>
+            <div className='main'>{boardDetailVo.content}</div>
             {
-            loginMemberVo && loginMemberVo.nick === vo.nick ? (
+            loginMemberVo && loginMemberVo.nick === boardDetailVo.nick ? (
                 <button id='like' disabled>추천</button>
                 
             ) : (
@@ -167,7 +189,7 @@ const CommunityDetail = () => {
              }
             <div></div>
             {/* 세션 스토리지의 id값과 boardDetailVo의 memberNo 비교 */}
-            {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === vo.nick ? (
+            {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === boardDetailVo.nick ? (
             <>
                 <div className='login'>수정</div>
                 <div className='login' onClick={handleDeleteButton}>삭제</div>

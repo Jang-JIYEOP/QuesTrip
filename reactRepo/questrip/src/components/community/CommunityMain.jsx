@@ -10,7 +10,7 @@ const CommunityMain = () => {
         <Routes>
             <Route path='list' element={<CommunityList/>}/>
             <Route path='write' element={<CommunityWrite/>}/>
-            <Route path='detail' element={<CommunityDetail />} />
+            <Route path='detail/:id' element={<CommunityDetail />} />
             <Route path='edit' element={<CommunityEdit/>}/>
         </Routes>
     );
