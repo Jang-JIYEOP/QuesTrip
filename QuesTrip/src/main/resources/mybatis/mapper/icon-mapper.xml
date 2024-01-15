@@ -70,12 +70,26 @@
  
   <update id="memberPointUpdate">
   	UPDATE MEMBER
-	SET POINT = POINT - (
-	    SELECT PRICE
-	    FROM ICON
-	    WHERE NO = #{iconNo} 
-	)
-	WHERE NO = #{memberNo}
+    SET POINT = CASE
+        WHEN POINT - (
+            SELECT PRICE
+            FROM ICON
+            WHERE NO = #{iconNo}
+        ) >= 0 THEN
+            POINT - (
+                SELECT PRICE
+                FROM ICON
+                WHERE NO = #{iconNo}
+            )
+        ELSE
+            POINT -- 혹은 원하는 값으로 처리
+    END
+    WHERE NO = #{memberNo}
+        AND POINT - (
+            SELECT PRICE
+            FROM ICON
+            WHERE NO = #{iconNo}
+        ) >= 0
   </update>
   
   <insert id="pointInsert">

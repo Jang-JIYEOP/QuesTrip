@@ -71,11 +71,18 @@ const IconListItem = ({vo, type}) => {
                 },
                 body : JSON.stringify(buyerVo),
             })
-            .then(resp => resp.json())
+            .then(resp => {
+                if(!resp.ok){
+                    throw new Error("구매실패");
+                }
+                resp.json()})
             .then(data => {
                 console.log("토탈 페이지",data.msg);
                 if(func.func==='buy'){
-                    if(data.msg === "good"){
+                    if(data.msg==="lack"){
+                        alert("보유금액이 부족합니다. ");
+
+                    }else if(data.msg === "good"){
                         alert("아이콘 구매 성공!");
                     }
                 }
@@ -85,7 +92,11 @@ const IconListItem = ({vo, type}) => {
                     }
                 }
                 
-            });
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+            ;
         }
         
     useEffect( () => {
