@@ -51,9 +51,9 @@ const CommunityList = () => {
       };
 
 
-    const handleRowClick = (vo) => {
+    const handleRowClick = (id) => {
         // 클릭한 게시글의 상세 페이지로 이동
-        navigate('/community/detail', { state: {vo} });
+        navigate(`/community/detail/${id}`);
         
     };
 
@@ -96,7 +96,7 @@ const CommunityList = () => {
                 <tbody>
                     {
                         boardBestList.map(vo => 
-                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo)}>
+                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo.no)}>
                                 <td>{vo.title}</td>
                                 <td>{vo.nick}</td>
                                 <td>{vo.hit}</td>
@@ -112,7 +112,7 @@ const CommunityList = () => {
                         <h1>로딩중...</h1>
                         :
                         boardVoList.map( vo => 
-                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo.no)}>
                             <td>{vo.title}</td>
                             <td>{vo.nick}</td>
                             <td>{vo.hit}</td>

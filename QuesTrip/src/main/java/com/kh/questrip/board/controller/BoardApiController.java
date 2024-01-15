@@ -53,9 +53,7 @@ public class BoardApiController {
 	@PostMapping("detail")
 	public BoardDetailVo detail(@RequestBody BoardVo vo)  {
 		BoardDetailVo detail = service.detail(vo);
-		System.out.println("상세조회시 넘버(increase전):"+ vo.getNo());
 		service.increaseHit(vo.getNo());
-		System.out.println("상세조회시 넘버:"+ vo.getNo());
 		return service.detail(vo);
 	
 	}
