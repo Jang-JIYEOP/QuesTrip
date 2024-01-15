@@ -16,27 +16,29 @@ const MemberMemoryProvider = ({children}) => {
     const sessionMemberVo = sessionStorage.getItem(loginMemberVo.no);
     
     const loadLoginMember = () => {
-
         const MemberVo = loginInfo;
-        fetch("http://127.0.0.1:8888/questrip/api/member/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", 
-            },
-            body : JSON.stringify(MemberVo),
-        })
-        .then(resp => resp.json())
-        .then((data) => {
-            if(data.msg === "good"){
-                setLoginMemberVo(data.loginMemberVo);
-                sessionStorage.setItem('loginInfo', JSON.stringify(data.loginMemberVo.no));
-                if (location.pathname === '/member/login') {
-                    navigate('/');
-                  }
-            }else{
-                alert("로그인 실패 ...");
-            }
-        });
+        console.log(MemberVo);
+            fetch("http://127.0.0.1:8888/questrip/api/member/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json", 
+                },
+                body : JSON.stringify(MemberVo),
+            })
+            .then(resp => resp.json())
+            .then((data) => {
+                if(data.msg === "good"){
+                    setLoginMemberVo(data.loginMemberVo);
+                    sessionStorage.setItem('loginInfo', JSON.stringify(data.loginMemberVo.no));
+                    if (location.pathname === '/member/login') {
+                        navigate('/');
+                      }
+                }else{
+                    alert("로그인 실패 ...");
+                }
+            });
+        
+        
     }
 
     useEffect(() => {

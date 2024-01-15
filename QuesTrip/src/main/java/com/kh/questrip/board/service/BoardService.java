@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.kh.questrip.board.dao.BoardDao;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,8 +25,8 @@ public class BoardService {
 	}
 
 	//게시글 목록 조회
-	public List<BoardVo> list() {
-		return dao.list(sst);
+	public int list(SearchInfoVo vo) {
+		return dao.list(sst, vo);
 	}
 	
 	
@@ -68,8 +70,12 @@ public class BoardService {
 	
 	
 	//게시글 추천 여부 판단
-	public boolean checkIfAlreadyLiked(Map<String, Object> params) {
-        return dao.checkIfAlreadyLiked(sst, params);
+	public boolean checkIfAlreadyLiked(Map<String, Object> map) {
+        return dao.checkIfAlreadyLiked(sst, map);
     }
+
+	public List<BoardVo> pageList(SearchInfoVo vo) {
+		return dao.pageList(sst, vo);
+	}
 
 }

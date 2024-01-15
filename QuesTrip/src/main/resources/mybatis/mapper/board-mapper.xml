@@ -28,36 +28,15 @@
   	 	WHERE NO = #{no}
   </update>
   
-  <select id="list" resultType="com.kh.questrip.board.vo.BoardVo">
+  <select id="list" resultType="Integer">
   	SELECT
-	    CB.NO,
-	    M.NICK,
-	    CB.TITLE,
-	    CB.CONTENT,
-	    CB.ENROLL_DATE,
-	    CB.HIT,
-	    CB.DEL_YN,
-	    CB.MEMBER_NO,
-	    COUNT(CL.MEMBER_NO) AS LIKES_COUNT  -- 좋아요 수 추가
+	    COUNT(NO) AS CNT
+	    
 	FROM 
-	    COMMUNITY_BOARD CB
-	JOIN 
-	    MEMBER M ON CB.MEMBER_NO = M.NO
-	LEFT JOIN
-	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO -- 좋아요 테이블 조인
+	    COMMUNITY_BOARD
+	
 	WHERE 
-	    CB.DEL_YN = 'N'
-	GROUP BY 
-	    CB.NO,
-	    M.NICK,
-	    CB.TITLE,
-	    CB.CONTENT,
-	    CB.ENROLL_DATE,
-	    CB.HIT,
-	    CB.DEL_YN,
-	    CB.MEMBER_NO
-	ORDER BY 
-	    CB.NO DESC
+	    DEL_YN = 'N'
   </select>
   
   <select id="best" resultType="com.kh.questrip.board.vo.BoardVo">
@@ -161,5 +140,40 @@
   		FROM COMMUNITY_LIKE
   		WHERE MEMBER_NO = #{memberNo} AND COMMUNITY_NO = #{boardNo}
   </delete>
+  
+  <select id="pageList" resultType="com.kh.questrip.board.vo.BoardVo">
+  	SELECT
+	    CB.NO,
+	    M.NICK,
+	    CB.TITLE,
+	    CB.CONTENT,
+	    CB.ENROLL_DATE,
+	    CB.HIT,
+	    CB.DEL_YN,
+	    CB.MEMBER_NO,
+	    COUNT(CL.MEMBER_NO) AS LIKES_COUNT  -- 좋아요 수 추가
+	    
+	FROM 
+	    COMMUNITY_BOARD CB
+	JOIN 
+	    MEMBER M ON CB.MEMBER_NO = M.NO
+	LEFT JOIN
+	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO -- 좋아요 테이블 조인
+	WHERE 
+	    CB.DEL_YN = 'N'
+	GROUP BY 
+	    CB.NO,
+	    M.NICK,
+	    CB.TITLE,
+	    CB.CONTENT,
+	    CB.ENROLL_DATE,
+	    CB.HIT,
+	    CB.DEL_YN,
+	    CB.MEMBER_NO
+	ORDER BY 
+	    CB.NO DESC
+	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+  </select>
+  
   
 </mapper>

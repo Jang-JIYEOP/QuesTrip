@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="BoardMapper">
+<mapper namespace="DiaryMapper">
 
   <insert id="write">
-  	INSERT INTO COMMUNITY_BOARD
+  	INSERT INTO DIARY
   	(
   		NO,
   		MEMBER_NO,
@@ -14,7 +14,7 @@
   	)
   	VALUES
   	(
-  		SEQ_COMMUNITY_BOARD_NO.NEXTVAL
+  		SEQ_DIARY_NO.NEXTVAL
   		, #{memberNo}
   		, #{title}
   		, #{content}
@@ -22,7 +22,7 @@
   </insert>
   
   <update id="delete">
-  	 UPDATE COMMUNITY_BOARD
+  	 UPDATE DIARY
   	 	SET
   	 		DEL_YN = 'Y'
   	 	WHERE NO = #{no}
@@ -31,15 +31,13 @@
   <select id="list" resultType="Integer">
   	SELECT
 	    COUNT(NO) AS CNT
-	    
 	FROM 
-	    COMMUNITY_BOARD
-	
+	    DIARY
 	WHERE 
 	    DEL_YN = 'N'
   </select>
   
-  <select id="best" resultType="com.kh.questrip.board.vo.BoardVo">
+  <select id="best" resultType="com.kh.questrip.diary.vo.DiaryVo">
   	SELECT 
 	    CB.NO, 
 	    CB.MEMBER_NO, 
@@ -55,7 +53,7 @@
 	JOIN
 	    MEMBER M ON CB.MEMBER_NO = M.NO
 	LEFT JOIN
-	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO -- 좋아요 테이블 조인
+	    DIARY_LIKE CL ON CB.NO = CL.DIARY_NO -- 좋아요 테이블 조인
 	WHERE 
 	    CB.ENROLL_DATE BETWEEN SYSDATE - 1 AND SYSDATE 
 	    AND CB.DEL_YN = 'N' -- DEL_YN이 'N'인 데이터만 필터링
@@ -73,7 +71,7 @@
 	FETCH FIRST 3 ROWS ONLY
   </select>
   
-  <select id="detail" resultType="com.kh.questrip.board.vo.BoardDetailVo">
+  <select id="detail" resultType="com.kh.questrip.diary.vo.DiaryDetailVo">
   	SELECT
 	    CB.NO,
 	    M.NICK,
@@ -86,13 +84,13 @@
 	    COUNT(DISTINCT CMT.NO) AS COMMENT_COUNT,
 	    COUNT(DISTINCT CL.MEMBER_NO) AS LIKES_COUNT
 	FROM 
-	    COMMUNITY_BOARD CB
+	    DIARY CB
 	JOIN 
 	    MEMBER M ON CB.MEMBER_NO = M.NO
 	LEFT JOIN  
-	    COMMT CMT ON CB.NO = CMT.BOARD_NO AND CMT.DEL_YN = 'N'
+	    COMMT CMT ON CB.NO = CMT.DIARY_NO AND CMT.DEL_YN = 'N'
 	LEFT JOIN
-	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO 
+	    DIARY_LIKE CL ON CB.NO = CL.DIARY_NO 
 	WHERE 
 	    CB.DEL_YN = 'N' AND CB.NO = #{no}
 	GROUP BY 
@@ -109,7 +107,7 @@
   </select>
   
   <update id="increaseHit">
-  	UPDATE COMMUNITY_BOARD
+  	UPDATE DIARY
   		SET
   			HIT = HIT + 1
   		WHERE NO = #{no}
@@ -117,16 +115,16 @@
   
   <select id="checkIfAlreadyLiked" resultType="java.lang.Boolean" parameterType="java.util.Map">
         SELECT COUNT(*) 
-        FROM community_like 
-        WHERE MEMBER_NO = #{memberNo} AND COMMUNITY_NO = #{boardNo}
+        FROM DIARY_LIKE 
+        WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{boardNo}
    </select>
   
   
   <insert id="increaseLikes">
-    INSERT INTO COMMUNITY_LIKE 
+    INSERT INTO DIARY_LIKE 
     (
     	MEMBER_NO, 
-    	COMMUNITY_NO
+    	DIARY_NO
     )
     VALUES 
     (
@@ -137,11 +135,11 @@
   
   <delete id="decreaseLikes">
   	Delete
-  		FROM COMMUNITY_LIKE
-  		WHERE MEMBER_NO = #{memberNo} AND COMMUNITY_NO = #{boardNo}
+  		FROM DIARY_LIKE
+  		WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{boardNo}
   </delete>
   
-  <select id="pageList" resultType="com.kh.questrip.board.vo.BoardVo">
+  <select id="pageList" resultType="com.kh.questrip.diary.vo.DiaryVo">
   	SELECT
 	    CB.NO,
 	    M.NICK,
@@ -154,11 +152,11 @@
 	    COUNT(CL.MEMBER_NO) AS LIKES_COUNT  -- 좋아요 수 추가
 	    
 	FROM 
-	    COMMUNITY_BOARD CB
+	    DIARY CB
 	JOIN 
 	    MEMBER M ON CB.MEMBER_NO = M.NO
 	LEFT JOIN
-	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO -- 좋아요 테이블 조인
+	    DIARY_LIKE CL ON CB.NO = CL.DIARY_NO -- 좋아요 테이블 조인
 	WHERE 
 	    CB.DEL_YN = 'N'
 	GROUP BY 
