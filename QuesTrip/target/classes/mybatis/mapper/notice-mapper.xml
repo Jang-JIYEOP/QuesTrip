@@ -29,6 +29,17 @@
 	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
   
+  <select id="listAll" resultType="com.kh.questrip.notice.vo.NoticeVo">
+  	SELECT
+  		NO
+		,ADMIN_NO
+		,TITLE
+		,CONTENT
+		,ENROLL_DATE
+		,DEL_YN
+	FROM NOTICE_BOARD
+	
+  </select>
  
   
 </mapper>

@@ -62,4 +62,8 @@ public class DiaryDao {
 	public List<DiaryVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("DiaryMapper.pageList",vo);
 	}
+
+	public List<DiaryVo> listAll(SqlSessionTemplate sst) {
+		return sst.selectList("DiaryMapper.listAll");
+	}
 }

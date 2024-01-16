@@ -19,4 +19,8 @@ public class QuestDao {
 		return sst.selectList("QuestMapper.pageList",vo);
 	}
 
+	public List<QuestVo> listAll(SqlSessionTemplate sst) {
+		return sst.selectList("QuestMapper.listAll");
+	}
+
 }

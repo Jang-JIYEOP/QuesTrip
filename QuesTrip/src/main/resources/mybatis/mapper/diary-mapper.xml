@@ -172,5 +172,16 @@
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
   
+  <select id="listAll" resultType="com.kh.questrip.diary.vo.DiaryVo">
+  	SELECT
+  		NO
+		,MEMBER_NO
+		,TITLE
+		,CONTENT
+		,ENROLL_DATE
+		,HIT
+		,DEL_YN
+	FROM DIARY
+  </select>
   
 </mapper>

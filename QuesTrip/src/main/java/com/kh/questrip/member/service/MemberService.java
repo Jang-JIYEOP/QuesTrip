@@ -1,5 +1,6 @@
 package com.kh.questrip.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -28,7 +29,9 @@ public class MemberService {
 	public int dupCheck(MemberVo vo) {
 		return dao.dupCheck(sst, vo);
 	}
-
+	public List<MemberVo> list() {
+		return dao.list(sst);
+	}
 	
 
 }

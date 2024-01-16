@@ -1,5 +1,6 @@
 package com.kh.questrip.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,4 +25,7 @@ public class MemberDao {
 		return sst.selectOne("MemberMapper.dupCheck", vo);
 	}
 
+	public List<MemberVo> list(SqlSessionTemplate sst) {
+		return sst.selectList("MemberMapper.list");
+	}
 }

@@ -78,4 +78,8 @@ public class BoardService {
 		return dao.pageList(sst, vo);
 	}
 
+	public List<BoardVo> listAll() {
+		return dao.listAll(sst);
+	}
+
 }

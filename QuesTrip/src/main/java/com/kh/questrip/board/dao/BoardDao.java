@@ -75,4 +75,8 @@ public class BoardDao {
 		return sst.selectList("BoardMapper.pageList",vo);
 	}
 
+	public List<BoardVo> listAll(SqlSessionTemplate sst) {
+		return sst.selectList("BoardMapper.listAll");
+	}
+
 }
