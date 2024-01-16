@@ -16,5 +16,8 @@ public class NoticeDao {
 	public List<NoticeVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("NoticeMapper.pageList", vo);
 	}
+	public List<NoticeVo> listAll(SqlSessionTemplate sst) {
+		return sst.selectList("NoticeMapper.listAll");
+	}
 
 }

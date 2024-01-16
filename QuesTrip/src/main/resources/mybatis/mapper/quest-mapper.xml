@@ -93,5 +93,23 @@
 
     	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
+	
+	<select id="listAll" resultType="com.kh.questrip.quest.vo.QuestVo">
+		SELECT
+			NO
+			,QUE_CATE_NO
+			,LOC_CATE_NO
+			,TITLE
+			,CONTENT
+			,POINT
+			,DEL_YN
+			,ENROLL_DATE
+			,IMG_PATH
+			,LATITUDE
+			,LONGITUDE
+			,HIT
+			,HEAD_CNT
+		FROM QUEST
+	</select>
 </mapper>
 

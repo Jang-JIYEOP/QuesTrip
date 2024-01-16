@@ -113,5 +113,9 @@ public class BoardApiController {
 		return service.delete(vo);
 	}
 	
-	
+	@GetMapping("listall")
+	public List<BoardVo> listAll(){
+		System.out.println("실행"+service.listAll());
+		return service.listAll();
+	}
 }

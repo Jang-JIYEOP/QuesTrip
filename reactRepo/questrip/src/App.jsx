@@ -1,11 +1,16 @@
 import './App.css';
 import {BrowserRouter} from 'react-router-dom';
 import Layout from './components/Layout';
+import { Route, Routes } from 'react-router-dom/dist/umd/react-router-dom.development';
+import AdminLayout from './components/admin/AdminLayout';
 
 function App() {
   return (
     <BrowserRouter>
-      <Layout/>
+      <Routes>
+        <Route path='/' element={<Layout/>}></Route>
+         <Route path='/admin' element={<AdminLayout/>}></Route>
+      </Routes>
     </BrowserRouter>
   );
 }

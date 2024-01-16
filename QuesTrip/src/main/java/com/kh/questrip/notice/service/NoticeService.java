@@ -26,5 +26,8 @@ public class NoticeService {
 	public List<NoticeVo> pageList(SearchInfoVo vo) {
 		return dao.pageList(sst, vo);
 }
-
+	public List<NoticeVo> listAll() {
+		return dao.listAll(sst);
+	}
+	
 }

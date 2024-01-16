@@ -27,4 +27,8 @@ public class QuestService {
 		return dao.pageList(sst, vo);
 	}
 
+	public List<QuestVo> listAll() {
+		return dao.listAll(sst);
+	}
+
 }

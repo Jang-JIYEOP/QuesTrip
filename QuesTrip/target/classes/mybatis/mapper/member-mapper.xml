@@ -69,5 +69,18 @@
 	
 </select>
 
-
+<select id="list" resultType="com.kh.questrip.member.vo.MemberVo">
+	SELECT
+		NO
+	    ,MEMBER_TITLE_NO
+	    ,ICON_NO
+	    ,ID
+	    ,PWD
+	    ,NICK
+	    ,EMAIL
+	    ,POINT
+	    ,ENROLL_DATE
+	    ,DEL_YN
+	FROM MEMBER
+</select>
 </mapper>

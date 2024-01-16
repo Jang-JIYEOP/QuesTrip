@@ -69,4 +69,8 @@ public class DiaryService {
 	public List<DiaryVo> pageList(SearchInfoVo vo) {
 		return dao.pageList(sst, vo);
 	}
+
+	public List<DiaryVo> listAll() {
+		return dao.listAll(sst);
+	}
 }

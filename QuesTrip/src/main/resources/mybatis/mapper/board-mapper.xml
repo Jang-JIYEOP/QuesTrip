@@ -175,5 +175,16 @@
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
   
+  <select id="listAll" resultType="com.kh.questrip.board.vo.BoardVo">
+  	SELECT 
+  		NO
+		,MEMBER_NO
+		,TITLE
+		,CONTENT
+		,ENROLL_DATE
+		,HIT
+		,DEL_YN
+	FROM COMMUNITY_BOARD
+  </select>
   
 </mapper>
