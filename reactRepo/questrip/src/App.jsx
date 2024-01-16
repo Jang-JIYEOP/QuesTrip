@@ -7,10 +7,8 @@ import AdminLayout from './components/admin/AdminLayout';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Layout/>}></Route>
-         <Route path='/admin' element={<AdminLayout/>}></Route>
-      </Routes>
+      
+      <Layout/>
     </BrowserRouter>
   );
 }
