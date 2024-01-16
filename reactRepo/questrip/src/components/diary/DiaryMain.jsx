@@ -10,7 +10,7 @@ const DiaryMain = () => {
         <Routes>
             <Route path='list' element={<DiaryList/>}/>
             <Route path='write' element={<DiaryWrite/>}/>
-            <Route path='detail' element={<DiaryDetail/>} />
+            <Route path='detail/:id' element={<DiaryDetail/>} />
             <Route path='edit' element={<DiaryEdit/>}/>
         </Routes>
     );

@@ -52,9 +52,9 @@ const DiaryList = () => {
       };
 
 
-    const handleRowClick = (vo) => {
+    const handleRowClick = (id) => {
         // 클릭한 게시글의 상세 페이지로 이동
-        navigate('/diary/detail', {state: {vo}});
+        navigate(`/diary/detail/${id}`);
         
     };
 
@@ -116,7 +116,7 @@ const DiaryList = () => {
                         <h1>로딩중...</h1>
                         :
                         diaryVoList.map( vo => 
-                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo.no)}>
                             <td>{vo.title}</td>
                             <td>{vo.nick}</td>
                             <td>{vo.hit}</td>
