@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLoginMemory } from '../community/context/LoginContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useQuestMemory } from '../community/context/QuestContext';
 
 const StyledDiaryDetailDiv = styled.div`
     width: 100%;
@@ -30,20 +29,40 @@ const StyledDiaryDetailDiv = styled.div`
 
 
 const DiaryDetail = () => {
-    let loginNumber ='';
-    if(sessionStorage.getItem('loginInfo')){
-        loginNumber = sessionStorage.getItem('loginInfo');
-    }
-    const navigate = useNavigate(); 
-    const location = useLocation();
-    const vo = location.state.vo;
+    const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    console.log(loginMemberVo);
+    const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
 
-    useEffect( ()=>{
-        setLoginInfo({
-            no: loginNumber
+    const [diaryDetailVo, setDiaryDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
+    
+    const [diaryVo, setDiaryVo] = useState({
+        no: id
+    });
+
+
+    useEffect(() => {
+        setLoginInfo({no : loginNumber});
+        // API를 호출하여 게시글의 상세 정보를 가져옵니다.
+        fetch(`http://127.0.0.1:8888/questrip/api/diary/detail/?no=${id}`, {
+            method: "POST",
+            headers : {
+                "Content-Type" : "application/json" ,
+            },
+            body : JSON.stringify(diaryVo)
         })
-    }, [])
+            .then(resp => resp.json())
+            .then(diaryDetailVo => {
+                // 서버로부터 받은 데이터를 diaryDetailVo 상태 변수에 저장합니다.
+                setDiaryDetailVo(diaryDetailVo);
+                
+            })
+
+            .catch(error => {
+                console.error("게시글 상세 정보를 가져오는 중 에러 발생:", error);
+            });
+
+    }, [id]);
 
     //게시글 삭제
     const handleDeleteButton = () => {
@@ -53,7 +72,7 @@ const DiaryDetail = () => {
             headers: {
                 "Content-Type" : "application/json",
             }, 
-            body: JSON.stringify({ no: vo.no })
+            body: JSON.stringify({ no: diaryDetailVo.no })
         }).then(resp => resp.json())
         .then(
             navigate("/diary/list")
@@ -68,7 +87,7 @@ const DiaryDetail = () => {
             window.location.reload();
         }else{
             const memberNo = loginMemberVo.no;
-            const diaryNo = vo.no;
+            const diaryNo = diaryDetailVo.no;
             const alreadyLiked = await checkIfAlreadyLiked(memberNo, diaryNo);
             console.log("클라이언트에서 넘기는 값: "+ memberNo, diaryNo);
             if (alreadyLiked) {
@@ -121,7 +140,7 @@ const DiaryDetail = () => {
             });
             if (!response.ok) throw new Error('서버 응답 실패');
             const updatedDiaryDetail = await response.json();
-            window.location.reload()
+            window.location.reload();
             console.log("증가 : "+updatedDiaryDetail);
 
         } catch (error) {
@@ -148,18 +167,19 @@ const DiaryDetail = () => {
         }
     };
     
+    const navigate = useNavigate();
 
     return (
         <StyledDiaryDetailDiv>
-            <div>{vo.title}</div>
-            <div className='writeDate'>작성일 : {vo.enrollDate}</div>
+            <div>{diaryDetailVo.title}</div>
+            <div className='writeDate'>작성일 : {diaryDetailVo.enrollDate}</div>
             
-            <div>작성자 : {vo.nick}</div>
-            <div>추천수 : {vo.likesCount}</div>
-            <div>조회수 : {vo.hit}</div>
-            <div className='main'>{vo.content}</div>
+            <div>작성자 : {diaryDetailVo.nick}</div>
+            <div>추천수 : {diaryDetailVo.likesCount}</div>
+            <div>조회수 : {diaryDetailVo.hit}</div>
+            <div className='main'>{diaryDetailVo.content}</div>
             {
-            loginMemberVo && loginMemberVo.nick === vo.nick ? (
+            loginMemberVo && loginMemberVo.nick === diaryDetailVo.nick ? (
                 <button id='like' disabled>추천</button>
                 
             ) : (
@@ -168,7 +188,7 @@ const DiaryDetail = () => {
              }
             <div></div>
             {/* 세션 스토리지의 id값과 boardDetailVo의 memberNo 비교 */}
-            {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === vo.nick ? (
+            {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === diaryDetailVo.nick ? (
             <>
                 <div className='login'>수정</div>
                 <div className='login' onClick={handleDeleteButton}>삭제</div>
@@ -186,6 +206,7 @@ const DiaryDetail = () => {
             }}>목록으로</div>
         </StyledDiaryDetailDiv>
     );
+    
 };
 
 export default DiaryDetail;

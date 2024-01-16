@@ -49,7 +49,7 @@
 	    CB.DEL_YN,
 	    COUNT(CL.MEMBER_NO) AS LIKES_COUNT  -- 좋아요 수 추가
 	FROM 
-	    COMMUNITY_BOARD CB
+	    DIARY CB
 	JOIN
 	    MEMBER M ON CB.MEMBER_NO = M.NO
 	LEFT JOIN
@@ -81,14 +81,13 @@
 	    CB.HIT,
 	    CB.DEL_YN,
 	    CB.MEMBER_NO,
-	    COUNT(DISTINCT CMT.NO) AS COMMENT_COUNT,
+<!-- 	    COUNT(DISTINCT CMT.NO) AS COMMENT_COUNT, -->
 	    COUNT(DISTINCT CL.MEMBER_NO) AS LIKES_COUNT
 	FROM 
 	    DIARY CB
 	JOIN 
 	    MEMBER M ON CB.MEMBER_NO = M.NO
-	LEFT JOIN  
-	    COMMT CMT ON CB.NO = CMT.DIARY_NO AND CMT.DEL_YN = 'N'
+	
 	LEFT JOIN
 	    DIARY_LIKE CL ON CB.NO = CL.DIARY_NO 
 	WHERE 
@@ -116,7 +115,7 @@
   <select id="checkIfAlreadyLiked" resultType="java.lang.Boolean" parameterType="java.util.Map">
         SELECT COUNT(*) 
         FROM DIARY_LIKE 
-        WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{boardNo}
+        WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{diaryNo}
    </select>
   
   
@@ -129,14 +128,14 @@
     VALUES 
     (
     	#{memberNo}, 
-    	#{boardNo}
+    	#{diaryNo}
     )
   </insert>
   
   <delete id="decreaseLikes">
   	Delete
   		FROM DIARY_LIKE
-  		WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{boardNo}
+  		WHERE MEMBER_NO = #{memberNo} AND DIARY_NO = #{diaryNo}
   </delete>
   
   <select id="pageList" resultType="com.kh.questrip.diary.vo.DiaryVo">

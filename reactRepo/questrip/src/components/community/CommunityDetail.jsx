@@ -40,8 +40,6 @@ const CommunityDetail = () => {
     });
     
 
-    
-
     useEffect(() => {
         setLoginInfo({no : loginNumber});
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
@@ -141,7 +139,7 @@ const CommunityDetail = () => {
             });
             if (!response.ok) throw new Error('서버 응답 실패');
             const updatedBoardDetail = await response.json();
-            window.location.reload()
+            window.location.reload();
             console.log("증가 : "+updatedBoardDetail);
 
         } catch (error) {
@@ -161,7 +159,7 @@ const CommunityDetail = () => {
             });
             if (!response.ok) throw new Error('서버 응답 실패');
             const updatedBoardDetail = await response.json();
-            window.location.reload()
+            window.location.reload();
             console.log("감소 : "+updatedBoardDetail);
         } catch (error) {
             console.error("추천 수를 감소시키는 중 에러 발생:", error);
