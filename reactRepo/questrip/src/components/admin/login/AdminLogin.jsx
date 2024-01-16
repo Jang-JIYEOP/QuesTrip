@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 const StyledLoginDiv = styled.div`
         height: 100vh;
