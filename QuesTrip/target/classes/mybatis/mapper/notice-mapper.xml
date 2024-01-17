@@ -18,13 +18,15 @@
   
   <select id="pageList" resultType="com.kh.questrip.notice.vo.NoticeVo">
 	SELECT
-	    NO,
-	    ADMIN_NO,
-	    TITLE,
-	    CONTENT,
-	    ENROLL_DATE,
-	    DEL_YN
-	FROM NOTICE_BOARD
+	    NB.NO,
+	    NB.ADMIN_NO,
+	    NB.TITLE,
+	    NB.CONTENT,
+	    NB.ENROLL_DATE,
+	    NB.DEL_YN,
+	    A.ID
+	FROM NOTICE_BOARD NB
+	JOIN ADMIN A ON A.NO = NB.ADMIN_NO
 	WHERE DEL_YN = 'N'
 	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
