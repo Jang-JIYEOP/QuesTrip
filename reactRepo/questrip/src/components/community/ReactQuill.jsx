@@ -20,8 +20,6 @@ function Write() {
 
       /*이미지 선택에 따른 조건을 다시 한번 하게 된다.*/
       const file = input.files[0];
-      /*선택을 안하면 취소버튼처럼 수행하게 된다.*/
-      if (!file) return;
       
       /*서버에서 FormData형식으로 받기 때문에 이에 맞는 데이터형식으로 만들어준다.*/
       const formData = new FormData();
@@ -35,12 +33,9 @@ function Write() {
         /*서버에다가 정보를 보내준 다음 서버에서 보낸 url을 imgUrl로 받는다.*/
         const res = await fetch("http://127.0.0.1:8888/questrip/api/community/uploadImage", {
           method: "POST",
-          headers: {
-              "Content-Type" : "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formData,
       })
-        const imgUrl = res.data;
+      const imgUrl = await res.json();
         /*에디터의 커서 위치에 이미지 요소를 넣어준다.*/
         const range = quillObj.getSelection();
         quillObj?.insertEmbed(range.index, "image", `${imgUrl}`);
