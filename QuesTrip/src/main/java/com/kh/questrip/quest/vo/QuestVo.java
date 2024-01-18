@@ -12,7 +12,7 @@ public class QuestVo {
 	private String content;
 	private String point;
 	private String enrollDate;
-	private String imagePath;
+	private String imgPath;
 	private String latitude;
 	private String longitude;
 	private String hit;

@@ -33,8 +33,8 @@ public class QuestService {
 	}
 
 	public int write(QuestVo vo) {
-		String str = vo.getImagePath().replace("D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip");
-		vo.setImagePath(str);
+		String str = vo.getImgPath().replace("C:\\kh_dev\\questripRepo\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
+		vo.setImgPath(str);
 		if(vo.getTitle().length() < 1) {
 			throw new IllegalSelectorException();
 		}

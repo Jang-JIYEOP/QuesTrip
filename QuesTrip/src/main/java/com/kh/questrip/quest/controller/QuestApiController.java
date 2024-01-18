@@ -45,7 +45,7 @@ public class QuestApiController {
 		map.put("pageTotal", pageTotal);
 		
 		map.put("questVoList",questVoList);
-		
+		System.out.println(questVoList);
 		return map;
 	}
 	
@@ -55,11 +55,12 @@ public class QuestApiController {
 		return service.listAll();
 	}
 	
-	@PostMapping
-	public Map<String, String> write(QuestVo  vo, MultipartFile f) throws Exception {
+	@PostMapping("write")
+	public Map<String, String> write(QuestVo vo, MultipartFile file) throws Exception {
 		
-		String fullPath = savFile(f );
-		vo.setImagePath(fullPath);
+		
+		String fullPath = savFile(file);
+		vo.setImgPath(fullPath);
 		
 		int result = service.write(vo);
 		Map<String, String> map = new HashMap<String, String>();
@@ -71,7 +72,7 @@ public class QuestApiController {
 	}
 	
 	private String savFile(MultipartFile f) throws Exception {
-		String path = "D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\quest\\img\\";
+		String path = "C:\\kh_dev\\questripRepo\\QuesTrip\\src\\main\\webapp\\resources\\upload\\quest\\img\\";
 		String fileName = f.getOriginalFilename();
 		
 		File target = new File(path+fileName);
