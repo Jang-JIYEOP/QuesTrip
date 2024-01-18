@@ -3,10 +3,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
-
-const QuestDetail = () => {
-
-    const StyledQuestListDiv = styled.div`
+const StyledQuestListDiv = styled.div`
         width: 100%;
         height: 100%;
         display: grid;
@@ -30,9 +27,13 @@ const QuestDetail = () => {
 
         }
     `;
+const QuestDetail = () => {
+
+    
   const location = useLocation();
   const vo = location.state.vo;
     const {setSearchInfoVo} = useQuestMemory();
+    console.log(vo);
     useEffect(() => {
         setSearchInfoVo({
           locCateNo : 1,
@@ -46,7 +47,9 @@ const QuestDetail = () => {
             <div id ='map'>
                 <MapContainer  vo = {vo} />
             </div>
-            <div id='img'>이미지</div>
+            <div id='img'>
+                <img src={vo.imgPath} alt="퀘스트예시사진" />
+            </div>
             <div id='title'>위치이름 : {vo.title}</div>
             <div id='headCnt'>인원수 : {vo.headCnt}</div>
             <div id='queCateNo'>분류 : {vo.queCateNo}</div>

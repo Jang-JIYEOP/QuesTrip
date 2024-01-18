@@ -98,7 +98,7 @@ const QuestWrite = () => {
         const longitude = coordinates.lng;
 
         const fd = new FormData();
-        fd.append("f" , fileObj);  
+        fd.append("file", fileObj);
         fd.append("title" , title);
         fd.append("locCateNo" , locCateNo);
         fd.append("queCateNo" , queCateNo);
@@ -108,6 +108,8 @@ const QuestWrite = () => {
         fd.append("longitude" , longitude);
         fd.append("content" , content);
 
+
+        console.log(fd);
         fetch("http://127.0.0.1:8888/questrip/api/quest/write" , {
             method: "POST",
             body : fd ,
