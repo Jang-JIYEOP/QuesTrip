@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Quill 스타일 시트
-import Write from '../ReactQuill';
 
 import styled from 'styled-components';
+import Write from './ReactQuill';
 
 const StyledCommunityWriteDiv = styled.div`
     width: 100%;
@@ -32,20 +31,19 @@ const CommunityWrite = () => {
         setContent(value);
     };
 
+    console.log(content);
     return (
         <StyledCommunityWriteDiv>
-            <div className="title">
-                <label htmlFor="title">제목</label>
-                <input id="title" type="text" />
-            </div>
-
-            <div className="quill-editor">
-                <Write
-                    theme="snow"
-                    value={content}
-                    onChange={handleQuillChange}
-                />
-            </div>
+            
+                <div className="quill-editor">
+                    <Write
+                        theme="snow"
+                        value={content}
+                        onChange={handleQuillChange}
+                    />
+                </div>
+            
+            
         </StyledCommunityWriteDiv>
     );
 };
