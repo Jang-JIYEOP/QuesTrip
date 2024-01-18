@@ -28,6 +28,7 @@ function Write() {
 
       /*에디터 정보를 가져온다.*/
       let quillObj = quillRef.current?.getEditor();
+      console.log("quillObj : "+quillObj);
       try {
 
         /*서버에다가 정보를 보내준 다음 서버에서 보낸 url을 imgUrl로 받는다.*/
@@ -35,10 +36,12 @@ function Write() {
           method: "POST",
           body: formData,
       })
-      const imgUrl = await res.json();
+      const imgUrl = await res.text();
+      console.log("imgurl"+imgUrl);
         /*에디터의 커서 위치에 이미지 요소를 넣어준다.*/
         const range = quillObj.getSelection();
         quillObj?.insertEmbed(range.index, "image", `${imgUrl}`);
+        console.log("quillObj insert : "+quillObj);
       } catch (error) {
         console.log(error);
       }

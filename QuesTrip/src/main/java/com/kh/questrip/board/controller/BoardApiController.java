@@ -121,7 +121,7 @@ public class BoardApiController {
     }
     
     
-    //업로드 이미지 URL 반환
+    //이미지 업로드, 이미지 URL 반환
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("uploadImage")
     public String savFile(MultipartFile image) throws Exception {
@@ -132,8 +132,8 @@ public class BoardApiController {
         File target = new File(path+fileName);
         
         image.transferTo(target);
-              
-        return path+fileName;
+        System.out.println("리턴 값"+ fileName);
+        return fileName;
      }
 	   
 	
