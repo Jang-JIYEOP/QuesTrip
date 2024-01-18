@@ -1,17 +1,30 @@
 package com.kh.questrip.board.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.board.service.BoardService;
@@ -91,21 +104,36 @@ public class BoardApiController {
     }
 	
 
-	//게시글 작성하기
-	@PostMapping("write")
-	public Map<String, String> write(@RequestBody BoardVo vo, HttpSession session){
-		Map<String, String> map = new HashMap<String, String>();
-		int result = service.write(vo);
-		
-		if(result == 1) {
-			map.put("msg", "good");
-		}
-		else {
-			map.put("msg", "bad");
-		}
-		
-		return map;
-	}
+	   	//게시글 작성
+	    @PostMapping("write")
+	    public ResponseEntity<String> write(@RequestBody BoardVo vo, MultipartFile image) {
+	        try {
+	            int result = service.write(vo);
+	            System.out.println("게시글 작성 result: "+ result);
+	            if (result == 1) {
+	                return new ResponseEntity<>("Data written successfully", HttpStatus.CREATED);
+	            } else {
+	                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	            }
+	        } catch (Exception e) {
+	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	    }
+	    
+	    
+	    //업로드 이미지 URL 반환
+	    @PostMapping("uploadImage")
+	    public String savFile(MultipartFile image) throws Exception {
+	        String path = "D:\\dev\\QuesTrip\\QuesTrip\\src\\main\\resources\\static";
+	        String fileName = image.getOriginalFilename();
+	        
+	        File target = new File(path+fileName);
+	        
+	        image.transferTo(target);
+	              
+	        return path+fileName;
+	     }
+	   
 	
 	//게시글 삭제
 	@PostMapping("detail/delete")

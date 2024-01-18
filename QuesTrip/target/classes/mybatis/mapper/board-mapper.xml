@@ -4,22 +4,24 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardMapper">
 
-  <insert id="write">
-  	INSERT INTO COMMUNITY_BOARD
-  	(
-  		NO,
-  		MEMBER_NO,
-  		TITLE,
-  		CONTENT
-  	)
-  	VALUES
-  	(
-  		SEQ_COMMUNITY_BOARD_NO.NEXTVAL
-  		, #{memberNo}
-  		, #{title}
-  		, #{content}
-  	)
-  </insert>
+	<insert id="write">
+	  INSERT INTO COMMUNITY_BOARD
+	  (
+	    NO,
+	    MEMBER_NO,
+	    TITLE,
+	    CONTENT,
+	    IMAGE_URL  <!-- 이미지 URL 추가 -->
+	  )
+	  VALUES
+	  (
+	    SEQ_COMMUNITY_BOARD_NO.NEXTVAL
+	    , #{memberNo}
+	    , #{title}
+	    , #{content}
+	    , #{imageUrl}  <!-- 이미지 URL 추가 -->
+	  )
+	</insert>
   
   <update id="delete">
   	 UPDATE COMMUNITY_BOARD
