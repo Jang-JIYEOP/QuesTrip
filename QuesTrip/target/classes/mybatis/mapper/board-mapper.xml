@@ -11,7 +11,7 @@
 	    MEMBER_NO,
 	    TITLE,
 	    CONTENT,
-	    IMAGE_URL  <!-- 이미지 URL 추가 -->
+	    ENROLL_DATE
 	  )
 	  VALUES
 	  (
@@ -19,7 +19,7 @@
 	    , #{memberNo}
 	    , #{title}
 	    , #{content}
-	    , #{imageUrl}  <!-- 이미지 URL 추가 -->
+	    , SYSDATE
 	  )
 	</insert>
   

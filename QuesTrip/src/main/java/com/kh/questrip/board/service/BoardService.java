@@ -21,6 +21,7 @@ public class BoardService {
 	
 	//게시글 작성
 	public int write(BoardVo vo) {
+		
 		return dao.write(sst, vo);
 	}
 
