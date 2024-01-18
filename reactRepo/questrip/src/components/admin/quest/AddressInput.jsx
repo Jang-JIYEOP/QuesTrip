@@ -1,63 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {  useState } from 'react';
+import { GoogleApiWrapper } from 'google-maps-react';
 
-const AddressInput = ({ onCoordinatesChange }) => {
-    const [address, setAddress] = useState('');
-    const [coordinates, setCoordinates] = useState(null);
-    const autocompleteRef = useRef(null);
+const AddressInput = ({ google, onCoordinatesChange }) => {
+  const [address, setAddress] = useState('');
 
-    useEffect(() => {
-        const loadGoogleMaps = () => {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCneMsRWKMVCH-nY4-ueOY21FMugC8-Nic&libraries=places`;
-            script.onload = initializeAutocomplete;
-            document.head.appendChild(script);
-        };
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+  };
 
-        const initializeAutocomplete = () => {
-            const autocomplete = new window.google.maps.places.Autocomplete(
-                autocompleteRef.current,
-                { types: ['geocode'] }
-            );
-            autocomplete.addListener('place_changed', onPlaceChanged);
-        };
+  const searchAddress = () => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+      console.log("statis",status);
+      if (status === 'OK') {
+        if (results[0]) {
+          const lat = results[0].geometry.location.lat();
+          const lng = results[0].geometry.location.lng();
 
-        const onPlaceChanged = () => {
-            const place = autocompleteRef.current.getPlace();
-            if (place.geometry && place.geometry.location) {
-                const { lat, lng } = place.geometry.location;
-                setCoordinates({ latitude: lat(), longitude: lng() });
-                onCoordinatesChange({ latitude: lat(), longitude: lng() });
-            }
-        };
+          onCoordinatesChange({ lat, lng });
+        } else {
+          console.log('검색된 결과가 없습니다.');
+        }
+      } else {
+        console.log('지오코딩 요청이 실패했습니다.');
+      }
+    });
+  };
 
-        loadGoogleMaps();
 
-    }, []); 
-
-    const handleAddressChange = (e) => {
-        setAddress(e.target.value);
-    };
-
-    return (
-        <div>
-            <label htmlFor="address">주소 입력:</label>
-            <input
-                type="text"
-                id="address"
-                ref={autocompleteRef}
-                value={address}
-                onChange={handleAddressChange}
-            />
-
-            {coordinates && (
-                <div>
-                    <p>좌표값:</p>
-                    <p>Latitude: {coordinates.latitude}</p>
-                    <p>Longitude: {coordinates.longitude}</p>
-                </div>
-            )}
-        </div>
-    );
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="도로명 주소 입력"
+        value={address}
+        onChange={handleAddressChange}
+      />
+      <button type='button' onClick={searchAddress}>검색하기</button>
+    </div>
+  );
 };
 
-export default AddressInput;
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCneMsRWKMVCH-nY4-ueOY21FMugC8-Nic',
+})(AddressInput);
