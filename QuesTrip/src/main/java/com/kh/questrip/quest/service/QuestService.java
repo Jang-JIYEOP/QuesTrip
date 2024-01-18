@@ -1,5 +1,6 @@
 package com.kh.questrip.quest.service;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,6 +30,15 @@ public class QuestService {
 
 	public List<QuestVo> listAll() {
 		return dao.listAll(sst);
+	}
+
+	public int write(QuestVo vo) {
+		String str = vo.getImagePath().replace("D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip");
+		vo.setImagePath(str);
+		if(vo.getTitle().length() < 1) {
+			throw new IllegalSelectorException();
+		}
+		return dao.write(sst, vo);
 	}
 
 }

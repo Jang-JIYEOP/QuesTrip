@@ -144,5 +144,33 @@
     VALUES (
     	SEQ_QUEST_NO.NEXTVAL
    	</insert>
+   	<insert id="write">
+		INSERT INTO GALLERY
+		(
+		    NO
+			,QUE_CATE_NO
+			,LOC_CATE_NO
+			,TITLE
+			,CONTENT
+			,POINT
+			,IMG_PATH
+			,LATITUDE
+			,LONGITUDE
+			,HEAD_CNT
+		)
+		VALUES
+		(
+		    SEQ_GALLERY_NO.NEXTVAL
+		    ,QUE_CATE_NO#{queCateNo}
+			,LOC_CATE_NO#{locCateNo}
+			,TITLE#{title}
+			,CONTENT#{content}
+			,POINT#{point}
+			,IMG_PATH#{imagePath}
+			,LATITUDE#{latitude}
+			,LONGITUDE#{longitude}
+			,HEAD_CNT#{headCnt}
+		)
+	</insert>
 </mapper>
 

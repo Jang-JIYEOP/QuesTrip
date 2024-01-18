@@ -23,4 +23,8 @@ public class QuestDao {
 		return sst.selectList("QuestMapper.listAll");
 	}
 
+	public int write(SqlSessionTemplate sst, QuestVo vo) {
+		return sst.insert("QuestMapper.write", vo);
+	}
+
 }
