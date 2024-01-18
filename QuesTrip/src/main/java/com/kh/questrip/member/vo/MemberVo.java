@@ -7,6 +7,8 @@ import lombok.Data;
 public class MemberVo {
 	private int no;
 	private String memberTitleNo;
+	private String titleName;
+	private String iconName;
 	private String iconNo;
 	private String id;
 	private String pwd;
@@ -16,4 +18,5 @@ public class MemberVo {
 	private String delYn;
 	private String enrollDate;
 	private String emailCode;
+	
 }

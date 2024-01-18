@@ -10,5 +10,6 @@ public class NoticeVo {
 	private String content;
 	private String enrollDate;
 	private String delYn;
+	private String id;
 }
 

@@ -6,6 +6,8 @@ import lombok.Data;
 public class QuestVo {
 	private String no;
 	private String locCateNo;
+	private String locName;
+	private String queName;
 	private String title;
 	private String content;
 	private String point;

@@ -70,17 +70,20 @@
 </select>
 
 <select id="list" resultType="com.kh.questrip.member.vo.MemberVo">
-	SELECT
-		NO
-	    ,MEMBER_TITLE_NO
-	    ,ICON_NO
-	    ,ID
-	    ,PWD
-	    ,NICK
-	    ,EMAIL
-	    ,POINT
-	    ,ENROLL_DATE
-	    ,DEL_YN
-	FROM MEMBER
+	SELECT 
+	    M.NO,
+	    IT.TITLE AS ICON_NAME,
+	    MT.NO AS TITLE_NO,
+	    MT.TITLE AS TITLE_NAME,
+	    M.ID,
+	    M.PWD,
+	    M.NICK,
+	    M.EMAIL,
+	    M.POINT,
+	    M.ENROLL_DATE,
+	    M.DEL_YN
+	FROM MEMBER M
+	JOIN ICON IT ON M.ICON_NO = IT.NO
+	JOIN MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
 </select>
 </mapper>

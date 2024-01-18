@@ -62,10 +62,13 @@
 		    Q.LONGITUDE, 
 		    Q.DEL_YN,
 		    Q.HEAD_CNT,
+		    LC.NAME AS LOC_NAME,
+		    QC.NAME AS QUE_NAME,
 		    ROUND(AVG(CQ.RATE), 2) AS RATING
-<!--             COUNT(CQ.RATE) AS RATE_CNT -->
 		FROM QUEST Q
 		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
+		JOIN LOCATE_CATEGORY LC ON Q.LOC_CATE_NO = LC.NO
+		JOIN QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 		WHERE 
 			Q.DEL_YN = 'N' 
 				<if test="locCateNo !=null and locCateNo != '' ">
@@ -88,7 +91,11 @@
 					AND QUE_CATE_NO = #{queCateNo}
 				</if>
 				
-		GROUP BY Q.NO, Q.QUE_CATE_NO ,Q.LOC_CATE_NO , Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT,Q.DEL_YN		
+		GROUP BY
+		    Q.NO, Q.QUE_CATE_NO, Q.LOC_CATE_NO, Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE,
+		    Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.DEL_YN, Q.HEAD_CNT,
+		    LC.NAME, QC.NAME   
+
 		ORDER BY RATING DESC
 
     	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
@@ -96,20 +103,46 @@
 	
 	<select id="listAll" resultType="com.kh.questrip.quest.vo.QuestVo">
 		SELECT
-			NO
-			,QUE_CATE_NO
-			,LOC_CATE_NO
-			,TITLE
-			,CONTENT
-			,POINT
-			,DEL_YN
-			,ENROLL_DATE
-			,IMG_PATH
-			,LATITUDE
-			,LONGITUDE
-			,HIT
-			,HEAD_CNT
-		FROM QUEST
+		    Q.NO,
+		    Q.QUE_CATE_NO,
+		    Q.LOC_CATE_NO,
+		    Q.TITLE,
+		    Q.CONTENT,
+		    Q.POINT,
+		    Q.DEL_YN,
+		    Q.ENROLL_DATE,
+		    Q.IMG_PATH,
+		    Q.LATITUDE,
+		    Q.LONGITUDE,
+		    Q.HIT,
+		    Q.HEAD_CNT,
+		    LC.NAME AS LOC_NAME,
+		    QC.NAME AS QUE_NAME
+		FROM
+		    QUEST Q
+		JOIN
+		    LOCATE_CATEGORY LC ON Q.LOC_CATE_NO = LC.NO
+		JOIN
+		    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 	</select>
+	<insert id="insertQuest" useGeneratedKeys="true" keyProperty="questData.no">
+    INSERT INTO QUEST (
+    	NO
+    	, QUE_CATE_NO
+    	, LOC_CATE_NO
+    	, TITLE
+    	, CONTENT
+    	, POINT
+    	, DEL_YN
+    	, ENROLL_DATE
+    	, IMG_PATH
+    	, LATITUDE
+    	, LONGITUDE
+    	, HIT
+    	, HEAD_CNT
+    	)
+    VALUES (
+    	SEQ_QUEST_NO.NEXTVAL
+   	</insert>
 </mapper>
 
