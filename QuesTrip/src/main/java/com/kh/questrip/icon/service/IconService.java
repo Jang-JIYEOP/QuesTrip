@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.questrip.icon.dao.IconDao;
 import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.icon.vo.buyerVo;
+import com.kh.questrip.member.vo.MemberVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,10 @@ public class IconService {
 
 	public int memberIconInsert(buyerVo vo) {
 		return dao.memberIconInsert(vo,sst);
+	}
+
+	public IconVo getIcon(MemberVo vo) {
+		return dao.getIcon(vo, sst);
 	}
 	
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.questrip.icon.service.IconService;
 import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.icon.vo.buyerVo;
+import com.kh.questrip.member.vo.MemberVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
@@ -101,4 +102,20 @@ public class IconController {
 		
 		return map;
 	}
+
+	
+	public Map<String, Object> getIcon(@RequestBody MemberVo vo) {
+			
+		IconVo iconVo = service.getIcon(vo);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("msg", "good");
+		map.put("iconVo", iconVo);
+		if(iconVo == null) {
+			map.put("msg", "bad");
+		}
+		return map;
+	}
+	
 }
