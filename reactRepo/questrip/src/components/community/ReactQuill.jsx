@@ -1,5 +1,5 @@
 import ReactQuill from "react-quill";
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMemory } from "./context/LoginContext";
 
@@ -15,6 +15,27 @@ function Write() {
     setTitle(e.currentTarget.value);
    };
    console.log(content);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8888/questrip/api/community/write", {
+                method: "POST",
+                headers : {
+                  "Content-Type" : "application/json" ,
+                },
+                body : JSON.stringify(boardVo),
+            })
+            .then(resp => resp.json())
+            .then((data) => {
+                if(data > 0){
+                    alert("게시글 작성 성공");
+                    navigate('/community/list');
+                }else{
+                    alert("게시글 작성 실패...");
+                }
+            });
+  
+  }, [boardVo]);
+
   const navigate = useNavigate();
   const ImageHandler = () => {
     const input = document.createElement("input");
@@ -60,21 +81,7 @@ function Write() {
     console.log("타이틀: ",boardVo.title);
     console.log("콘텐츠: ",boardVo.content);
     console.log("멤버넘버: ",boardVo.memberNo);
-    fetch("http://127.0.0.1:8888/questrip/api/community/write", {
-                method: "POST",
-                headers : {
-                  "Content-Type" : "application/json" ,
-                },
-                body : JSON.stringify(boardVo),
-            })
-            .then(resp => resp.json())
-            .then((data) => {
-                if(data.result > 0){
-                        navigate('/community/list');
-                }else{
-                    alert("게시글 작성 실패...");
-                }
-            });
+    
   };
 
   

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.icon.vo.buyerVo;
+import com.kh.questrip.member.vo.MemberVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 @Repository
@@ -44,5 +45,9 @@ public class IconDao {
 
 	public int memberIconInsert(buyerVo vo, SqlSessionTemplate sst) {
 		return sst.insert("IconMapper.memberIconInsert",vo);
+	}
+
+	public IconVo getIcon(MemberVo vo, SqlSessionTemplate sst) {
+		return sst.selectOne("IconMapper.getIcon", vo);
 	}
 }

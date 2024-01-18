@@ -118,4 +118,14 @@
 	    , #{iconNo}
 	)
   </insert>
+  
+  <select id="getIconPhoto" resultType="com.kh.questrip.icon.vo.IconVo">
+  	SELECT 
+  		I.NO,
+  		I.PHOTO
+	FROM ICON I
+	JOIN MEMBER M ON M.ICON_NO = I.NO
+	WHERE M.NO = #{no}
+  </select>
+  
 </mapper>
