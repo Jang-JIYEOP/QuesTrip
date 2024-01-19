@@ -49,4 +49,8 @@ public class NoticeController {
 		System.out.println(service.listAll());
 		return service.listAll();
 	}
+	@PostMapping("write")
+	public void write(@RequestBody NoticeVo vo) {
+		int result = service.write(vo);
+	}
 }
