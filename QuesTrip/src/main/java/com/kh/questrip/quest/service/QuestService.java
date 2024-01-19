@@ -43,6 +43,9 @@ public class QuestService {
 	}
 
 	public int complete(ComQuestVo vo) {
+		String str = vo.getImgPath().replace("D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
+		vo.setImgPath(str);
+		System.out.println(vo);
 		return dao.complete(sst, vo);
 	}
 

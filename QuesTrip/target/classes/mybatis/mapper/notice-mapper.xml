@@ -43,5 +43,19 @@
 	
   </select>
  
+ <insert id="write" >
+  	INSERT INTO NOTICE_BOARD
+(
+    NO, 
+    TITLE,
+    CONTENT,
+)
+VALUES
+(
+    SEQ_NOTICE_BOARD_NO.NEXTVAL
+    ,#{title}
+    ,#{content}
+);
+  </insert>
   
 </mapper>

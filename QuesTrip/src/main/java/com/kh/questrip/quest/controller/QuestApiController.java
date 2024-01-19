@@ -76,6 +76,22 @@ public class QuestApiController {
 		return map;
 	}
 	
+	//퀘스트 완료
+	@PostMapping("complete")
+	public Map<String, Object> complete(ComQuestVo vo, MultipartFile file) throws Exception {
+		
+		String fullPath = comSavFile(file);
+		vo.setImgPath(fullPath);
+		
+		int result = service.complete(vo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		return map;
+	}
+	
 	private String savFile(MultipartFile f) throws Exception {
 		String path = "D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\quest\\img\\";
 		String fileName = f.getOriginalFilename();
@@ -87,16 +103,14 @@ public class QuestApiController {
 		return path+fileName;
 	}
 	
-	//퀘스트 완료
-	@PostMapping("complete")
-	public Map<String, Object> complete(@RequestBody ComQuestVo vo) {
-		int result = service.complete(vo);
-		Map<String, Object> map = new HashMap<>();
-		map.put("msg", "good");
-		if(result != 1) {
-			map.put("msg", "bad");
-		}
-		System.out.println(result);
-		return map;
+	private String comSavFile(MultipartFile f) throws Exception {
+		String path = "D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\com_quest\\img\\";
+		String fileName = f.getOriginalFilename();
+		
+		File target = new File(path+fileName);
+		
+		f.transferTo(target);
+				
+		return path+fileName;
 	}
 }
