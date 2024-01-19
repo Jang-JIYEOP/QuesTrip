@@ -79,4 +79,8 @@ public class DiaryService {
 	public int write(BoardVo vo) {
 		return dao.write(sst, vo);
 	}
+	
+	public List<DiaryVo> pageListDiary(SearchInfoVo vo){
+		return dao.pageListDiary(sst, vo);
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 @Repository
@@ -70,11 +71,16 @@ public class BoardDao {
 		System.out.println("result: "+result);
         return sst.selectOne("BoardMapper.checkIfAlreadyLiked", map);
     }
-
+	
+	//마이페이지 내가 쓴 게시글 조회
+	public List<BoardVo> pageListCommunity(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("BoardMapper.pageListCommunity",vo);
+	}
+	
 	public List<BoardVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("BoardMapper.pageList",vo);
 	}
-
+	
 	public List<BoardVo> listAll(SqlSessionTemplate sst) {
 		return sst.selectList("BoardMapper.listAll");
 	}

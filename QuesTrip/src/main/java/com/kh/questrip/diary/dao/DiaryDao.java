@@ -71,4 +71,9 @@ public class DiaryDao {
 	public int write(SqlSessionTemplate sst, BoardVo vo) {
 		return sst.insert("DiaryMapper.write", vo);
 	}
+	
+	//마이페이지 내가 쓴 일기 조회
+	public List<DiaryVo> pageListDiary(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("DiaryMapper.pageListDiary",vo);
+	}
 }
