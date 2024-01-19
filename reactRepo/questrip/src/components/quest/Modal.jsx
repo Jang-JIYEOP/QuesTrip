@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 
@@ -16,7 +16,7 @@ const customModalStyles = {
     // 여기가 모달창 안쪽영역 
     content: {
       width: "600px",
-      height: "200px",
+      height: "400px",
       zIndex: "150",
       position: "absolute",
       top: "50%",
@@ -34,32 +34,62 @@ const customModalStyles = {
 
   const ModalDiv =  styled.div`
     
-    display: flex;
     width: 100%;
     height: 100%;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap : 80px;
-
-    & > :nth-child(2)  {
-        display: flex;
-        gap: 20px;
-
-        & button {
-            width: 100px;
-        }
-    }  
-   `
-
-
-const Modal = ({ isOpen, closeModal ,title , fecthJava }) => {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 5fr 1fr 1fr 1fr;
+    #img {
+      grid-column: span 4;
+    }
+    .text{
+      grid-column: span 3;
+    }
+    #combtn{
+      grid-column: span 2;
+      margin-left: 190px;
+    }
+    #close{
+      grid-column: span 2;
+      
+      margin-left: 50px;
+      
+    }
     
-    const ajaxJava = async()=> {
-         await fecthJava();
-        closeModal()
+    #fbtn{
+      width: 100%;
+      & input{
+        width: 77px;
+
+      }
 
     }
+    #rate {
+      /* width: 100%;
+      & select {
+        width: 50px;
+        margin-left: 50px
+      } */
+      
+    }
+   `;
+
+
+const Modal = ({ isOpen,closeModal }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+  
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+    
 
     return (
         <ReactModal
@@ -68,12 +98,36 @@ const Modal = ({ isOpen, closeModal ,title , fecthJava }) => {
       >
 
       <ModalDiv>
-            <h1>{title}</h1>
-            <div>
-                <button className='sty02_btn' onClick={ajaxJava}>네</button>
-                <button className='sty01_btn' onClick={closeModal}>아니요</button>
-            </div>
-        </ModalDiv>
+      <div id="img">
+        {selectedImage ? (
+          <img src={selectedImage} alt="Selected" style={{ width: '100%', height: '100%' }} />
+        ) : (
+          '이미지'
+        )}
+      </div>
+          <div className="text">이미지를 선택하세요(필수)</div>
+          <div id="fbtn">
+            <input type="file" name="" id="" onChange={handleFileChange}/>
+          </div>
+          <div className="text">이번 퀘스트는 어떠셨나요? 평점을 매겨주세요!!</div>
+          <div id="rate">
+            <select name="rate">
+              <option value="1">1</option>
+              <option value="1">2</option>
+              <option value="1">3</option>
+              <option value="1">4</option>
+              <option value="1">5</option>
+            </select>
+          </div>
+          <div id="combtn">
+            <button >완료 신청</button>
+
+          </div>
+          <div id="close">
+            <button onClick={closeModal}>닫기</button>
+          </div>
+          
+      </ModalDiv>
         
       </ReactModal>
     );

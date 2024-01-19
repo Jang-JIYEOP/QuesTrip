@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
-import ReactModal from 'react-modal';
 import Modal from './Modal';
 
 const StyledQuestListDiv = styled.div`
@@ -40,6 +39,10 @@ const QuestDetail = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [pointZIndex, setPointZIndex] = useState(1);
 
+  const closeModal = () => {
+    setModalOpen(false);
+    setPointZIndex(1); 
+  };
   const location = useLocation();
   const vo = location.state.vo;
   const { setSearchInfoVo } = useQuestMemory();
@@ -78,7 +81,9 @@ const QuestDetail = () => {
           퀘스트 수행하기
         </button>
 
-        <Modal/>
+        <Modal isOpen={modalOpen} closeModal={closeModal}/>
+
+
 
       </div>
     </StyledQuestListDiv>
