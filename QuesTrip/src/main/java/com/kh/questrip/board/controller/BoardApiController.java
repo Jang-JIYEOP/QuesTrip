@@ -108,14 +108,14 @@ public class BoardApiController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("uploadImage")
     public String savFile(MultipartFile image) throws Exception {
-        String path = "E:\\QuesTrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\community\\img\\";
+        String path = "D:\\dev\\QuesTrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\community\\img\\";
         System.out.println("이미지: "+ image);
         String fileName = image.getOriginalFilename();
         System.out.println("파일이름 : " + (path + fileName));
         File target = new File(path+fileName);
         
         image.transferTo(target);
-        String str = (path + fileName).replace("E:\\QuesTrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
+        String str = (path + fileName).replace("D:\\dev\\QuesTrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
         
         System.out.println("리턴 값: "+ str);
         return str;

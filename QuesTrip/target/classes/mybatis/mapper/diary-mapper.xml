@@ -5,21 +5,23 @@
 <mapper namespace="DiaryMapper">
 
   <insert id="write">
-  	INSERT INTO DIARY
-  	(
-  		NO,
-  		MEMBER_NO,
-  		TITLE,
-  		CONTENT
-  	)
-  	VALUES
-  	(
-  		SEQ_DIARY_NO.NEXTVAL
-  		, #{memberNo}
-  		, #{title}
-  		, #{content}
-  	)
-  </insert>
+	  INSERT INTO DIARY
+	  (
+	    NO,
+	    MEMBER_NO,
+	    TITLE,
+	    CONTENT,
+	    ENROLL_DATE
+	  )
+	  VALUES
+	  (
+	    SEQ_DIARY_NO.NEXTVAL
+	    , #{memberNo}
+	    , #{title}
+	    , #{content}
+	    , SYSDATE
+	  )
+	</insert>
   
   <update id="delete">
   	 UPDATE DIARY

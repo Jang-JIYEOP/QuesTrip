@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLoginMemory } from './context/LoginContext';
+import DOMPurify from 'dompurify';
 
 const StyledCommunityDetailDiv = styled.div`
     width: 100%;
@@ -30,7 +31,6 @@ const StyledCommunityDetailDiv = styled.div`
 const CommunityDetail = () => {
     const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
-    console.log(loginMemberVo);
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
 
     const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
@@ -41,7 +41,10 @@ const CommunityDetail = () => {
     
 
     useEffect(() => {
-        setLoginInfo({no : loginNumber});
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
+        
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
         fetch(`http://127.0.0.1:8888/questrip/api/community/detail/?no=${id}`, {
             method: "POST",
@@ -54,9 +57,7 @@ const CommunityDetail = () => {
             .then(boardDetailVo => {
                 // 서버로부터 받은 데이터를 boardDetailVo 상태 변수에 저장합니다.
                 setBoardDetailVo(boardDetailVo);
-                
             })
-
             .catch(error => {
                 console.error("게시글 상세 정보를 가져오는 중 에러 발생:", error);
             });
@@ -165,6 +166,7 @@ const CommunityDetail = () => {
             console.error("추천 수를 감소시키는 중 에러 발생:", error);
         }
     };
+    const sanitizedHtml = DOMPurify.sanitize(boardDetailVo.content);
     
     const navigate = useNavigate();
 
@@ -176,7 +178,7 @@ const CommunityDetail = () => {
             <div>작성자 : {boardDetailVo.nick}</div>
             <div>추천수 : {boardDetailVo.likesCount}</div>
             <div>조회수 : {boardDetailVo.hit}</div>
-            <div className='main'>{boardDetailVo.content}</div>
+            <div className='main' dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
             {
             loginMemberVo && loginMemberVo.nick === boardDetailVo.nick ? (
                 <button id='like' disabled>추천</button>
