@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.questrip.quest.service.QuestService;
+import com.kh.questrip.quest.vo.ComQuestVo;
 import com.kh.questrip.quest.vo.QuestVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
@@ -84,5 +85,18 @@ public class QuestApiController {
 		f.transferTo(target);
 				
 		return path+fileName;
+	}
+	
+	//퀘스트 완료
+	@PostMapping("complete")
+	public Map<String, Object> complete(@RequestBody ComQuestVo vo) {
+		int result = service.complete(vo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		System.out.println(result);
+		return map;
 	}
 }

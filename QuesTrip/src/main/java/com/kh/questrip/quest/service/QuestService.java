@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.questrip.quest.dao.QuestDao;
 import com.kh.questrip.quest.vo.SearchInfoVo;
+import com.kh.questrip.quest.vo.ComQuestVo;
 import com.kh.questrip.quest.vo.QuestVo;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,10 @@ public class QuestService {
 			throw new IllegalSelectorException();
 		}
 		return dao.write(sst, vo);
+	}
+
+	public int complete(ComQuestVo vo) {
+		return dao.complete(sst, vo);
 	}
 
 }
