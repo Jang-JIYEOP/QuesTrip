@@ -11,6 +11,7 @@ import IconMain from './icon/IconMain';
 import { QuestMemoryProvider } from './community/context/QuestContext';
 import MemberMain from './member/MemberMain';
 import { MemberMemoryProvider } from './community/context/LoginContext';
+import MemberSidebar from './member/myPage/MemberSidebar';
 
 
 const StyledMainDiv = styled.div`
@@ -37,6 +38,7 @@ const Main = () => {
                     <Route path='/notice/*' element={<NoticeMain/>}></Route>
                     <Route path='/icon/*' element={<IconMain/>}></Route>
                     <Route path='/*' element={<ErrorPageNotFound/>}></Route>
+                    <Route path='/myPage' element={<MemberSidebar/>}></Route>
                     <Route></Route>
                 </Routes>
             </QuestMemoryProvider>

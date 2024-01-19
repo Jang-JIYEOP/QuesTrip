@@ -172,5 +172,20 @@
 			,#{headCnt}
 		)
 	</insert>
+	
+	<insert id="complete">
+		INSERT INTO COM_QUEST (
+		    MEMBER_NO
+		    , QUEST_NO
+		    , RATE
+		    )
+		VALUES
+		    (
+		    #{memberNo}
+		    , #{questNo}
+		    , #{rate}
+		    )
+		
+	</insert>
 </mapper>
 
