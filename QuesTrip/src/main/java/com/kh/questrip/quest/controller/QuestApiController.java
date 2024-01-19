@@ -31,11 +31,16 @@ public class QuestApiController {
 	@PostMapping("list")
 	public Map<String, Object> list(@RequestBody SearchInfoVo vo){
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		//pageNo의 값 바꿔주기 페이지 1에 리스트 10를 불러올거면 (페이지와 리미트를 가지고 조회하는 매퍼 하나)
+		//1페이지 : pageNo = 0, limit = 10
+		//2페이지 : pageNo = 10, limit = 10
+		//3페이지 : pageNo = 20, limit = 10
 		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
-		
 		vo.setPageNo(Integer.toString(start));
 		
+		//전체페이지 수 구하기 							(전체 리스트를 조회하여 토탈페이지 수를 구하는 매퍼 하나)
+		//리스트가 121개이고 리미트가 10일 경우 13페이지까지 나와야 함
+		//121을 10(리미트)로 나누면 12.1이 나오고 ceil을 사용하여 소수점 올림 == 13
 		int pageTotal = (int)Math.ceil((double)service.allList(vo).size()/Integer.parseInt(vo.getLimit()));
 			
 		List<QuestVo> questVoList = new ArrayList<QuestVo>();
@@ -45,7 +50,6 @@ public class QuestApiController {
 		map.put("pageTotal", pageTotal);
 		
 		map.put("questVoList",questVoList);
-		System.out.println(questVoList);
 		return map;
 	}
 	
@@ -72,7 +76,7 @@ public class QuestApiController {
 	}
 	
 	private String savFile(MultipartFile f) throws Exception {
-		String path = "C:\\kh_dev\\questripRepo\\QuesTrip\\src\\main\\webapp\\resources\\upload\\quest\\img\\";
+		String path = "D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\quest\\img\\";
 		String fileName = f.getOriginalFilename();
 		
 		File target = new File(path+fileName);
