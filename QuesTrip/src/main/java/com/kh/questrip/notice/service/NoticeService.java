@@ -29,5 +29,9 @@ public class NoticeService {
 	public List<NoticeVo> listAll() {
 		return dao.listAll(sst);
 	}
+	public int write(NoticeVo vo) {
+
+		return dao.write(vo,sst);
+	}
 	
 }
