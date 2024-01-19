@@ -33,6 +33,8 @@ const customModalStyles = {
 
 
   const ModalDiv =  styled.div`
+  form{
+
     
     width: 100%;
     height: 100%;
@@ -60,9 +62,9 @@ const customModalStyles = {
       width: 100%;
       & input{
         width: 77px;
-
+        
       }
-
+      
     }
     #rate {
       /* width: 100%;
@@ -70,18 +72,21 @@ const customModalStyles = {
         width: 50px;
         margin-left: 50px
       } */
+    }
       
     }
-   `;
+    `;
 
-
-const Modal = ({ isOpen,closeModal }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-  
-    if (file) {
+    
+    const Modal = ({ isOpen,closeModal, questNo, memberNo}) => {
+      const [selectedImage, setSelectedImage] = useState(null);
+      const [fileObj,setFileObj] = useState();
+      
+      const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFileObj(event.target.files[0]);
+        
+        if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         setSelectedImage(reader.result);
@@ -90,6 +95,32 @@ const Modal = ({ isOpen,closeModal }) => {
     }
   };
     
+  const handleSubmit = (event) =>{
+    console.log("함수실행");
+    event.preventDefault();
+
+    const rate = event.target.rate.value;
+    
+    const fd = new FormData();
+    fd.append("file", fileObj);
+    fd.append("questNo", questNo);
+    fd.append("rate" , rate);
+    fd.append("memberNo" , memberNo);
+    
+    fetch("http://127.0.0.1:8888/questrip/api/quest/complete" , {
+        method: "POST",
+        body : fd ,
+    })
+    .then( resp => resp.json() )
+    .then( data => {
+        if(data.msg === "good"){
+            alert("퀘스트 작성 완료 !");
+        }else{
+            alert("퀘스트 작성 실패 ...");
+        }
+    } )
+    ;
+}
 
     return (
         <ReactModal
@@ -98,16 +129,18 @@ const Modal = ({ isOpen,closeModal }) => {
       >
 
       <ModalDiv>
+        <form onSubmit={handleSubmit}>
+
       <div id="img">
         {selectedImage ? (
           <img src={selectedImage} alt="Selected" style={{ width: '100%', height: '100%' }} />
-        ) : (
-          '이미지'
-        )}
+          ) : (
+            '이미지'
+            )}
       </div>
           <div className="text">이미지를 선택하세요(필수)</div>
           <div id="fbtn">
-            <input type="file" name="" id="" onChange={handleFileChange}/>
+            <input type="file" multiple name="file" onChange={handleFileChange}/>
           </div>
           <div className="text">이번 퀘스트는 어떠셨나요? 평점을 매겨주세요!!</div>
           <div id="rate">
@@ -120,12 +153,13 @@ const Modal = ({ isOpen,closeModal }) => {
             </select>
           </div>
           <div id="combtn">
-            <button >완료 신청</button>
+            <input type="submit" value="완료 신청"/>
 
           </div>
           <div id="close">
-            <button onClick={closeModal}>닫기</button>
+            <button type='button' onClick={closeModal}>닫기</button>
           </div>
+            </form>
           
       </ModalDiv>
         

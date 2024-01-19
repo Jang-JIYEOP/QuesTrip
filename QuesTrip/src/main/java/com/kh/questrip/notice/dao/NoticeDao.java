@@ -19,5 +19,8 @@ public class NoticeDao {
 	public List<NoticeVo> listAll(SqlSessionTemplate sst) {
 		return sst.selectList("NoticeMapper.listAll");
 	}
+	public int write(NoticeVo vo, SqlSessionTemplate sst) {
+		return sst.insert("NoticeMapper.write",vo);
+	}
 
 }

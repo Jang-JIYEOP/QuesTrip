@@ -36,6 +36,8 @@ const StyledQuestListDiv = styled.div`
 
 
 const QuestDetail = () => {
+  const loginNumber = sessionStorage.getItem('loginInfo');
+  
   const [modalOpen, setModalOpen] = useState(false);
   const [pointZIndex, setPointZIndex] = useState(1);
 
@@ -81,7 +83,7 @@ const QuestDetail = () => {
           퀘스트 수행하기
         </button>
 
-        <Modal isOpen={modalOpen} closeModal={closeModal}/>
+        <Modal isOpen={modalOpen} closeModal={closeModal} questNo = {vo.no} memberNo = {loginNumber}/>
 
 
 
