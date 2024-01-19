@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.questrip.board.service.BoardService;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.diary.vo.DiaryVo;
+import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.member.vo.MemberVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
@@ -133,4 +135,24 @@ public class BoardApiController {
 		System.out.println("실행"+service.listAll());
 		return service.listAll();
 	}
+	
+	//마이페이지에서 내가 쓴 자유게시판 글 조회
+	@PostMapping("myCommunityList")
+	public Map<String, Object> myCommunityList(@RequestBody SearchInfoVo vo) {
+		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
+		
+		vo.setPageNo(Integer.toString(start));
+		
+		int pageTotal = (int)Math.ceil((double)service.list(vo)/Integer.parseInt(vo.getLimit()));
+
+		List<BoardVo> voList = service.pageListCommunity(vo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageTotal", pageTotal);
+		map.put("voList", voList);
+		return map;
+	}
+	
+	
+	
 }

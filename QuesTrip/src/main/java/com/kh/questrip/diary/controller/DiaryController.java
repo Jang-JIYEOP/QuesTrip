@@ -129,5 +129,24 @@ public class DiaryController {
 		System.out.println(service.listAll());
 		return service.listAll();
 	}
+	
+	//마이페이지에서 내가 쓴 일기 조회
+	@PostMapping("/myDiaryList")
+	public Map<String, Object> myDiaryList(@RequestBody SearchInfoVo vo) {
+		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
+		
+		vo.setPageNo(Integer.toString(start));
+		
+		int pageTotal = (int)Math.ceil((double)service.list(vo)/Integer.parseInt(vo.getLimit()));
+
+		List<DiaryVo> voList = service.pageListDiary(vo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageTotal", pageTotal);
+		map.put("voList", voList);
+		return map;
+	}
+	
+	
 
 }

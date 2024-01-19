@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.questrip.board.dao.BoardDao;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
@@ -75,10 +76,15 @@ public class BoardService {
         return dao.checkIfAlreadyLiked(sst, map);
     }
 
+	
 	public List<BoardVo> pageList(SearchInfoVo vo) {
 		return dao.pageList(sst, vo);
 	}
-
+	
+	public List<BoardVo> pageListCommunity(SearchInfoVo vo){
+		return dao.pageListCommunity(sst, vo);
+	}
+	
 	public List<BoardVo> listAll() {
 		return dao.listAll(sst);
 	}

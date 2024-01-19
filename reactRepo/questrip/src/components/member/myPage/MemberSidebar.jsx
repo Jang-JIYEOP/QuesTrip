@@ -15,12 +15,14 @@ const StyledMemberSidebarDiv = styled.div`
 `;
 
 const TabDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
+    width: 102%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 `;
 
 const ListDiv = styled.div`
+    
   padding: 20px;
 `;
 
@@ -52,19 +54,19 @@ const MemberSidebar = () => {
     const [activeTab, setActiveTab] = useState(tabs[0].key);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetchData(activeTab);
-    }, [activeTab]);
+    // useEffect(() => {
+    //     fetchData(activeTab);
+    // }, [activeTab]);
 
-    const fetchData = async (tab) => {
-        try {
-        const response = await fetch(`http://your-backend-api/${tab}`);
-        const result = await response.json();
-        setData(result);
-        } catch (error) {
-        console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchData = async (tab) => {
+    //     try {
+    //     const response = await fetch(`http://your-backend-api/${tab}`);
+    //     const result = await response.json();
+    //     setData(result);
+    //     } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //     }
+    // };
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
