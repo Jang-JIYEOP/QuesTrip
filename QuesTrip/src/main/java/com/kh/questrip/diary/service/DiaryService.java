@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.kh.questrip.board.vo.BoardVo;
 import com.kh.questrip.diary.dao.DiaryDao;
 import com.kh.questrip.diary.vo.DiaryDetailVo;
 import com.kh.questrip.diary.vo.DiaryVo;
@@ -72,5 +73,10 @@ public class DiaryService {
 
 	public List<DiaryVo> listAll() {
 		return dao.listAll(sst);
+	}
+	
+	//일기 작성
+	public int write(BoardVo vo) {
+		return dao.write(sst, vo);
 	}
 }

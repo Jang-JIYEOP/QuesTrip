@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLoginMemory } from '../community/context/LoginContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 const StyledDiaryDetailDiv = styled.div`
     width: 100%;
@@ -166,6 +167,7 @@ const DiaryDetail = () => {
             console.error("추천 수를 감소시키는 중 에러 발생:", error);
         }
     };
+    const sanitizedHtml = DOMPurify.sanitize(diaryDetailVo.content);
     
     const navigate = useNavigate();
 
@@ -177,7 +179,7 @@ const DiaryDetail = () => {
             <div>작성자 : {diaryDetailVo.nick}</div>
             <div>추천수 : {diaryDetailVo.likesCount}</div>
             <div>조회수 : {diaryDetailVo.hit}</div>
-            <div className='main'>{diaryDetailVo.content}</div>
+            <div className='main' dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
             {
             loginMemberVo && loginMemberVo.nick === diaryDetailVo.nick ? (
                 <button id='like' disabled>추천</button>

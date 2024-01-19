@@ -1,5 +1,6 @@
 package com.kh.questrip.diary.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
@@ -92,22 +94,29 @@ public class DiaryController {
         
     }
 	
-
-//	//일기 작성하기
-//	@PostMapping("write")
-//	public Map<String, String> write(@RequestBody DiaryVo vo, HttpSession session){
-//		Map<String, String> map = new HashMap<String, String>();
-//		int result = service.write(vo);
-//		
-//		if(result == 1) {
-//			map.put("msg", "good");
-//		}
-//		else {
-//			map.put("msg", "bad");
-//		}
-//		
-//		return map;
-//	}
+	//일기 작성
+    @PostMapping("write")
+    public int write(@RequestBody BoardVo vo) {
+       
+            return service.write(vo);
+    }
+    
+    //이미지 업로드, 이미지 URL 반환
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("uploadImage")
+    public String savFile(MultipartFile image) throws Exception {
+        String path = "D:\\dev\\QuesTrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\diary\\img\\";
+        System.out.println("이미지: "+ image);
+        String fileName = image.getOriginalFilename();
+        System.out.println("파일이름 : " + (path + fileName));
+        File target = new File(path+fileName);
+        
+        image.transferTo(target);
+        String str = (path + fileName).replace("D:\\dev\\QuesTrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
+        
+        System.out.println("리턴 값: "+ str);
+        return str;
+     }
 	
 	//일기 삭제
 	@PostMapping("detail/delete")
