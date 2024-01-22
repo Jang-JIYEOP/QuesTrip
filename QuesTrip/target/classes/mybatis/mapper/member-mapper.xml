@@ -41,7 +41,7 @@
 	    M.POINT,
 	    M.ENROLL_DATE,
 	    M.DEL_YN,
-	    i.PHOTO AS ICON_PHOTO
+	    i.PHOTO
 	FROM
 	    MEMBER M
 	JOIN
@@ -57,9 +57,15 @@
 	<if test="no !=null and no != ''">
 		AND M.NO = #{no}
 	</if>
-		
-	
 </select>
+
+<update id="edit">
+	UPDATE MEMBER SET
+		NICK = #{nick},
+		PWD = #{pwd}
+	WHERE NO = #{no}
+</update>
+
 
 <select id="dupCheck" resultType="Integer">
 	SELECT

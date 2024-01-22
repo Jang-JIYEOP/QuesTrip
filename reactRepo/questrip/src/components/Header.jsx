@@ -20,6 +20,12 @@ const StyledHeaderDiv = styled.div`
         width: 100%;
     }
 
+    img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; // or contain
+            }
+
     table{
         width: 100%;
         display: grid;
@@ -91,7 +97,6 @@ const Header = () => {
     useEffect( ()=>{
         setLoginInfo({no : loginNumber});
     }, [] )
-
     return (
         <StyledHeaderDiv>
             <div className='logoArea' onClick={() => { navigate("/") }}></div>
@@ -107,13 +112,14 @@ const Header = () => {
                 </form>
             </StyledSearchDiv>
             
+            
             {
                 sessionStorage.getItem('loginInfo') // 세션 스토리지에 "MemberVo" 값이 있는지 확인
                     ?
                     <div>
                         <div class="profile-grid">
                             <div class="icon">
-                                <img src={loginMemberVo.imgPath} alt="아이콘" />
+                                <img src={loginMemberVo.photo} alt="아이콘" />
                             </div>
                             <div class="title">{loginMemberVo.memberTitle}</div>
                             <div class="nickname">{loginMemberVo.nick}</div>

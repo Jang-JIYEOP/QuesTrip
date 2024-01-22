@@ -28,4 +28,8 @@ public class MemberDao {
 	public List<MemberVo> list(SqlSessionTemplate sst) {
 		return sst.selectList("MemberMapper.list");
 	}
+
+	public int edit(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberMapper.edit", vo);
+	}
 }

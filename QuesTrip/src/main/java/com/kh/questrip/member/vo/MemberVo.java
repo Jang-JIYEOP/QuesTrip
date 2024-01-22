@@ -19,5 +19,6 @@ public class MemberVo {
 	private String enrollDate;
 	private String emailCode;
 	private String memberTitle;
+	private String photo;
 	
 }
