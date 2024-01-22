@@ -50,4 +50,13 @@ public class IconDao {
 	public IconVo getIcon(MemberVo vo, SqlSessionTemplate sst) {
 		return sst.selectOne("IconMapper.getIcon", vo);
 	}
+
+	public List<IconVo> listAll(SqlSessionTemplate sst) {
+		return sst.selectList("IconMapper.listAll");
+	}
+
+	public int insert(SqlSessionTemplate sst, IconVo vo) {
+
+		return sst.insert("IconMapper.insert",vo);
+	}
 }

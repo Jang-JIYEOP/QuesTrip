@@ -128,4 +128,30 @@
 	WHERE M.NO = #{no}
   </select>
   
+  <select id="listAll" resultType="com.kh.questrip.icon.vo.IconVo">
+  	SELECT
+  		NO
+  		, TITLE
+  		, PRICE
+  		, PHOTO
+  		, DEL_YN
+  	FROM ICON
+  	WHERE DEL_YN = 'N'
+  </select>
+  
+  <insert id="insert">
+  	INSERT INTO ICON (
+  		NO
+  		, TITLE
+  		, PRICE
+  		, PHOTO
+  	)
+  	VALUES (
+  		SEQ_ICON_NO.NEXTVAL
+  		, #{title}
+  		, #{price}
+  		, #{photo}
+  	)
+  		
+  </insert>
 </mapper>

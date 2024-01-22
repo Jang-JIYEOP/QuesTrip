@@ -6,6 +6,7 @@ const StyledWriteDiv = styled.div`
     width: 60%;
     height: 100%;
 
+    padding-right: 20%;
     & > form {
         width: 100%;
         height: 100%;
