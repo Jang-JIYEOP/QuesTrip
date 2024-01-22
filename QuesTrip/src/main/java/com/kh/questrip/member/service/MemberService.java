@@ -32,6 +32,10 @@ public class MemberService {
 	public List<MemberVo> list() {
 		return dao.list(sst);
 	}
+
+	public int edit(MemberVo vo) {
+		return dao.edit(sst, vo);
+	}
 	
 
 }

@@ -57,6 +57,15 @@ public class MemberApiController {
 		return map;
 	}
 	
+	//정보 수정
+	@PostMapping("edit")
+	public int edit(@RequestBody MemberVo vo) throws Exception{
+		System.out.println("정보수정 vo: "+ vo);
+		String verificationCode = emailCode();
+	    vo.setEmailCode(verificationCode);
+		return service.edit(vo);
+	}
+	
 	//중복확인
 	@PostMapping("join/dupCheck")
 	public Map<String, Object> dupCheck(@RequestBody MemberVo vo){
