@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commentMapper">
+	
+	<select id="list" resultType="Integer">
+		SELECT
+	    	COUNT(NO) AS CNT
+	    
+		FROM 
+		    COMMT
+		
+		WHERE 
+	    	DEL_YN = 'N'
+	</select>
+	
+	<select id="best" resultType="com.kh.questrip.comment.vo.CommentVo">
+		SELECT
+		    CB.NO AS BOARD_NO,
+		    CB.MEMBER_NO,
+		    CB.CONTENT,
+		    M.NICK,
+		    CB.ENROLL_DATE,
+		    CB.DEL_YN,
+		    COUNT(CL.MEMBER_NO) AS LIKES_COUNT
+		FROM
+		    COMMT CB
+		JOIN
+		    MEMBER M ON CB.MEMBER_NO = M.NO
+		LEFT JOIN
+		    COMMT_LIKE CL ON CB.NO = CL.COMMT_NO
+		WHERE
+		    CB.DEL_YN = 'N'
+		GROUP BY
+		    CB.NO,
+		    CB.MEMBER_NO,
+		    CB.CONTENT,
+		    M.NICK,
+		    CB.ENROLL_DATE,
+		    CB.DEL_YN
+		ORDER BY
+		    LIKES_COUNT DESC
+		FETCH FIRST 3 ROWS ONLY
+  </select>
+  
+  <select id="pageList" resultType="com.kh.questrip.comment.vo.CommentVo">
+  		
+	  	SELECT
+			CB.NO AS "NO",
+			M.NICK AS "MEMBER_NO",
+			CB.CONTENT AS "CONTENT",
+			CB.ENROLL_DATE AS "ENROLL_DATE",
+			CB.DEL_YN AS "DEL_YN",
+			COUNT(CL.MEMBER_NO) AS "LIKES_COUNT"
+		FROM
+			COMMT CB
+		JOIN
+			MEMBER M ON CB.MEMBER_NO = M.NO
+		LEFT JOIN
+			COMMT_LIKE CL ON CB.NO = CL.COMMT_NO
+		WHERE
+			CB.DEL_YN = 'N'
+			AND BOARD_NO = #{boardNo}
+		GROUP BY
+			CB.NO,
+			M.NICK,
+			CB.CONTENT,
+			CB.ENROLL_DATE,
+			CB.DEL_YN,
+			CB.MEMBER_NO
+			ORDER BY
+			CB.NO DESC
+	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+  </select>
+	
+</mapper>

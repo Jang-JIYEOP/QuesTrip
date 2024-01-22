@@ -28,27 +28,34 @@
 </insert>
 	
 <select id="login" resultType="com.kh.questrip.member.vo.MemberVo">
-	SELECT 
-	    NO
-	    ,MEMBER_TITLE_NO
-	    ,ICON_NO
-	    ,ID
-	    ,PWD
-	    ,NICK
-	    ,EMAIL
-	    ,POINT
-	    ,ENROLL_DATE
-	    ,DEL_YN
-	FROM MEMBER
-	WHERE 
-	    DEL_YN = 'N'
+	
+	SELECT
+	    M.NO,
+	    M.MEMBER_TITLE_NO,
+	    MT.TITLE AS MEMBER_TITLE,
+	    M.ICON_NO,
+	    M.ID,
+	    M.PWD,
+	    M.NICK,
+	    M.EMAIL,
+	    M.POINT,
+	    M.ENROLL_DATE,
+	    M.DEL_YN,
+	    i.PHOTO AS ICON_PHOTO
+	FROM
+	    MEMBER M
+	JOIN
+	    ICON i ON M.ICON_NO = i.NO
+    LEFT JOIN MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
+    WHERE 
+	    M.DEL_YN = 'N'
 	<if test="no ==null || no == ''">
-		AND ID = #{id}
-	    AND PWD = #{pwd}
+		AND M.ID = #{id}
+	    AND M.PWD = #{pwd}
 	</if>
 
 	<if test="no !=null and no != ''">
-		AND NO = #{no}
+		AND M.NO = #{no}
 	</if>
 		
 	

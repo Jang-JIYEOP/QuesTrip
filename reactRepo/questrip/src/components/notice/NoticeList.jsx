@@ -144,7 +144,7 @@ useEffect( () => {
             </table>
             <div id="pageArea">
                 <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
-
+                
             </div>
         </StyledNoticeListDiv>
     );

@@ -12,4 +12,5 @@ public class SearchInfoVo {
 	private String pageNo;
 	private String limit;
 	private String memberNo;
+	private String boardNo;
 }

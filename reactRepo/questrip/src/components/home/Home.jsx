@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
 import Page from '../page/Page';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -19,8 +20,42 @@ const StyledHomeDiv = styled.div`
         width: 100%;
         height: 100%;
         border: 1px solid black;
+
+        & > table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px; /* 모서리 둥글게 */
+
+        &  tr {
+            height: 40px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+
+            &:hover {
+                background-color: #87CEEB; /* 하늘색 */
+            }
+        }
+
+        & > thead > tr > th {
+            padding: 10px;
+            background-color: #4682B4; /* 더 진한 파란색 */
+            color: white;
+            text-align: left;
+        }
+
+        & > tbody > .bestThree {
+            background-color: #d3d3d3; /* 연한 회색 */
+        }
+
+        & > tbody > tr > td {
+            padding: 10px;
+        }
+    }
     }
 
+    
     
     & > div:nth-child(2){
         width: 100%;
@@ -76,6 +111,22 @@ const Home = () => {
     
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
+    const [boardBestList, setBoardBestList] = useState([]);
+
+    const loadBoardVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/community/list", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json", 
+            },
+        body : JSON.stringify(searchInfoVo),
+        })
+        .then(resp => resp.json())
+            .then(data => {
+                setBoardBestList(data.bestList);
+            });
+    }
+
     useEffect(() => {
         setSearchInfoVo({
           locCateNo : 1,
@@ -92,6 +143,7 @@ const Home = () => {
             limit : 10,
         });
       };
+    const navigate = useNavigate();
 
     const handlePClick = (questVo) => {
         setSelectedQuest(questVo);
@@ -100,9 +152,45 @@ const Home = () => {
         }
     };
 
+    useEffect( ()=>{
+        loadBoardVoList();
+    }, [])
+
+    const handleRowClick = (id) => {
+        // 클릭한 게시글의 상세 페이지로 이동
+        navigate(`/community/detail/${id}`);
+        
+    };
+
     return (
         <StyledHomeDiv>
-            <div>자유게시판</div>
+            <div>
+                <b>자유게시판</b>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>조회수</th>
+                            <th>추천수</th>
+                            <th>작성일시</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            boardBestList.map(vo => 
+                            <tr className= "bestThree" key={vo.no} onClick={() => handleRowClick(vo.no)}>
+                                <td>{vo.title}</td>
+                                <td>{vo.nick}</td>
+                                <td>{vo.hit}</td>
+                                <td>{vo.likesCount}</td>
+                                <td>{vo.enrollDate}</td>
+                            </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
             <div>
                 <div>
                     <b id='questHead'>평점 순 퀘스트 </b>

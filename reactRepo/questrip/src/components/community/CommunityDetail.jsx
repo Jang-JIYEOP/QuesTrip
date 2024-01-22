@@ -3,13 +3,14 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLoginMemory } from './context/LoginContext';
 import DOMPurify from 'dompurify';
+import CommtListItem from '../commt/commtListItem';
 
 const StyledCommunityDetailDiv = styled.div`
     width: 100%;
     height: 100%;
     display: grid;
     grid-template-columns: 5fr 2fr 2fr ;
-    grid-template-rows: 1fr 1fr 20fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 20fr 1fr 20fr 1fr 1fr ;
     border: 1px solid black;
     text-align: center;
     & > div{                        //제목, 내용 보기 위해 사용하는 border
@@ -25,6 +26,10 @@ const StyledCommunityDetailDiv = styled.div`
         grid-column: span 3;
         place-items: center;
     }
+
+    #reply{
+        grid-column: span 3;
+    }
 `;
 
 
@@ -34,10 +39,17 @@ const CommunityDetail = () => {
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
 
     const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
-    
+    const [commtList, setCommtList] = useState([]);
     const [boardVo, setBoardVo] = useState({
         no: id
     });
+    const [searchInfoVo , setSearchInfoVo] = useState({
+
+        pageNo : 1,
+        limit : 7,
+        boardNo : id,
+    }
+    );
     
 
     useEffect(() => {
@@ -46,12 +58,13 @@ const CommunityDetail = () => {
         }
         
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
-        fetch(`http://127.0.0.1:8888/questrip/api/community/detail/?no=${id}`, {
+        fetch(`http://127.0.0.1:8888/questrip/api/community/detail`, {
             method: "POST",
             headers : {
                 "Content-Type" : "application/json" ,
             },
             body : JSON.stringify(boardVo)
+            
         })
             .then(resp => resp.json())
             .then(boardDetailVo => {
@@ -62,7 +75,26 @@ const CommunityDetail = () => {
                 console.error("게시글 상세 정보를 가져오는 중 에러 발생:", error);
             });
 
+        
     }, [id]);
+
+    useEffect( ()=>{
+        fetch(`http://127.0.0.1:8888/questrip/api/comment/list`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(searchInfoVo)
+        })
+        .then(resp => resp.json())
+        .then(commentList => {
+            // 서버로부터 받은 데이터를 commentList 상태 변수에 저장합니다.
+            setCommtList(commentList);
+        })
+        .catch(error => {
+            console.error("댓글 목록을 가져오는 중 에러 발생:", error);
+        });
+    }, [id])
 
     //게시글 삭제
     const handleDeleteButton = () => {
@@ -179,6 +211,7 @@ const CommunityDetail = () => {
             <div>추천수 : {boardDetailVo.likesCount}</div>
             <div>조회수 : {boardDetailVo.hit}</div>
             <div className='main' dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
+            
             {
             loginMemberVo && loginMemberVo.nick === boardDetailVo.nick ? (
                 <button id='like' disabled>추천</button>
@@ -187,11 +220,16 @@ const CommunityDetail = () => {
                 <button id='like' onClick={handleLikeButtonClick}>추천</button>
             )
              }
-            <div></div>
-            {/* 세션 스토리지의 id값과 boardDetailVo의 memberNo 비교 */}
+
+            <div id='reply'>
+                {commtList.map( (vo) => {
+                    return <CommtListItem key = {vo.no} vo = {vo}/>
+                })
+            }
+            </div>
             {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === boardDetailVo.nick ? (
-            <>
-                <div className='login'>수정</div>
+            <>  <div></div>
+                <div className='login'>수정</div>   
                 <div className='login' onClick={handleDeleteButton}>삭제</div>
             </>
             ) : 
@@ -199,7 +237,6 @@ const CommunityDetail = () => {
                 <div></div>
                 <div></div>
             </>}
-
             <div></div>
             <div></div>
             <div onClick={ ()=> {

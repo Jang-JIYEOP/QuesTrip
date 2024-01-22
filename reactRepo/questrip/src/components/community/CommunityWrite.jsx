@@ -34,16 +34,13 @@ const CommunityWrite = () => {
     console.log(content);
     return (
         <StyledCommunityWriteDiv>
-            
-                <div className="quill-editor">
-                    <Write
-                        theme="snow"
-                        value={content}
-                        onChange={handleQuillChange}
-                    />
-                </div>
-            
-            
+            <div className="quill-editor">
+                <Write
+                    theme="snow"
+                    value={content}
+                    onChange={handleQuillChange}
+                />
+            </div>
         </StyledCommunityWriteDiv>
     );
 };
