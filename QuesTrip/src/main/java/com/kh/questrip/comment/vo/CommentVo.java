@@ -10,5 +10,6 @@ public class CommentVo {
 	private String content;
 	private String enrollDate;
 	private String delYn;
+	private String likesCount;
 	
 }
