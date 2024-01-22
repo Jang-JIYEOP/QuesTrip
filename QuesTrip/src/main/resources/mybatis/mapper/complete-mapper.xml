@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CompleteMapper">
+
+
+	<select id="listAll">
+		SELECT COUNT(*) FROM COM_QUEST
+	</select>
+	
+	<select id="pageList" resultType="com.kh.questrip.complete.vo.CompleteVo">
+	        SELECT
+			    cq.MEMBER_NO,
+			    m.NICK AS MEMBER_NAME,
+			    cq.QUEST_NO,
+			    q.TITLE AS QUEST_NAME,
+			    cq.RATE,
+			    cq.IMG_PATH AS COM_QUEST_IMG_PATH,
+			    cq.COM_TIME
+			FROM
+			    COM_QUEST cq
+			JOIN
+			    MEMBER m ON cq.MEMBER_NO = m.NO
+			JOIN
+			    QUEST q ON cq.QUEST_NO = q.NO
+	</select>
+	
+</mapper>
+

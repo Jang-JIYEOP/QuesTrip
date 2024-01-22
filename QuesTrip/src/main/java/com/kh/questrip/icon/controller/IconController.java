@@ -1,15 +1,18 @@
 package com.kh.questrip.icon.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.questrip.icon.service.IconService;
 import com.kh.questrip.icon.vo.IconVo;
@@ -117,5 +120,38 @@ public class IconController {
 		}
 		return map;
 	}
+	@GetMapping("listall")
+	public List<IconVo> listAll() {
+		System.out.println("sds"+service.listAll());
+		return service.listAll();
+		
+	}
+	@PostMapping("insert")
+	public Map<String, String> insert(IconVo vo, MultipartFile file) throws Exception {
+		System.out.println(vo);
+		System.out.println(file.getOriginalFilename());
+		String fullPath = savFile(file);
+		
+		vo.setPhoto(fullPath);
+		
+		int result = service.write(vo);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		System.out.println(result);
+		return map;
+	}
 	
+	private String savFile(MultipartFile f) throws Exception {
+		String path = "D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp\\resources\\upload\\icon\\img\\";
+		String fileName = f.getOriginalFilename();
+		
+		File target = new File(path+fileName);
+		
+		f.transferTo(target);
+				
+		return path+fileName;
+	}
 }

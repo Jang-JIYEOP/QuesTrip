@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useQuestMemory } from '../../community/context/QuestContext';
 import Page from '../../page/Page';
+import { useNavigate } from 'react-router-dom';
 
 const StyledListDiv = styled.div`
     display: flex;
     flex-direction: column;
-    height: 85%;
+    width: 100%;
+    height: 100%;
 
     & > table {
         width: 100%;
@@ -45,14 +47,16 @@ const StyledListDiv = styled.div`
 const QuestList = () => {
 
     const { questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange } = useQuestMemory();
-
+    const navigate = useNavigate();
     useEffect(() => {
       setSearchInfoVo({
         pageNo: 1,
-        limit: 15,
+        limit: 10,
       });
     },[]);
-
+    const handleClickQuestWriter = () => {
+        navigate('/quest/write');
+    };
     return (
         <StyledListDiv>
             <table>

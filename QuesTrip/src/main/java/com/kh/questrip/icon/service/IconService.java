@@ -58,5 +58,16 @@ public class IconService {
 	public IconVo getIcon(MemberVo vo) {
 		return dao.getIcon(vo, sst);
 	}
+
+	public List<IconVo> listAll() {
+		return dao.listAll(sst);
+	}
+
+	public int write(IconVo vo) {
+		String str = vo.getPhoto().replace("D:\\dev\\questrip\\QuesTrip\\src\\main\\webapp", "http://127.0.0.1:8888/questrip/");
+		vo.setPhoto(str);
+		
+		return dao.insert(sst,vo);
+	}
 	
 }

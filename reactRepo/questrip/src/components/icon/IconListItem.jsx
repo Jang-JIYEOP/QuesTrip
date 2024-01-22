@@ -19,6 +19,11 @@ const StyledWrqpDiv = styled.div`
         & > #img {
             grid-row: span 3;
 
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; // or contain
+      }
         }
     }
 `;
@@ -103,10 +108,13 @@ const IconListItem = ({vo, type}) => {
         updateVo();
     }, [buyerVo] );
 
+    
     return (
         <StyledWrqpDiv>
             <div id="item">
-                <div id="img">사진</div>
+                <div id="img">
+                    <img src={vo.photo} alt="아이콘 이미지" />
+                </div>
                 <div id="title">{vo.title}</div>
                 <div id="price">{vo.price}</div>
                 

@@ -38,7 +38,6 @@ const StyledIconListDiv = styled.div`
         & > div {
             width: 80%;
           height: 80%;
-          border: 1px solid red;
           
         }
         

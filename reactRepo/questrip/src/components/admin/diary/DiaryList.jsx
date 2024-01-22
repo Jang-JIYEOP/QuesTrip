@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 const StyledListDiv = styled.div`
     display: flex;
     flex-direction: column;
-    height: 85%;
+    width: 100%;
+    height: 100%;
 
     & > table {
         width: 100%;
