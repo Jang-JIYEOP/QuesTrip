@@ -16,13 +16,13 @@ const StyledWrqpDiv = styled.div`
         grid-template-columns: 2fr 3fr;
         grid-template-rows: 1fr 1fr;
         & > #img {
-      grid-row: span 3;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; // or contain
-      }
-    }
+            grid-row: span 3;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; // or contain
+            }
+        }
     }
 `;
 const IconListItem = ({vo}) => {

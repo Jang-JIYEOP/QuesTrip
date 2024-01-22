@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.comment.service.CommentService;
+import com.kh.questrip.complete.service.CompleteService;
+import com.kh.questrip.complete.vo.CompleteVo;
 import com.kh.questrip.quest.vo.QuestVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
@@ -22,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class CompleteController {
-	private final CommentService service;
+	private final CompleteService service;
 
 	@PostMapping("list")
 	public Map<String, Object> list(@RequestBody SearchInfoVo vo){
@@ -32,13 +34,13 @@ public class CompleteController {
 		
 		int pageTotal = (int)Math.ceil((double)service.allList()/Integer.parseInt(vo.getLimit()));
 			
-		List<QuestVo> questVoList = new ArrayList<QuestVo>();
+		List<CompleteVo> questVoList = new ArrayList<CompleteVo>();
 
 		questVoList = service.pageList(vo);		
 		
 		map.put("pageTotal", pageTotal);
 		
-		map.put("questVoList",questVoList);
+		map.put("voList",questVoList);
 		return map;
 	}
 
