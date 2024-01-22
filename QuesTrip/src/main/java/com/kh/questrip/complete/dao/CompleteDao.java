@@ -5,7 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.questrip.quest.vo.QuestVo;
+import com.kh.questrip.complete.vo.CompleteVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 @Repository
@@ -15,7 +15,7 @@ public class CompleteDao {
 		return sst.selectOne("CompleteMapper.listAll");
 	}
 
-	public List<QuestVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
+	public List<CompleteVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("CompleteMapper.pageList",vo);
 	}
 

@@ -81,7 +81,7 @@ const loadLoginAdmin = () => {
         .then((data) => {
             console.log(data.msg);
             if(data.msg === "good"){
-                navigate("/admin/list");
+                navigate("/admin/member/list");
             }else{
                 alert("로그인 실패 ...");
             }

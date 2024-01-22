@@ -149,14 +149,16 @@
 	
 	<insert id="complete">
 		INSERT INTO COM_QUEST (
-		    MEMBER_NO
+			NO
+		    , MEMBER_NO
 		    , QUEST_NO
 		    , RATE
 		    , IMG_PATH
 		    )
 		VALUES
 		    (
-		    #{memberNo}
+		    SEQ_COM_QUEST_NO.NEXTVAL
+		    , #{memberNo}
 		    , #{questNo}
 		    , #{rate}
 		    , #{imgPath}
