@@ -43,5 +43,17 @@ public class CompleteController {
 		map.put("voList",questVoList);
 		return map;
 	}
+	@PostMapping("update")
+	public Map<String, String> update(@RequestBody CompleteVo vo) {
+		System.out.println(vo);
+		int result = service.update(vo);
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		return map;
+	}
 
 }

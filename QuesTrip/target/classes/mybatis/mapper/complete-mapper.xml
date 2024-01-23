@@ -28,8 +28,16 @@
 			    MEMBER m ON cq.MEMBER_NO = m.NO
 			JOIN
 			    QUEST q ON cq.QUEST_NO = q.NO
+			WHERE STATE = '1'
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
 	
+	<update id="update">
+		UPDATE COM_QUEST
+		SET 
+			STATE = #{state}
+			, REJEC_REASON = #{rejecReason}
+		WHERE NO = #{no}
+	</update>
 </mapper>
 

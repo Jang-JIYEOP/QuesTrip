@@ -9,10 +9,13 @@ public class CompleteVo {
 	private String questNo;
 	private String rate;
 	private String comTime;
+	private String state;
+	
 	private String questName;
 	private String memberName;
 	private String content;
 	private String imgPath;
+	private String rejecReason;
 	
 	
 }
