@@ -13,6 +13,7 @@
 		
 		WHERE 
 	    	DEL_YN = 'N'
+	    	AND BOARD_NO = #{boardNo}
 	</select>
 	
 	<select id="best" resultType="com.kh.questrip.comment.vo.CommentVo">
@@ -45,33 +46,60 @@
   </select>
   
   <select id="pageList" resultType="com.kh.questrip.comment.vo.CommentVo">
-  		
 	  	SELECT
-			CB.NO AS "NO",
-			M.NICK AS "MEMBER_NO",
-			CB.CONTENT AS "CONTENT",
-			CB.ENROLL_DATE AS "ENROLL_DATE",
-			CB.DEL_YN AS "DEL_YN",
-			COUNT(CL.MEMBER_NO) AS "LIKES_COUNT"
+		    C.NO AS NO,
+		    M.NICK AS NICK,
+		    C.CONTENT,
+		    C.ENROLL_DATE,
+		    MT.TITLE AS MEMBER_TITLE ,
+		    C.DEL_YN,
+		    C.MEMBER_NO,
+		    C.BOARD_NO,
+		    I.PHOTO AS ICON
 		FROM
-			COMMT CB
+		    COMMT C
 		JOIN
-			MEMBER M ON CB.MEMBER_NO = M.NO
-		LEFT JOIN
-			COMMT_LIKE CL ON CB.NO = CL.COMMT_NO
+		    MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN
+		    ICON I ON M.ICON_NO = I.NO
+		JOIN
+			MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
 		WHERE
-			CB.DEL_YN = 'N'
-			AND BOARD_NO = #{boardNo}
+		    C.DEL_YN = 'N'
+		    AND C.BOARD_NO = #{boardNo}
 		GROUP BY
-			CB.NO,
-			M.NICK,
-			CB.CONTENT,
-			CB.ENROLL_DATE,
-			CB.DEL_YN,
-			CB.MEMBER_NO
-			ORDER BY
-			CB.NO DESC
+		    C.NO,
+		    M.NICK,
+		    C.CONTENT,
+		    C.ENROLL_DATE,
+		    C.DEL_YN,
+		    C.MEMBER_NO,
+		    C.BOARD_NO,
+		    I.PHOTO,
+		    MT.TITLE
+		ORDER BY
+		    C.NO DESC
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
   </select>
+  
+  <insert id="write">
+  	INSERT INTO COMMT
+  	(
+  		NO,
+  		MEMBER_NO,
+  		BOARD_NO,
+  		CONTENT,
+  		ENROLL_DATE
+  	)
+  	VALUES
+  	(
+  		SEQ_COMMT_NO.NEXTVAL,
+  		#{memberNo},
+		#{boardNo},
+		#{content},
+		SYSDATE  		
+  	)
+  </insert>
+
 	
 </mapper>

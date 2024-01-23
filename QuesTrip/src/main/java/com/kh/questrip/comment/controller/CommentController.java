@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.comment.service.CommentService;
 import com.kh.questrip.comment.vo.CommentVo;
@@ -16,7 +17,7 @@ import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("api/comment")
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -31,11 +32,9 @@ public class CommentController {
 		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
 		
 		vo.setPageNo(Integer.toString(start));
-		
 		int pageTotal = (int)Math.ceil((double)service.list(vo)/Integer.parseInt(vo.getLimit()));
 		
 		List<CommentVo> CommentVoList = service.pageList(vo);
-		System.out.println("댓글vo: "+ CommentVoList);
 		List<CommentVo> CommentBestList = service.best();
 		Map<String, Object> map = new HashMap<>();
 		map.put("pageTotal", pageTotal);
@@ -43,5 +42,11 @@ public class CommentController {
 		map.put("bestList", CommentBestList);
 		
 		return map;
+	}
+	
+	//댓글 작성
+	@PostMapping("write")
+	public int write(@RequestBody CommentVo vo) {
+		return service.write(vo);
 	}
 }
