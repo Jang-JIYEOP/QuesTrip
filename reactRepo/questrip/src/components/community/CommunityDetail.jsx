@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useLoginMemory } from './context/LoginContext';
 import DOMPurify from 'dompurify';
 import CommtListItem from '../commt/commtListItem';
+import Page from '../page/Page';
 
 const StyledCommunityDetailDiv = styled.div`
     width: 100%;
@@ -29,6 +30,7 @@ const StyledCommunityDetailDiv = styled.div`
 
     #reply{
         grid-column: span 3;
+        
     }
 `;
 
@@ -37,16 +39,17 @@ const CommunityDetail = () => {
     const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
-
+    const [pageTotal, setPageTotal] = useState([]);
+    const [content, setContent] = useState({});
     const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
-    const [commtList, setCommtList] = useState([]);
+    const [commentList, setCommtList] = useState([]);
     const [boardVo, setBoardVo] = useState({
         no: id
     });
     const [searchInfoVo , setSearchInfoVo] = useState({
 
         pageNo : 1,
-        limit : 7,
+        limit : 5,
         boardNo : id,
     }
     );
@@ -78,7 +81,7 @@ const CommunityDetail = () => {
         
     }, [id]);
 
-    useEffect( ()=>{
+    const loadCommentVoList =() =>{
         fetch(`http://127.0.0.1:8888/questrip/api/comment/list`, {
             method: "POST",
             headers: {
@@ -89,12 +92,14 @@ const CommunityDetail = () => {
         .then(resp => resp.json())
         .then(commentList => {
             // 서버로부터 받은 데이터를 commentList 상태 변수에 저장합니다.
-            setCommtList(commentList);
+            setCommtList(commentList.voList);
+            setPageTotal(commentList.pageTotal);
         })
+        
         .catch(error => {
             console.error("댓글 목록을 가져오는 중 에러 발생:", error);
         });
-    }, [id])
+    }
 
     //게시글 삭제
     const handleDeleteButton = () => {
@@ -202,6 +207,40 @@ const CommunityDetail = () => {
     
     const navigate = useNavigate();
 
+    const handlePageChange = (pageNumber) => {
+        setSearchInfoVo((prevSearchInfoVo) => ({
+          ...prevSearchInfoVo,
+          pageNo: pageNumber,
+            }));
+        };
+
+    const handleSubmit = () => {
+        let content = document.getElementById("contentInput").value;
+        
+        fetch("http://127.0.0.1:8888/questrip/api/comment/write", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            body: JSON.stringify({
+                boardNo: id,
+                memberNo: loginNumber,
+                content: content,
+            }),
+        })
+        .then(resp => resp.json())
+        console.log("멤버 넘버: ", commentList.memberNo);
+        console.log("게시글 넘버: ", commentList.boardNo);
+        console.log("내용: ", commentList.content);
+        window.location.reload();
+    }
+
+    useEffect( () => {
+        loadCommentVoList();
+        
+    }, [searchInfoVo] );
+
+
     return (
         <StyledCommunityDetailDiv>
             <div>{boardDetailVo.title}</div>
@@ -222,11 +261,19 @@ const CommunityDetail = () => {
              }
 
             <div id='reply'>
-                {commtList.map( (vo) => {
+                {commentList.map( (vo) => {
                     return <CommtListItem key = {vo.no} vo = {vo}/>
                 })
             }
+                <div>
+                    <input type="text" id='contentInput'/> 
+                    <button onClick={handleSubmit}>작성</button>
+                </div>
+                <div id='pageArea'>
+                    <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
+                </div>
             </div>
+            
             {sessionStorage.getItem("loginInfo") && loginMemberVo.nick === boardDetailVo.nick ? (
             <>  <div></div>
                 <div className='login'>수정</div>   

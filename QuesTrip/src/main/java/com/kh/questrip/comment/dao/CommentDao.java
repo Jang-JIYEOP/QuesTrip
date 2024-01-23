@@ -25,5 +25,11 @@ public class CommentDao {
 	public List<CommentVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("commentMapper.pageList",vo);
 	}
+	
+	
+	//댓글 작성
+	public int write(SqlSessionTemplate sst, CommentVo vo) {
+		return sst.insert("commentMapper.write", vo);
+	}
 
 }
