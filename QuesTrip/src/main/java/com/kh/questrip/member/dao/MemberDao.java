@@ -6,7 +6,10 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.questrip.comment.vo.CommentVo;
 import com.kh.questrip.member.vo.MemberVo;
+import com.kh.questrip.member.vo.PointVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
 
 @Repository
 public class MemberDao {
@@ -31,5 +34,13 @@ public class MemberDao {
 
 	public int edit(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.update("MemberMapper.edit", vo);
+	}
+
+	public int point(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectOne("MemberMapper.point", vo);
+	}
+
+	public List<PointVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("MemberMapper.pageList", vo);
 	}
 }

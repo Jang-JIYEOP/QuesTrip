@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.comment.vo.CommentVo;
 import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.member.service.MemberService;
 import com.kh.questrip.member.vo.MemberVo;
+import com.kh.questrip.member.vo.PointVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
@@ -57,14 +59,7 @@ public class MemberApiController {
 		return map;
 	}
 	
-	//정보 수정
-	@PostMapping("edit")
-	public int edit(@RequestBody MemberVo vo) throws Exception{
-		System.out.println("정보수정 vo: "+ vo);
-		String verificationCode = emailCode();
-	    vo.setEmailCode(verificationCode);
-		return service.edit(vo);
-	}
+	
 	
 	//중복확인
 	@PostMapping("join/dupCheck")
@@ -126,6 +121,33 @@ public class MemberApiController {
 	public List<MemberVo> list() {
 		System.out.println("실행완료"+service.list());
 		return service.list();
+	}
+	
+	//마이페이지 정보 수정
+	@PostMapping("edit")
+	public int edit(@RequestBody MemberVo vo) throws Exception{
+		System.out.println("정보수정 vo: "+ vo);
+		String verificationCode = emailCode();
+	    vo.setEmailCode(verificationCode);
+		return service.edit(vo);
+	}
+		
+	//마이페이지 포인트 내역 조회
+	@PostMapping("point")
+	public Map<String, Object> point(@RequestBody SearchInfoVo vo) {
+		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
+		System.out.println(vo);
+		vo.setPageNo(Integer.toString(start));
+		
+		int pageTotal = (int)Math.ceil((double)service.point(vo)/Integer.parseInt(vo.getLimit()));
+		
+		List<PointVo> PointVoList = service.pageList(vo);
+		System.out.println("포인트vo: "+ PointVoList);
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageTotal", pageTotal);
+		map.put("voList", PointVoList);
+		
+		return map;
 	}
 	
 	
