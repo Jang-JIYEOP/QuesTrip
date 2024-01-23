@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuestMemory } from '../community/context/QuestContext';
 import QuestListItem from './QuestListItem';
@@ -64,14 +64,35 @@ const QuestList = () => {
 
   
   const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
+  const [locateCategoryVoList, setLocateCategoryVoList] = useState([]);
+  const [questCategoryVoList, setQuestCategoryVoList] = useState([]);
+
+  const loadLocateCategoryVoList = () => {
+    fetch("http://127.0.0.1:8888/questrip/api/locatecategory/list")
+    .then(resp => resp.json())
+    .then(data => {
+        setLocateCategoryVoList(data);
+    });
+  }
+
+  const loadQuestCategoryVoList = () => {
+    fetch("http://127.0.0.1:8888/questrip/api/questcategory/list")
+    .then(resp => resp.json())
+    .then(data => {
+        setQuestCategoryVoList(data);
+    });
+  }
 
   useEffect(() => {
+    loadQuestCategoryVoList();
+    loadLocateCategoryVoList();
     setSearchInfoVo({
       locCateNo : 1,
       pageNo : 1,
       limit : 6,
     });
   },[]);
+  
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     const locCateNo = event.target.locCateNo.value;
@@ -102,9 +123,9 @@ const QuestList = () => {
                 <b>지역</b>
                 <br />
                 <select name="locCateNo">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  {locateCategoryVoList.map((lcvl) => 
+                    <option key={lcvl.no} value={lcvl.no}>{lcvl.name}</option>
+                  )}
                 </select>
               </div>
               
@@ -112,19 +133,21 @@ const QuestList = () => {
                 <b>포인트</b>
                 <br />
                 <select name="point">
-                  <option value="50">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value=''>-</option>
+                  {Array.from({length: 10}, (_, i) => (i + 1) * 50).map((num) => 
+                    <option key={num} value={num}>{num}</option>
+                  )}
                 </select>
-              </div> 
+              </div>
 
               <div>
                 <b>분류</b>
                 <br />
                 <select name="queCateNo">
-                  <option value="">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value=''>-</option>
+                {questCategoryVoList.map((qcvl) => 
+                  <option key={qcvl.no} value={qcvl.no}>{qcvl.name}</option>
+                )}
                 </select>
               </div> 
 
@@ -132,9 +155,10 @@ const QuestList = () => {
                 <b>인원수</b>
                 <br />
                 <select name="headCnt">
-                  <option value="">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value=''>-</option>
+                  {Array.from({length: 10}, (_, i) => i + 1).map((num) => 
+                    <option key={num} value={num}>{num}명</option>
+                  )}
                 </select>
               </div> 
               

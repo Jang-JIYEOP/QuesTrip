@@ -52,6 +52,7 @@
 		SELECT 
 		    Q.NO, 
 		    Q.QUE_CATE_NO , 
+		    QC.NAME AS CATEGORY_NAME,
 		    Q.LOC_CATE_NO ,
 		    Q.TITLE, 
 		    Q.CONTENT, 
@@ -65,14 +66,33 @@
 		    ROUND(AVG(CQ.RATE), 2) AS RATING
 		FROM QUEST Q
 		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
+		LEFT JOIN QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 		WHERE 
-		    Q.DEL_YN = 'N' 		
-		    AND Q.LOC_CATE_NO = 1
-		GROUP BY Q.NO, Q.QUE_CATE_NO, Q.LOC_CATE_NO, Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT, Q.DEL_YN		
+		    Q.DEL_YN = 'N'       
+		    <if test="locCateNo !=null and locCateNo != '' ">
+		        AND Q.LOC_CATE_NO = #{locCateNo}
+		    </if>
+		    
+		    <if test="title != null and title != '' "> 
+		        AND Q.TITLE = #{title}
+		    </if>
+		    
+		    <if test="point != null and point != '' "> 
+		        AND Q.POINT >= #{point}
+		    </if>
+		    
+		    <if test="headCnt != null and headCnt != '' "> 
+		        AND Q.HEAD_CNT = #{headCnt}
+		    </if>
+		    
+		    <if test="queCateNo != null and queCateNo != '' ">  
+		        AND QUE_CATE_NO = #{queCateNo}
+		    </if>
+		GROUP BY Q.NO, Q.QUE_CATE_NO, QC.NAME, Q.LOC_CATE_NO, Q.TITLE, Q.CONTENT, Q.POINT, Q.ENROLL_DATE, Q.IMG_PATH, Q.LATITUDE, Q.LONGITUDE, Q.HEAD_CNT, Q.DEL_YN      
 		ORDER BY 
 		    CASE WHEN RATING IS NULL THEN 1 ELSE 0 END, -- NULL인 경우에는 맨 아래로
 		    RATING DESC
-    	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+		OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
 	
 	<select id="listAll" resultType="com.kh.questrip.quest.vo.QuestVo">
