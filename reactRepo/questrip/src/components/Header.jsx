@@ -125,7 +125,7 @@ const Header = () => {
                             <div class="nickname">{loginMemberVo.nick}</div>
                             <div class="point">포인트 : {loginMemberVo.point}</div>
                             <div class="my-page" onClick={()=>{
-                                navigate("/myPage");
+                                navigate("/myPage", {state: {loginMemberVo}});
                             }}>마이페이지</div>
                             <div class="logout" onClick={() => {
                             sessionStorage.removeItem('loginInfo');  // 세션 스토리지의 "MemberVo" 값 제거

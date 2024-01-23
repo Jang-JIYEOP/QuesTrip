@@ -6,8 +6,11 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.kh.questrip.comment.vo.CommentVo;
 import com.kh.questrip.member.dao.MemberDao;
 import com.kh.questrip.member.vo.MemberVo;
+import com.kh.questrip.member.vo.PointVo;
+import com.kh.questrip.quest.vo.SearchInfoVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +38,14 @@ public class MemberService {
 
 	public int edit(MemberVo vo) {
 		return dao.edit(sst, vo);
+	}
+
+	public List<PointVo> pageList(SearchInfoVo vo) {
+		return dao.pageList(sst, vo);
+	}
+
+	public int point(SearchInfoVo vo) {
+		return dao.point(sst, vo);
 	}
 	
 
