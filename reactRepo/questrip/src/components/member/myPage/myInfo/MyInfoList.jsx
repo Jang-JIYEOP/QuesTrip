@@ -15,13 +15,6 @@ const StyledMyInfoListDiv = styled.div`
 
 const MyInfoList = () => {
 
-    const email = "vkfkdjafuf2@naver.com";
-    const splitEmail = email.split('@');
-
-    console.log(splitEmail); // ["vkfkdjafuf2", "naver.com"]
-
-    const [emailPrefix, setEmailPrefix] = useState('');
-    const [emailSuffix, setEmailSuffix] = useState('');
     const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
     const [MemberVo, setMemberVo] = useState({});
@@ -32,12 +25,13 @@ const MyInfoList = () => {
     const [emailAuth, setEmailAuth] = useState(0);
     const [selectedEmailOption, setSelectedEmailOption] = useState('directInput');
     const [isVerificationCodeVisible, setVerificationCodeVisible] = useState(false);
-    
+    const [emailPrefix, emailSuffix] = loginMemberVo.email.split('@');
+
     useEffect( ()=>{
         setLoginInfo({no : loginNumber});
-        setMemberVo({no: loginNumber});
-    }, [] )
-
+        console.log(loginMemberVo.email);
+    }, []);
+    
 
     useEffect( () => {
         
@@ -103,7 +97,6 @@ const MyInfoList = () => {
                 ...prevMemberVo,
                 email : fullEmail,
         }));
-        console.log(fullEmail);
         setVerificationCodeVisible(true);
         }else{
             alert("이메일 주소를 입력해주세요.");
@@ -191,17 +184,7 @@ const MyInfoList = () => {
         }
     }
 
-    // 이메일 옵션 변경 시
-    const handleEmailOptionChange = (e) => {
-        setSelectedEmailOption(e.target.value);
-        // 직접 입력이 아니라면 suffix 값을 변경
-        if (e.target.value !== 'directInput') {
-            setEmailSuffix(e.target.value);
-            
-        }else{
-            setEmailSuffix('');
-        }
-    };
+    
 
 
     return (
@@ -218,9 +201,9 @@ const MyInfoList = () => {
                     <div>
                         <b>이메일 주소</b>
                         <div id='emailDiv'>
-                            <input type="text" placeholder='이메일 주소' value={MemberVo.email.split} disabled/>
+                            <input type="text" placeholder='이메일 주소' value={emailPrefix} disabled/>
                             <b> @ </b>
-                            <input type="text" value={MemberVo.emailSuffix} disabled />
+                            <input type="text" value={emailSuffix} disabled />
 
                             
                             <button id='emailAuth' type='button' onClick={handleEmailAuth}>인증하기</button>

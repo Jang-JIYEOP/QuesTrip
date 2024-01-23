@@ -17,7 +17,6 @@ const MemberMemoryProvider = ({children}) => {
     
     const loadLoginMember = () => {
         const MemberVo = loginInfo;
-        console.log(MemberVo);
             fetch("http://127.0.0.1:8888/questrip/api/member/login", {
                 method: "POST",
                 headers: {
