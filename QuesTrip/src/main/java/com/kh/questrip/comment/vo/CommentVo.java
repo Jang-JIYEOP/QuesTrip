@@ -11,8 +11,5 @@ public class CommentVo {
 	private String enrollDate;
 	private String delYn;
 	private String likesCount;
-	private String icon;
-	private String memberTitle;
-	private String nick;
 	
 }

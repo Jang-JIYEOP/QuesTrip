@@ -21,7 +21,6 @@ public class CommentService {
 
 	//댓글 조회
 	public int list(SearchInfoVo vo) {
-		System.out.println("댓글: "+ dao.list(sst, vo));
 		return dao.list(sst, vo);
 	}
 	
@@ -31,11 +30,6 @@ public class CommentService {
 	}
 	
 	public List<CommentVo> pageList(SearchInfoVo vo) {
-		System.out.println("페이지리스트: "+ dao.pageList(sst, vo));
 		return dao.pageList(sst, vo);
-	}
-
-	public int write(CommentVo vo) {
-		return dao.write(sst, vo);
 	}
 }

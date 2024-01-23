@@ -99,43 +99,4 @@
 	JOIN ICON IT ON M.ICON_NO = IT.NO
 	JOIN MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
 </select>
-
-<select id="pageList" resultType="com.kh.questrip.member.vo.PointVo">
-  		
-	  	SELECT
-		    M.NO AS "NO",
-		    P.GET_POINT,
-		    P.EOE,
-		    P.SOURCE,
-		    P.CHANGES,
-		    P.ENROLL_DATE
-		FROM
-		    POINT P
-		JOIN
-		    MEMBER M ON P.MEMBER_NO = M.NO
-		WHERE
-		    M.NO = #{memberNo} 
-		GROUP BY
-		    M.NO, P.GET_POINT, P.EOE, P.SOURCE, P.CHANGES, P.ENROLL_DATE
-		ORDER BY
-		    P.ENROLL_DATE 
-		OFFSET
-		    #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
-</select>
-
-
-
-<select id="point" resultType="Integer">
-		SELECT
-	    	COUNT(NO) AS CNT
-	    
-		FROM 
-		    POINT
-		
-		WHERE 
-	    	MEMBER_NO = #{memberNo}
-	</select>
-
-
-
 </mapper>
