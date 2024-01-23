@@ -22,6 +22,7 @@ public class QuestVo {
 	private String headCnt;
 	private String queCateNo;
 	private String rateCnt;
+	private String categoryName;
 	
 	
 	
