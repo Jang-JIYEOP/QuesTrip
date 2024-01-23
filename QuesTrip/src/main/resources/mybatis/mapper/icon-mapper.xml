@@ -70,26 +70,22 @@
  
   <update id="memberPointUpdate">
   	UPDATE MEMBER
-    SET POINT = CASE
-        WHEN POINT - (
-            SELECT PRICE
-            FROM ICON
-            WHERE NO = #{iconNo}
-        ) >= 0 THEN
-            POINT - (
-                SELECT PRICE
-                FROM ICON
-                WHERE NO = #{iconNo}
-            )
-        ELSE
-            POINT -- 혹은 원하는 값으로 처리
-    END
-    WHERE NO = #{memberNo}
-        AND POINT - (
-            SELECT PRICE
-            FROM ICON
-            WHERE NO = #{iconNo}
-        ) >= 0
+	SET POINT = POINT - (
+	    SELECT PRICE
+	    FROM ICON
+	    WHERE NO = #{iconNo}
+	    ),
+	    ACCUMULATE = ACCUMULATE + (
+	    SELECT PRICE
+	    FROM ICON
+	    WHERE NO = #{iconNo}
+	    )
+	WHERE NO = #{memberNo}
+	AND POINT >= (
+	    SELECT PRICE
+	    FROM ICON
+	    WHERE NO = #{iconNo}
+	)
   </update>
   
   <insert id="pointInsert">
@@ -99,6 +95,7 @@
 			, EOE
 			, GET_POINT
 			, SOURCE
+			, CHANGES
 			)
 		VALUES (
     		SEQ_POINT_NO.NEXTVAL
@@ -106,6 +103,7 @@
     		, 'E'
     		, (SELECT PRICE FROM ICON WHERE NO = #{iconNo})
     		, (SELECT TITLE FROM ICON WHERE NO = #{iconNo})
+    		, (SELECT POINT FROM MEMBER WHERE NO = #{memberNo })
     	)
   </insert>
   

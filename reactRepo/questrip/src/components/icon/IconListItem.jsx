@@ -89,11 +89,13 @@ const IconListItem = ({vo, type}) => {
 
                     }else if(data.msg === "good"){
                         alert("아이콘 구매 성공!");
+                        window.location.reload();
                     }
                 }
                 else if(func.func==='update'){
                     if(data.msg === "good"){
                         alert("대표아이콘 변경 성공!");
+                        window.location.reload();
                     }
                 }
                 

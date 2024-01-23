@@ -12,6 +12,7 @@ const StyledLoginDiv = styled.div`
             display: flex;
             flex-direction: column;
             text-align: center;
+            margin-left: 800px;
             margin-top: 200px; /* 원하는 높이만큼 상단에 여백 추가 */
         }
 

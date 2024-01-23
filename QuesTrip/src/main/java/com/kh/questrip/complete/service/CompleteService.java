@@ -27,4 +27,9 @@ public class CompleteService {
 		return dao.pageList(sst,vo);
 	}
 
+	public int update(CompleteVo vo) {
+
+		return dao.update(vo,sst);
+	}
+
 }

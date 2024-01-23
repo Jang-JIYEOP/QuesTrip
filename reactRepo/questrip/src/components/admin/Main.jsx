@@ -4,7 +4,6 @@ import AdminLogin from './login/AdminLogin';
 import ErrorPageNotFound from './error/ErrorPageNotFound';
 import { QuestMemoryProvider } from '../community/context/QuestContext';
 import QuestWrite from './quest/QuestWrite';
-import IconInsert from './icon/IconInsert';
 import MemberList from './memberList/MemberList';
 import QuestList from './quest/QuestList';
 import NoticeList from './notice/NoticeList';
@@ -30,7 +29,6 @@ const Main = () => {
                 <Route path='/membertitle/list' element={<MemberList/>}></Route>
                 <Route path='/icon/list' element={<IconList/>}></Route>
                 <Route path='/quest/write' element={<QuestWrite/>}></Route>
-                <Route path='/icon/insert' element={<IconInsert/>}></Route>
                 <Route path='/*' element={<ErrorPageNotFound/>}></Route>
                 
             </Routes>

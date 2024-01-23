@@ -19,4 +19,8 @@ public class CompleteDao {
 		return sst.selectList("CompleteMapper.pageList",vo);
 	}
 
+	public int update(CompleteVo vo, SqlSessionTemplate sst) {
+		return sst.update("CompleteMapper.update",vo);
+	}
+
 }
