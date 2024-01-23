@@ -102,9 +102,6 @@ const loadBoardVoList = () => {
     })
     .then(resp => resp.json())
     .then(data => {
-        console.log("토탈 페이지",data.pageTotal);
-        console.log("토탈 페이지",data.voList);
-        
         setBoardVoList(data.voList);
         setPageTotal(data.pageTotal);
 

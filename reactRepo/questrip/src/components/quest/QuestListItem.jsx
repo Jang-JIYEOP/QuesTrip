@@ -39,8 +39,8 @@ const QuestListItem = ({vo}) => {
             <div id="img">
                 <img src={vo.imgPath} alt="퀘스트이미지" />
             </div>
-            <div id="title">위치 : {vo.title}</div>
-            <div id="queCate">가족</div>
+            <div id="title">{vo.title}</div>
+            <div id="queCate">{vo.categoryName}</div>
             <div id="headCnt"> {vo.headCnt} 명</div>
             <div id="rate">❤   {vo.rating}</div>
             <div id="point">🧭  {vo.point}</div>
