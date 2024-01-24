@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.service.DiaryService;
 import com.kh.questrip.diary.vo.DiaryDetailVo;
 import com.kh.questrip.diary.vo.DiaryVo;
@@ -62,6 +63,16 @@ public class DiaryController {
 	
 	}
 	
+	@PostMapping("search")
+	public Map<String, Object> list(@RequestBody SearchVo vo){
+		
+		
+		List<DiaryVo> searchVoList = service.search(vo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("voList", searchVoList);
+		
+		return map;
+	}
 	
 	//일기 추천 판단
 	@PostMapping("checkIfAlreadyLiked")

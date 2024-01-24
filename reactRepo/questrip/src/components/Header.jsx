@@ -48,7 +48,6 @@ const StyledHeaderDiv = styled.div`
 
     .profile-grid div {
         padding: 1px;
-        border: 1px solid #ccc;
         text-align: center;
         cursor: pointer;
     }
@@ -87,21 +86,79 @@ const StyledSearchDiv = styled.div`
 
 
 const Header = () => {
+    
     let loginNumber ='';
     if(sessionStorage.getItem('loginInfo')){
         loginNumber = sessionStorage.getItem('loginInfo');
     }
     const {loginMemberVo, setLoginInfo} = useLoginMemory();
-    
+    // const [searchVo, setSearchVo]= useState([]);
+    // const [communityVoList, setCommunityVoList]= useState([]);
+    // const [diaryVoList, setDiaryVoList]= useState([]);
     const navigate = useNavigate();
+    
+    const clickSeach = (event) => {
+        event.preventDefault();
+        const search = event.target.search.value;
+        const searchContent = event.target.searchContent.value;
+        navigate('/search', { state:  {search,searchContent}  });
+        
+        // setSearchVo({
+        //     search,
+        //     searchContent,
+        // });
+
+      };
+
+
+    // const loadCommunityVoList = () => {
+        
+    //     fetch("http://127.0.0.1:8888/questrip/api/community/search", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json", 
+    //         },
+    //         body : JSON.stringify(searchVo),
+    //     })
+    //     .then(resp => resp.json())
+    //     .then((data) => {
+    //         setCommunityVoList(data.voList);
+    //     })
+    //     ;
+    // }
+    // const loadDiaryVoList = () => {
+    //     fetch("http://127.0.0.1:8888/questrip/api/diary/search", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json", 
+    //         },
+    //         body : JSON.stringify(searchVo),
+    //     })
+    //     .then(resp => resp.json())
+    //     .then((data) => {        
+    //         setDiaryVoList(data.voList);
+    //     })
+    //     ;
+    // }
+
     useEffect( ()=>{
         setLoginInfo({no : loginNumber});
+        
     }, [] )
+
+
+
+    // useEffect( ()=>{
+    //     loadCommunityVoList();
+    //     loadDiaryVoList();
+    //     navigate('/search', { state:  {communityVoList,diaryVoList}  });
+    // }, [searchVo] )
+
     return (
         <StyledHeaderDiv>
             <div className='logoArea' onClick={() => { navigate("/") }}></div>
             <StyledSearchDiv>
-                <form action="">
+                <form onSubmit={clickSeach}>
                     <select name="search">
                         <option value="title">제목</option>
                         <option value="content">내용</option>
@@ -111,16 +168,16 @@ const Header = () => {
                     <input type="submit" value="검색" />
                 </form>
             </StyledSearchDiv>
-            
-            
-            {
+             
+             
+            {   
                 sessionStorage.getItem('loginInfo') // 세션 스토리지에 "MemberVo" 값이 있는지 확인
                     ?
                     <div>
                         <div class="profile-grid">
                             <div class="icon">
                                 <img src={loginMemberVo.photo} alt="아이콘" />
-                            </div>
+                            </div> 
                             <div class="title">{loginMemberVo.memberTitle}</div>
                             <div class="nickname">{loginMemberVo.nick}</div>
                             <div class="point">포인트 : {loginMemberVo.point}</div>

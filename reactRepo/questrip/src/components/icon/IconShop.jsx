@@ -12,7 +12,6 @@ const StyledIconListDiv = styled.div`
     grid-template-rows: 3fr 12fr 1fr;
     place-items: center center;
     & > div {
-        border : 1px solid gray;
     }
 
     
@@ -60,7 +59,7 @@ const StyledIconListDiv = styled.div`
 const IconShop = () => {
     const [boardVoList , setBoardVoList] = useState([]);
     const [pageTotal, setPageTotal] = useState([]);
-    let loginNumber = '1';
+    let loginNumber = '';
     if(sessionStorage.getItem('loginInfo')){
          loginNumber = sessionStorage.getItem('loginInfo');
     }

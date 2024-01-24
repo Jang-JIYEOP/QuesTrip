@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.questrip.board.dao.BoardDao;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
@@ -87,6 +88,10 @@ public class BoardService {
 	
 	public List<BoardVo> listAll() {
 		return dao.listAll(sst);
+	}
+
+	public List<BoardVo> search(SearchVo vo) {
+		return dao.search(sst,vo);
 	}
 
 }

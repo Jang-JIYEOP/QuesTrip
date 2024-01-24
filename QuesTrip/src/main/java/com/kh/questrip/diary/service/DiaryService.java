@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.dao.DiaryDao;
 import com.kh.questrip.diary.vo.DiaryDetailVo;
 import com.kh.questrip.diary.vo.DiaryVo;
@@ -82,5 +83,9 @@ public class DiaryService {
 	
 	public List<DiaryVo> pageListDiary(SearchInfoVo vo){
 		return dao.pageListDiary(sst, vo);
+	}
+
+	public List<DiaryVo> search(SearchVo vo) {
+		return dao.search(sst,vo);
 	}
 }

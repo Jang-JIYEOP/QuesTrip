@@ -39,5 +39,26 @@
 			, REJEC_REASON = #{rejecReason}
 		WHERE NO = #{no}
 	</update>
+	
+	<select id="myList" resultType="com.kh.questrip.complete.vo.CompleteVo">
+	        SELECT
+	        	cq.NO,
+			    cq.MEMBER_NO,
+			    m.NICK AS MEMBER_NAME,
+			    cq.QUEST_NO,
+			    q.TITLE AS QUEST_NAME,
+			    cq.RATE,
+			    cq.IMG_PATH,
+			    cq.COM_TIME,
+			    q.CONTENT
+			FROM
+			    COM_QUEST cq
+			JOIN
+			    MEMBER m ON cq.MEMBER_NO = m.NO
+			JOIN
+			    QUEST q ON cq.QUEST_NO = q.NO
+			WHERE CQ.MEMBER_NO = #{memberNo}
+	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
 </mapper>
 

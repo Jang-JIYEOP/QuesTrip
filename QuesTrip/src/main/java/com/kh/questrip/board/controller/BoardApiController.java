@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.questrip.board.service.BoardService;
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.icon.vo.IconVo;
 import com.kh.questrip.member.vo.MemberVo;
@@ -61,6 +62,16 @@ public class BoardApiController {
 		map.put("voList", boardVoList);
 		map.put("bestList", BoarBestList);
 		
+		return map;
+	}
+	@PostMapping("search")
+	public Map<String, Object> list(@RequestBody SearchVo vo){
+		System.out.println(vo);
+		
+		List<BoardVo> searchVoList = service.search(vo);
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(searchVoList);
+		map.put("voList", searchVoList);
 		return map;
 	}
 	
