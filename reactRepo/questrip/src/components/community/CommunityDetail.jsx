@@ -40,10 +40,9 @@ const CommunityDetail = () => {
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
     const [pageTotal, setPageTotal] = useState([]);
-    const [content, setContent] = useState({});
     const [boardDetailVo, setBoardDetailVo] = useState([]); // 상세 정보를 저장할 상태 변수입니다.
     const [commentList, setCommtList] = useState([]);
-    const [boardVo, setBoardVo] = useState({
+    const [boardVo] = useState({
         no: id
     });
     const [searchInfoVo , setSearchInfoVo] = useState({
@@ -121,7 +120,6 @@ const CommunityDetail = () => {
         const sessionData = sessionStorage.getItem('loginInfo');
         if (sessionData == null){
             alert("로그인 후 이용해주세요");
-            window.location.reload();
         }else{
             const memberNo = loginMemberVo.no;
             const boardNo = boardDetailVo.no;
@@ -215,24 +213,30 @@ const CommunityDetail = () => {
         };
 
     const handleSubmit = () => {
-        let content = document.getElementById("contentInput").value;
+        const sessionData = sessionStorage.getItem('loginInfo');
+        if(sessionData === null){
+            alert("로그인 후 이용해주세요.")
+        }else{
+            let content = document.getElementById("contentInput").value;
         
-        fetch("http://127.0.0.1:8888/questrip/api/comment/write", {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            body: JSON.stringify({
-                boardNo: id,
-                memberNo: loginNumber,
-                content: content,
-            }),
-        })
-        .then(resp => resp.json())
-        console.log("멤버 넘버: ", commentList.memberNo);
-        console.log("게시글 넘버: ", commentList.boardNo);
-        console.log("내용: ", commentList.content);
-        window.location.reload();
+            fetch("http://127.0.0.1:8888/questrip/api/comment/write", {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify({
+                    boardNo: id,
+                    memberNo: loginNumber,
+                    content: content,
+                }),
+            })
+            .then(resp => resp.json())
+            console.log("멤버 넘버: ", commentList.memberNo);
+            console.log("게시글 넘버: ", commentList.boardNo);
+            console.log("내용: ", commentList.content);
+            window.location.reload();
+        }
+        
     }
 
     useEffect( () => {
