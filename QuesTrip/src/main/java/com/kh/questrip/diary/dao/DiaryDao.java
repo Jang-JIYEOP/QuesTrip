@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.vo.DiaryDetailVo;
 import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
@@ -75,5 +76,9 @@ public class DiaryDao {
 	//마이페이지 내가 쓴 일기 조회
 	public List<DiaryVo> pageListDiary(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("DiaryMapper.pageListDiary",vo);
+	}
+
+	public List<DiaryVo> search(SqlSessionTemplate sst, SearchVo vo) {
+		return sst.selectList("DiaryMapper.search",vo);
 	}
 }

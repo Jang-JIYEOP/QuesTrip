@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.questrip.board.vo.BoardDetailVo;
 import com.kh.questrip.board.vo.BoardVo;
+import com.kh.questrip.board.vo.SearchVo;
 import com.kh.questrip.diary.vo.DiaryVo;
 import com.kh.questrip.quest.vo.SearchInfoVo;
 
@@ -83,6 +84,10 @@ public class BoardDao {
 	
 	public List<BoardVo> listAll(SqlSessionTemplate sst) {
 		return sst.selectList("BoardMapper.listAll");
+	}
+
+	public List<BoardVo> search(SqlSessionTemplate sst, SearchVo vo) {
+		return sst.selectList("BoardMapper.search");
 	}
 
 }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLoginMemory } from '../community/context/LoginContext';
-import { useNavigate } from 'react-router-dom';
 
 const StyledWrqpDiv = styled.div`
     width: 100%;
@@ -29,8 +27,8 @@ const StyledWrqpDiv = styled.div`
 `;
 
 const IconListItem = ({vo, type}) => {
-    let loginNumber = '1';
-    const navigate = useNavigate();
+    console.log("타입",type.nowType);
+    let loginNumber = '';
     if(sessionStorage.getItem('loginInfo')){
          loginNumber = sessionStorage.getItem('loginInfo');
     }
@@ -77,9 +75,9 @@ const IconListItem = ({vo, type}) => {
                 body : JSON.stringify(buyerVo),
             })
             .then(resp => {
-                if(!resp.ok){
-                    throw new Error("구매실패");
-                }
+                // if(!resp.ok){
+                //     throw new Error("구매실패");
+                // }
                 resp.json()})
             .then(data => {
                 console.log("토탈 페이지",data.msg);
@@ -121,7 +119,7 @@ const IconListItem = ({vo, type}) => {
                 <div id="price">{vo.price}</div>
                 
                 <button onClick={() => handleButtonClick(vo)}>
-                    {type.nowType === "myicon" ? "대표아이콘으로지정" : "구매하기"}
+                    {type.nowType === "shop" ? "구매하기" : "대표아이콘으로지정"}
                 </button>
             </div>
             

@@ -32,4 +32,8 @@ public class CompleteService {
 		return dao.update(vo,sst);
 	}
 
+	public List<CompleteVo> myList(SearchInfoVo vo) {
+		return dao.myList(sst,vo);
+	}
+
 }

@@ -75,7 +75,7 @@ public class IconController {
 		return map;
 	}
 	@PostMapping("buy")
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, String> buy(@RequestBody buyerVo vo) throws Exception {
 		System.out.println("바이"+vo);
 
@@ -100,9 +100,9 @@ public class IconController {
 			System.out.println("멤버아이콘 인서트 오류");
 		}
 		
-		
+		System.out.println(memberIconInsert);
 		map.put("msg", "good");
-		
+		System.out.println(map.get("msg"));
 		return map;
 	}
 

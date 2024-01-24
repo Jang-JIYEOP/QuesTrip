@@ -56,4 +56,20 @@ public class CompleteController {
 		return map;
 	}
 
+	@PostMapping("mylist")
+	public Map<String, Object> myList(@RequestBody SearchInfoVo vo){
+		Map<String, Object> map = new HashMap<String, Object>();
+		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
+		vo.setPageNo(Integer.toString(start));
+		
+		int pageTotal = (int)Math.ceil((double)service.allList()/Integer.parseInt(vo.getLimit()));
+			
+		List<CompleteVo> questVoList = service.myList(vo);
+
+		map.put("pageTotal", pageTotal);
+		
+		map.put("voList",questVoList);
+		
+		return map;
+	}
 }
