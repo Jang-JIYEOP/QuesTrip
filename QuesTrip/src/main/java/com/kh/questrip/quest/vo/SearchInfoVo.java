@@ -13,4 +13,7 @@ public class SearchInfoVo {
 	private String limit;
 	private String memberNo;
 	private String boardNo;
+	private String search;
+	private String searchContent;
+	
 }
