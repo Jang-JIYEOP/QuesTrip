@@ -4,50 +4,64 @@ import styled from 'styled-components';
 import Page from '../../page/Page';
 
 const StyledListDiv = styled.div`
+width: 100%;
+    height: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+
     & > table {
         width: 100%;
         border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px; /* 모서리 둥글게 */
 
-        
-        th, td {
-            height: 15px;
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        tr > th:nth-child(1){
-            width: 150px;
-        }
-        tr > th:nth-child(3){
-            width: 50px;
-        }
-        tr > th:nth-child(4){
-            width: 180px;
-        }
-        tr > th:nth-child(5){
-            width: 80px;
-        }
-        th {
-            background-color: #f2f2f2;
+        &  tr {
+            height: 40px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+
+            &:hover {
+                background-color: #87CEEB; /* 하늘색 */
+            }
         }
 
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+        & > thead > tr > th {
+            padding: 10px;
+            background-color: #4682B4; /* 더 진한 파란색 */
+            color: white;
+            text-align: left;
+            border-radius: 8px 8px 0 0; /* 상단 모서리만 둥글게 */
         }
 
-        tbody tr:hover {
-            background-color: #e0e0e0;
+        & > tbody > .bestThree {
+            background-color: #d3d3d3; /* 연한 회색 */
+        }
+
+        & > tbody > tr > td {
+            padding: 10px;
         }
     }
 
-    #pageArea {
-        margin-top: auto;
-        width: 100%;
-        text-align: center;
+    & > #pageArea {
+        margin-top: 20px;
+    }
+
+    & > button {
+        padding: 10px;
+        background-color: #4682B4; /* 더 진한 파란색 */
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+
+        &:hover {
+            background-color: #357ca5; /* 더 진한 파란색 */
+        }
     }
 `;
 const CommunityList = () => {
@@ -100,6 +114,7 @@ const CommunityList = () => {
 
     return (
         <StyledListDiv>
+
             <table>
                 <thead>
                     <tr>
