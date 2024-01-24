@@ -92,9 +92,9 @@ const Header = () => {
         loginNumber = sessionStorage.getItem('loginInfo');
     }
     const {loginMemberVo, setLoginInfo} = useLoginMemory();
-    // const [searchVo, setSearchVo]= useState([]);
-    // const [communityVoList, setCommunityVoList]= useState([]);
-    // const [diaryVoList, setDiaryVoList]= useState([]);
+    const [searchInfoVo , setSearchInfoVo] = useState([]);
+    const [communityVoList, setCommunityVoList]= useState([]);
+    const [diaryVoList, setDiaryVoList]= useState([]);
     const navigate = useNavigate();
     
     const clickSeach = (event) => {
@@ -103,50 +103,58 @@ const Header = () => {
         const searchContent = event.target.searchContent.value;
         navigate('/search', { state:  {search,searchContent}  });
         
-        // setSearchVo({
-        //     search,
-        //     searchContent,
-        // });
+        setSearchInfoVo({
+            search,
+            searchContent,
+            pageNo : 1,
+            limit : 5,
+        });
 
       };
 
 
-    // const loadCommunityVoList = () => {
+    const loadCommunityVoList = () => {
         
-    //     fetch("http://127.0.0.1:8888/questrip/api/community/search", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json", 
-    //         },
-    //         body : JSON.stringify(searchVo),
-    //     })
-    //     .then(resp => resp.json())
-    //     .then((data) => {
-    //         setCommunityVoList(data.voList);
-    //     })
-    //     ;
-    // }
-    // const loadDiaryVoList = () => {
-    //     fetch("http://127.0.0.1:8888/questrip/api/diary/search", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json", 
-    //         },
-    //         body : JSON.stringify(searchVo),
-    //     })
-    //     .then(resp => resp.json())
-    //     .then((data) => {        
-    //         setDiaryVoList(data.voList);
-    //     })
-    //     ;
-    // }
+        fetch("http://127.0.0.1:8888/questrip/api/community/list", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+            },
+            body : JSON.stringify(searchInfoVo),
+        })
+        .then(resp => resp.json())
+        .then((data) => {
+            setCommunityVoList(data.voList);
+            console.log(data.voList);
+        })
+        ;
+    }
+    const loadDiaryVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/diary/list", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+            },
+            body : JSON.stringify(searchInfoVo),
+        })
+        .then(resp => resp.json())
+        .then((data) => {        
+            setDiaryVoList(data.voList);
+            console.log(data.voList);
+        })
+        ;
+    }
 
     useEffect( ()=>{
         setLoginInfo({no : loginNumber});
         
     }, [] )
 
-
+    useEffect( ()=>{
+        loadDiaryVoList();
+        loadCommunityVoList();
+        navigate('/search', { state:  {communityVoList,diaryVoList}  });
+    }, [searchInfoVo] )
 
     // useEffect( ()=>{
     //     loadCommunityVoList();
