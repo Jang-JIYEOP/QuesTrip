@@ -1,6 +1,7 @@
 package com.kh.questrip.comment.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -38,4 +39,31 @@ public class CommentService {
 	public int write(CommentVo vo) {
 		return dao.write(sst, vo);
 	}
+	
+	//댓글 추천 여부 판단
+	public boolean checkIfAlreadyLiked(Map<String, Object> map) {
+		return dao.checkIfAlreadyLiked(sst, map);
+	}
+	
+	//댓글 추천 증가
+	public int increaseBoardLikes(String memberNo, String no) {
+		return dao.increaseBoardLikes(sst, memberNo, no);
+	}
+	
+	//댓글 추천 취소
+	public int decreaseBoardLikes(String memberNo, String no) {
+		return dao.decreaseBoardLikes(sst, memberNo, no);
+	}
+	
+	//댓글 삭제
+	public int delete(CommentVo vo) {
+		return dao.delete(sst, vo);
+	}
+	
+	//대댓글 조회
+	public List<CommentVo> underCommentList(CommentVo vo) {
+		return dao.underCommentList(sst, vo);
+	}
+	
+	
 }

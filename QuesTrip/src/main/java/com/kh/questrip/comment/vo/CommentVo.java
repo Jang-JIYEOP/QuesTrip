@@ -14,5 +14,5 @@ public class CommentVo {
 	private String icon;
 	private String memberTitle;
 	private String nick;
-	
+	private String parentNo;
 }

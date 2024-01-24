@@ -16,14 +16,11 @@ const StyledMyInfoListDiv = styled.div`
 const MyInfoList = () => {
 
     const loginNumber = sessionStorage.getItem('loginInfo');
-    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    const {loginMemberVo, setLoginInfo} = useLoginMemory();
     const [MemberVo, setMemberVo] = useState({});
     const [pwdMsg, setPwdMsg] = useState('');
-    const [idDupCheck, setidDupCheck] = useState(0);
     const [nickDupCheck, setNickDupCheck] = useState(0);
-    const [emailCode, setEmailCode] = useState('');
     const [emailAuth, setEmailAuth] = useState(0);
-    const [selectedEmailOption, setSelectedEmailOption] = useState('directInput');
     const [isVerificationCodeVisible, setVerificationCodeVisible] = useState(false);
     const [emailPrefix, emailSuffix] = loginMemberVo.email.split('@');
 
