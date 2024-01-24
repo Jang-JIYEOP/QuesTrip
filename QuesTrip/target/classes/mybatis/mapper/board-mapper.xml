@@ -39,6 +39,20 @@
 	
 	WHERE 
 	    DEL_YN = 'N'
+	    <if test="searchContent != null">
+		    <bind name="pattern" value="'%' + searchContent + '%'"/>
+		    <if test="search == 'title'">
+		        AND CB.TITLE LIKE #{pattern}
+		    </if>
+		    <if test="search == 'content'">
+		        AND CB.CONTENT LIKE #{pattern}
+	        </if>
+	      	<if test="search == 'writer'">
+            	AND CB.MEMBER_NO = (SELECT NO
+                        			FROM MEMBER
+                           			WHERE NICK = #{pattern})
+        	</if> 
+    	</if>
   </select>
   
   <select id="best" resultType="com.kh.questrip.board.vo.BoardVo">
@@ -163,6 +177,20 @@
 	    COMMUNITY_LIKE CL ON CB.NO = CL.COMMUNITY_NO -- 좋아요 테이블 조인
 	WHERE 
 	    CB.DEL_YN = 'N'
+	    <if test="searchContent != null">
+		    <bind name="pattern" value="'%' + searchContent + '%'"/>
+		    <if test="search == 'title'">
+		        AND CB.TITLE LIKE #{pattern}
+		    </if>
+		    <if test="search == 'content'">
+		        AND CB.CONTENT LIKE #{pattern}
+	        </if>
+	      	<if test="search == 'writer'">
+            	AND CB.MEMBER_NO = (SELECT NO
+                        			FROM MEMBER
+                           			WHERE NICK = #{pattern})
+        	</if> 
+    	</if>
 	GROUP BY 
 	    CB.NO,
 	    M.NICK,

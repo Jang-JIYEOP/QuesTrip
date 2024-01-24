@@ -116,8 +116,33 @@ const CommunityList = () => {
         
     }, [searchInfoVo] );
 
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        const search = event.target.search.value;
+        const searchContent = event.target.searchContent.value;
+        setSearchInfoVo({
+            search,
+            searchContent,
+            pageNo: 1,
+            limit: 10,
+        })
+    }
+
+
     return (
         <StyledCommunityListDiv>
+            <div id='searchArea'>
+                <form onSubmit={handleSearchSubmit}>
+                    <select name="search">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                    <input type="text" name='searchContent' id='searchInput' />
+                    <input type="submit" value="검색" />
+                </form>
+            </div>
+            
             <table>
                 <thead>
                     <tr>
