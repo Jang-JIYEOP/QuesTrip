@@ -8,12 +8,17 @@ const NoticeList = () => {
     const StyledNoticeListDiv = styled.div`
     width: 100%;
     height: 100%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
 
+    #search{
+        width: 100%;
+        height: 20px;
+        
+    }
     & > table {
         width: 100%;
         border-collapse: collapse;
@@ -77,7 +82,7 @@ const [pageTotal, setPageTotal] = useState([]);
 const [searchInfoVo , setSearchInfoVo] = useState({
 
     pageNo : 1,
-    limit : 9,
+    limit : 10,
 
 }
 );
@@ -108,7 +113,19 @@ const loadBoardVoList = () => {
     });
 
 }
+const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const search = event.target.search.value;
+    const searchContent = event.target.searchContent.value;
 
+    setSearchInfoVo({
+        search,
+        searchContent,
+        pageNo : 1,
+        limit : 10,
+    });
+
+  };
 useEffect( () => {
     loadBoardVoList();
     
@@ -116,6 +133,16 @@ useEffect( () => {
 
     return (
         <StyledNoticeListDiv>
+            <div id="search">
+                <form onSubmit={handleSearchSubmit}>
+                    <select name="search">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                    </select>
+                    <input type="text" name='searchContent' id='searchInput' />
+                    <input type="submit" value="검색" />
+                </form>
+            </div>
             <table>
                 <thead>
                     <tr>
