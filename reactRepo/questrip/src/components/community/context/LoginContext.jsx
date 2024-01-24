@@ -7,7 +7,10 @@ const MemberMemory  = createContext();
 
 const MemberMemoryProvider = ({children}) => {
 
-    const [loginMemberVo, setLoginMemberVo] = useState([]);
+    const [loginMemberVo, setLoginMemberVo] = useState({
+        no:null,
+        email:"",
+    });
 
     const [loginInfo, setLoginInfo] = useState([]);
 

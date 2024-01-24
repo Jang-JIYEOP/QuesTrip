@@ -22,7 +22,8 @@ const MyInfoList = () => {
     const [nickDupCheck, setNickDupCheck] = useState(0);
     const [emailAuth, setEmailAuth] = useState(0);
     const [isVerificationCodeVisible, setVerificationCodeVisible] = useState(false);
-    const [emailPrefix, emailSuffix] = loginMemberVo.email.split('@');
+    console.log("loginMemberVooooooo" , loginMemberVo);
+    const [emailPrefix, emailSuffix] = loginMemberVo.email.split("@");
 
     useEffect( ()=>{
         setLoginInfo({no : loginNumber});
