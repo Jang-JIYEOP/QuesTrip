@@ -92,7 +92,7 @@ const Header = () => {
         loginNumber = sessionStorage.getItem('loginInfo');
     }
     const {loginMemberVo, setLoginInfo} = useLoginMemory();
-    const [searchInfoVo , setSearchInfoVo] = useState([]);
+    const [searchVo , setSearchVo] = useState([]);
     const [communityVoList, setCommunityVoList]= useState([]);
     const [diaryVoList, setDiaryVoList]= useState([]);
     const navigate = useNavigate();
@@ -103,7 +103,7 @@ const Header = () => {
         const searchContent = event.target.searchContent.value;
         navigate('/search', { state:  {search,searchContent}  });
         
-        setSearchInfoVo({
+        setSearchVo({
             search,
             searchContent,
             pageNo : 1,
@@ -120,7 +120,7 @@ const Header = () => {
             headers: {
                 "Content-Type": "application/json", 
             },
-            body : JSON.stringify(searchInfoVo),
+            body : JSON.stringify(searchVo),
         })
         .then(resp => resp.json())
         .then((data) => {
@@ -135,7 +135,7 @@ const Header = () => {
             headers: {
                 "Content-Type": "application/json", 
             },
-            body : JSON.stringify(searchInfoVo),
+            body : JSON.stringify(searchVo),
         })
         .then(resp => resp.json())
         .then((data) => {        
@@ -153,8 +153,12 @@ const Header = () => {
     useEffect( ()=>{
         loadDiaryVoList();
         loadCommunityVoList();
-        navigate('/search', { state:  {communityVoList,diaryVoList}  });
-    }, [searchInfoVo] )
+        if(!searchVo){
+
+            navigate('/search', { state:  {communityVoList,diaryVoList}  });
+        }
+        
+    }, [searchVo] )
 
     // useEffect( ()=>{
     //     loadCommunityVoList();
