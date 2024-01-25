@@ -62,11 +62,15 @@ const CommtListItem = ({vo}) => {
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
     const [underCommentList, setUnderCommentList] = useState([]);
     const [commentVo, setCommentVo] = useState([]);
+    const [showUnderCommtList, setShowUnderCommtList] = useState(false);
 
     useEffect( ()=>{
         if(loginNumber !== null){
             setLoginInfo({no : loginNumber});
         }  
+        setCommentVo({
+            parentNo : vo.no
+        })
     },[])
 
     //댓글 삭제
@@ -173,13 +177,11 @@ const CommtListItem = ({vo}) => {
 
     useEffect( ()=>{
         loadUnderCommentVoList();
-    }, [])
+    }, [commentVo])
 
     //대댓글 조회
     const loadUnderCommentVoList =() =>{
-        setCommentVo({
-            parentNo : vo.no
-        })
+        
 
         fetch(`http://127.0.0.1:8888/questrip/api/comment/underCommentList`, {
             method: "POST",
@@ -192,7 +194,6 @@ const CommtListItem = ({vo}) => {
         .then(underCommentList => {
             // 서버로부터 받은 데이터를 commentList 상태 변수에 저장합니다.
             setUnderCommentList(underCommentList.voList);
-            console.log("대댓글:",underCommentList);   
         })
          
         .catch(error => {
@@ -201,19 +202,15 @@ const CommtListItem = ({vo}) => {
         
     }
 
-    const handleDivClick = (clickedVo) => {
-        // 클릭한 div에 대한 정보를 state에 저장
-        setSelectedVo(clickedVo);
-        console.log("selectVo",selectedVo.no);
-      };
+
     
     //대댓글 작성
-    const handleSubmit = (clickedVo) => {
+    const handleSubmit = () => {
         const sessionData = sessionStorage.getItem('loginInfo');
         if(sessionData === null){
             alert("로그인 후 이용해주세요.")
         }else{
-            let content = document.getElementById("contentInput").value;
+            let content = document.getElementById("underContentInput").value;
         
             fetch("http://127.0.0.1:8888/questrip/api/comment/underCommentWrtie", {
                 method: "POST",
@@ -224,7 +221,7 @@ const CommtListItem = ({vo}) => {
                     boardNo: id,
                     memberNo: loginNumber,
                     content: content,
-                    parentNo: selectedVo.no,
+                    parentNo: vo.no,
                 }),
             })
             .then(resp => resp.json())
@@ -233,11 +230,19 @@ const CommtListItem = ({vo}) => {
         
     }
 
+    const showInputBox = () => {
+        if(showUnderCommtList === false){
+            setShowUnderCommtList(true);
+        }else{
+            setShowUnderCommtList(false);
+        }
+    }
+
 
     
     return (
         <StlyedCommtListItemDiv>
-            <div id='divv' onClick={() => handleDivClick(vo)}>
+            <div id='divv' onClick={showInputBox}>
                 <div id='img'><img src={vo.icon} alt="이미지" /></div>
                 <div>{vo.memberTitle}</div>
                 <div>{vo.enrollDate}</div>
@@ -260,10 +265,12 @@ const CommtListItem = ({vo}) => {
                 <div id='nick'>{vo.nick}</div>
             </div>
             <div id='content'>{vo.content}</div>
-            <div id='write'>
-                <input type="text" id='contentInput'/>
-                <button onClick={handleSubmit}>작성</button>
-            </div>
+            {showUnderCommtList && (
+                <div id='write'>
+                    <input type="text" id='underContentInput'/>
+                    <button onClick={handleSubmit}>작성</button>
+                </div>
+            )}
             <UnderCommtListItem voList = {underCommentList}/> 
 
         </StlyedCommtListItemDiv>
