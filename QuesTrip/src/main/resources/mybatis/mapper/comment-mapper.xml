@@ -56,7 +56,8 @@
 		    C.MEMBER_NO,
 		    C.BOARD_NO,
 		    I.PHOTO AS ICON,
-		    COUNT(CL.MEMBER_NO) AS LIKES_COUNT
+		    COUNT(CL.MEMBER_NO) AS LIKES_COUNT,
+		    C.PARENT_NO
 		FROM
 		    COMMT C
 		JOIN
@@ -79,7 +80,8 @@
 		    C.MEMBER_NO,
 		    C.BOARD_NO,
 		    I.PHOTO,
-		    MT.TITLE
+		    MT.TITLE,
+		    C.PARENT_NO
 		ORDER BY
 		    C.NO DESC
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
@@ -160,20 +162,43 @@
   
   <select id="underCommentList" resultType="com.kh.questrip.comment.vo.CommentVo">
   	SELECT
-  		C.NO,
-  		M.NICK AS NICK,
-  		C.CONTENT,
-  		C.DEL_YN,
-  		C.ENROLL_DATE
-  	FROM
-  		COMMT C
-  	JOIN
-  		MEMBER M ON C.MEMBER_NO = M.NO
-  	WHERE
-  		C.DEL_YN = 'N'
-		AND C.PARENT_NO = #{parentNo}
-  	ORDER BY
-  		C.ENROLL_DATE DESC
+		    C.NO AS NO,
+		    M.NICK AS NICK,
+		    C.CONTENT,
+		    C.ENROLL_DATE,
+		    MT.TITLE AS MEMBER_TITLE ,
+		    C.DEL_YN,
+		    C.MEMBER_NO,
+		    C.BOARD_NO,
+		    I.PHOTO AS ICON,
+		    COUNT(CL.MEMBER_NO) AS LIKES_COUNT,
+		    C.PARENT_NO
+		FROM
+		    COMMT C
+		JOIN
+		    MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN
+		    ICON I ON M.ICON_NO = I.NO
+		JOIN
+			MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
+		LEFT JOIN
+			COMMT_LIKE CL ON C.NO = CL.COMMT_NO			
+		WHERE
+		    C.DEL_YN = 'N'
+		    AND C.PARENT_NO = #{parentNo}
+		GROUP BY
+		    C.NO,
+		    M.NICK,
+		    C.CONTENT,
+		    C.ENROLL_DATE,
+		    C.DEL_YN,
+		    C.MEMBER_NO,
+		    C.BOARD_NO,
+		    I.PHOTO,
+		    MT.TITLE,
+		    C.PARENT_NO
+		ORDER BY
+		    C.NO DESC
   </select>
 	
 </mapper>

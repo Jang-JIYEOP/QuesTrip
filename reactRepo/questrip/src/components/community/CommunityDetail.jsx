@@ -219,7 +219,7 @@ const CommunityDetail = () => {
             alert("로그인 후 이용해주세요.")
         }else{
             let content = document.getElementById("contentInput").value;
-        
+            console.log("컨텐츠", content);
             fetch("http://127.0.0.1:8888/questrip/api/comment/write", {
                 method: "POST",
                 headers: {
@@ -264,7 +264,11 @@ const CommunityDetail = () => {
 
             <div id='reply'>
                 {commentList.map( (vo) => {
-                    return <CommtListItem key = {vo.no} vo = {vo}/>
+                    if(!vo.parentNo){
+                        return <CommtListItem key = {vo.no} vo = {vo}/>
+                    }
+
+                    
                 })
             }
                 <div>
