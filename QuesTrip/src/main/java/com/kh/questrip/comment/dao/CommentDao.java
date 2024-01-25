@@ -60,5 +60,10 @@ public class CommentDao {
 	public List<CommentVo> underCommentList(SqlSessionTemplate sst, CommentVo vo) {
 		return sst.selectList("commentMapper.underCommentList", vo);
 	}
+	
+	//대댓글 작성
+	public int underCommentWrite(SqlSessionTemplate sst, CommentVo vo) {
+		return sst.insert("commentMapper.underCommentWrite", vo);
+	}
 
 }

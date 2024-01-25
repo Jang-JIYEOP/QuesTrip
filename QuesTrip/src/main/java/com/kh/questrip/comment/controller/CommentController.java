@@ -48,11 +48,11 @@ public class CommentController {
 	//대댓글 조회
 	@PostMapping("underCommentList")
 	public Map<String, Object> underCommentList(@RequestBody CommentVo vo) {
-		System.out.println(vo);
-		System.out.println("대댓글 실행");
 		Map<String, Object> map = new HashMap<>();
 		List<CommentVo> underCommentList = service.underCommentList(vo);
 		map.put("voList", underCommentList);
+		System.out.println("대댓글 부모: "+ vo.getParentNo());
+		System.out.println("대댓글: "+ vo);
 		return map;
 	}
 	
@@ -92,5 +92,11 @@ public class CommentController {
         
         return service.decreaseBoardLikes(memberNo, no);
     }
+	
+	//대댓글 작성
+	@PostMapping("underCommentWrtie")
+	public int underCommentWrite(@RequestBody CommentVo vo) {
+		return service.underCommentWrite(vo);
+	}
 
 }

@@ -64,6 +64,10 @@ public class CommentService {
 	public List<CommentVo> underCommentList(CommentVo vo) {
 		return dao.underCommentList(sst, vo);
 	}
+
+	public int underCommentWrite(CommentVo vo) {
+		return dao.underCommentWrite(sst, vo);
+	}
 	
 	
 }

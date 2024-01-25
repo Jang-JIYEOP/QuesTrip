@@ -212,6 +212,7 @@ const CommunityDetail = () => {
             }));
         };
 
+    //댓글 작성
     const handleSubmit = () => {
         const sessionData = sessionStorage.getItem('loginInfo');
         if(sessionData === null){
@@ -231,9 +232,6 @@ const CommunityDetail = () => {
                 }),
             })
             .then(resp => resp.json())
-            console.log("멤버 넘버: ", commentList.memberNo);
-            console.log("게시글 넘버: ", commentList.boardNo);
-            console.log("내용: ", commentList.content);
             window.location.reload();
         }
         

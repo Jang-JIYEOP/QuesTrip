@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useLoginMemory } from '../community/context/LoginContext';
 import underCommtListItem from './underCommtListItem';
 import UnderCommtListItem from './underCommtListItem';
+import { useParams } from 'react-router-dom';
 
 const StlyedCommtListItemDiv = styled.div`
     width: 100%;
@@ -48,13 +49,17 @@ const StlyedCommtListItemDiv = styled.div`
     #count{
         width: 50%;
     }
+    #write{
+        grid-column: span 3;
+    }
 `;
 
 
 const CommtListItem = ({vo}) => {
-
+    const [selectedVo, setSelectedVo] = useState(null);
     const loginNumber = sessionStorage.getItem('loginInfo');
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
     const [underCommentList, setUnderCommentList] = useState([]);
     const [commentVo, setCommentVo] = useState([]);
 
@@ -64,7 +69,7 @@ const CommtListItem = ({vo}) => {
         }  
     },[])
 
-    //게시글 삭제
+    //댓글 삭제
     const handleDelete = () => {
         
         fetch("http://127.0.0.1:8888/questrip/api/comment/delete", {
@@ -77,9 +82,9 @@ const CommtListItem = ({vo}) => {
         .then(
             window.location.reload()
         )
-    }
+    } 
 
-    // 게시글 추천 버튼 클릭 시 동작하는 함수 예시
+    // 댓글 추천 버튼 클릭 시 동작하는 함수 예시
     const handleLikeButtonClick = async () => {
         const sessionData = sessionStorage.getItem('loginInfo');
         if (sessionData == null){
@@ -92,7 +97,7 @@ const CommtListItem = ({vo}) => {
             console.log("클라이언트에서 넘기는 값: "+ memberNo, no);
             if (alreadyLiked) {
                 console.log('이미 추천한 게시글입니다.');
-                // 이미 추천한 게시글에 대한 처리 (예: decreaseLikes 함수 호출)
+                // 이미 추천한 댓글에 대한 처리 (예: decreaseLikes 함수 호출)
                 decreaseLikes(memberNo, no);  // 해당 함수를 호출하면 추천 취소 기능을 수행할 수 있습니다.
             } 
             else {
@@ -103,7 +108,7 @@ const CommtListItem = ({vo}) => {
         }
     };
 
-    // 이미 추천한 게시글인지 확인하는 함수
+    // 이미 추천한 댓글인지 확인하는 함수
     const checkIfAlreadyLiked = async (memberNo, no) => {
         try {
             const response = await fetch("http://127.0.0.1:8888/questrip/api/comment/checkIfAlreadyLiked", {
@@ -168,11 +173,10 @@ const CommtListItem = ({vo}) => {
 
     useEffect( ()=>{
         loadUnderCommentVoList();
-    }, [commentVo])
+    }, [])
 
     //대댓글 조회
     const loadUnderCommentVoList =() =>{
-        console.log("댓글번호",vo.no);
         setCommentVo({
             parentNo : vo.no
         })
@@ -182,26 +186,58 @@ const CommtListItem = ({vo}) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(commentVo) 
+            body: JSON.stringify(commentVo)  
         })
         .then(resp => resp.json())
         .then(underCommentList => {
             // 서버로부터 받은 데이터를 commentList 상태 변수에 저장합니다.
             setUnderCommentList(underCommentList.voList);
-            console.log("??",underCommentList.voList);
+            console.log("대댓글:",underCommentList);   
         })
-        
+         
         .catch(error => {
             console.error("댓글 목록을 가져오는 중 에러 발생:", error);
         });
         
-    }        
+    }
+
+    const handleDivClick = (clickedVo) => {
+        // 클릭한 div에 대한 정보를 state에 저장
+        setSelectedVo(clickedVo);
+        console.log("selectVo",selectedVo.no);
+      };
+    
+    //대댓글 작성
+    const handleSubmit = (clickedVo) => {
+        const sessionData = sessionStorage.getItem('loginInfo');
+        if(sessionData === null){
+            alert("로그인 후 이용해주세요.")
+        }else{
+            let content = document.getElementById("contentInput").value;
+        
+            fetch("http://127.0.0.1:8888/questrip/api/comment/underCommentWrtie", {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify({
+                    boardNo: id,
+                    memberNo: loginNumber,
+                    content: content,
+                    parentNo: selectedVo.no,
+                }),
+            })
+            .then(resp => resp.json())
+            window.location.reload();
+        }
+        
+    }
 
 
     
     return (
         <StlyedCommtListItemDiv>
-            <div id='divv'>
+            <div id='divv' onClick={() => handleDivClick(vo)}>
                 <div id='img'><img src={vo.icon} alt="이미지" /></div>
                 <div>{vo.memberTitle}</div>
                 <div>{vo.enrollDate}</div>
@@ -224,6 +260,10 @@ const CommtListItem = ({vo}) => {
                 <div id='nick'>{vo.nick}</div>
             </div>
             <div id='content'>{vo.content}</div>
+            <div id='write'>
+                <input type="text" id='contentInput'/>
+                <button onClick={handleSubmit}>작성</button>
+            </div>
             <UnderCommtListItem voList = {underCommentList}/> 
 
         </StlyedCommtListItemDiv>

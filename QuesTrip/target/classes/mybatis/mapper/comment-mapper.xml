@@ -104,6 +104,27 @@
   	)
   </insert>
   
+  <insert id="underCommentWrite">
+  	INSERT INTO COMMT
+  	(
+  		NO,
+  		MEMBER_NO,
+  		BOARD_NO,
+  		CONTENT,
+  		ENROLL_DATE,
+  		PARENT_NO	
+  	)
+  	VALUES
+  	(
+  		SEQ_COMMT_NO.NEXTVAL,
+  		#{memberNo},
+  		#{boardNo},
+  		#{content},
+  		SYSDATE,
+  		#{parentNo}
+  	)
+  </insert>
+  
   <select id="checkIfAlreadyLiked" resultType="java.lang.Boolean" parameterType="java.util.Map">
         SELECT COUNT(*) 
         FROM COMMT_LIKE 

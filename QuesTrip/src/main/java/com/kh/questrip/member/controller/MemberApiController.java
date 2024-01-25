@@ -59,8 +59,6 @@ public class MemberApiController {
 		return map;
 	}
 	
-	
-	
 	//중복확인
 	@PostMapping("join/dupCheck")
 	public Map<String, Object> dupCheck(@RequestBody MemberVo vo){
