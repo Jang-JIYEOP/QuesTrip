@@ -62,6 +62,7 @@ const CommtListItem = ({vo}) => {
     const  {id} = useParams(); // URL에서 게시글의 ID를 가져옵니다.
     const [underCommentList, setUnderCommentList] = useState([]);
     const [commentVo, setCommentVo] = useState([]);
+    const [showUnderCommtList, setShowUnderCommtList] = useState(false);
 
     useEffect( ()=>{
         if(loginNumber !== null){
@@ -229,11 +230,19 @@ const CommtListItem = ({vo}) => {
         
     }
 
+    const showInputBox = () => {
+        if(showUnderCommtList === false){
+            setShowUnderCommtList(true);
+        }else{
+            setShowUnderCommtList(false);
+        }
+    }
+
 
     
     return (
         <StlyedCommtListItemDiv>
-            <div id='divv'>
+            <div id='divv' onClick={showInputBox}>
                 <div id='img'><img src={vo.icon} alt="이미지" /></div>
                 <div>{vo.memberTitle}</div>
                 <div>{vo.enrollDate}</div>
@@ -256,10 +265,12 @@ const CommtListItem = ({vo}) => {
                 <div id='nick'>{vo.nick}</div>
             </div>
             <div id='content'>{vo.content}</div>
-            <div id='write'>
-                <input type="text" id='underContentInput'/>
-                <button onClick={handleSubmit}>작성</button>
-            </div>
+            {showUnderCommtList && (
+                <div id='write'>
+                    <input type="text" id='underContentInput'/>
+                    <button onClick={handleSubmit}>작성</button>
+                </div>
+            )}
             <UnderCommtListItem voList = {underCommentList}/> 
 
         </StlyedCommtListItemDiv>
