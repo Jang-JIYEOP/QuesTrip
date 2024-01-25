@@ -114,7 +114,6 @@ const Header = () => {
 
 
     const loadCommunityVoList = () => {
-        
         fetch("http://127.0.0.1:8888/questrip/api/community/list", {
             method: "POST",
             headers: {
@@ -125,7 +124,7 @@ const Header = () => {
         .then(resp => resp.json())
         .then((data) => {
             setCommunityVoList(data.voList);
-            console.log(data.voList);
+            console.log("헤더자게",data.voList);
         })
         ;
     }
@@ -138,9 +137,9 @@ const Header = () => {
             body : JSON.stringify(searchVo),
         })
         .then(resp => resp.json())
-        .then((data) => {        
+        .then((data) => {
             setDiaryVoList(data.voList);
-            console.log(data.voList);
+            console.log("헤더일기",data.voList);
         })
         ;
     }
@@ -150,21 +149,27 @@ const Header = () => {
         
     }, [] )
 
+    
     useEffect( ()=>{
         loadDiaryVoList();
         loadCommunityVoList();
         if(!searchVo){
-
-            navigate('/search', { state:  {communityVoList,diaryVoList}  });
+            navigate('/search', { 
+                state:  {
+                    a:communityVoList,
+                    b:diaryVoList
+                }  
+            });
         }
-        
+    // const fetchData = async () => {
+    //     await Promise.all([loadDiaryVoList(), loadCommunityVoList()]);
+    //     if (!searchVo) {
+    //         navigate('/search', {state: {communityVoList,diaryVoList}});
+    //     }
+    // };
+    // fetchData();
     }, [searchVo] )
 
-    // useEffect( ()=>{
-    //     loadCommunityVoList();
-    //     loadDiaryVoList();
-    //     navigate('/search', { state:  {communityVoList,diaryVoList}  });
-    // }, [searchVo] )
 
     return (
         <StyledHeaderDiv>
