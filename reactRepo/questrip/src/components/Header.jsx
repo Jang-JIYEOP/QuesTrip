@@ -151,12 +151,20 @@ const Header = () => {
     }, [] )
 
     useEffect( ()=>{
-        loadDiaryVoList();
-        loadCommunityVoList();
-        if(!searchVo){
 
-            navigate('/search', { state:  {communityVoList,diaryVoList}  });
-        }
+        new Promise( (resolve)=>{
+            loadDiaryVoList();
+            resolve();
+        } )
+        .then( ()=>{
+            loadCommunityVoList();
+        } )
+        .then( ()=>{
+            if(searchVo !== null){
+                console.log("if passed");
+                navigate('/search', { state:  {communityVoList,diaryVoList}  });
+            } 
+        } );
         
     }, [searchVo] )
 
