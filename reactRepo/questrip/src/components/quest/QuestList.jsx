@@ -8,7 +8,6 @@ import { useLoginMemory } from '../community/context/LoginContext';
 const StyledQuestListDiv = styled.div`
   width: 100%;
     height: 100%;
-    margin-top: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;

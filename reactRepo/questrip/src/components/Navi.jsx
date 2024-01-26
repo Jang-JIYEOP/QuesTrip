@@ -7,7 +7,8 @@ const StyledNaviDiv = styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 10px 0;
-    background-color: #4aaeff;
+    margin-bottom: 10px;
+    background-color: #0088f896;
     color: white;
     border-radius: 8px;
     font-size: 1rem;
