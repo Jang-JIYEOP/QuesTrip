@@ -11,23 +11,41 @@
 		WHERE STATE = '1'
 	</select>
 	
+	<select id="list" resultType="com.kh.questrip.complete.vo.CompleteVo">
+		SELECT
+
+			    CQ.NO
+			    
+			FROM
+			    COM_QUEST CQ
+			LEFT JOIN
+			    MEMBER M ON CQ.MEMBER_NO = M.NO
+			LEFT JOIN
+			    QUEST Q ON CQ.QUEST_NO = Q.NO
+			JOIN
+			    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
+			WHERE
+			    CQ.MEMBER_NO = #{memberNo}
+			
+	</select>
 	<select id="pageList" resultType="com.kh.questrip.complete.vo.CompleteVo">
 	        SELECT
-	        	cq.NO,
-			    cq.MEMBER_NO,
-			    m.NICK AS MEMBER_NAME,
-			    cq.QUEST_NO,
-			    q.TITLE AS QUEST_NAME,
-			    cq.RATE,
-			    cq.IMG_PATH,
-			    cq.COM_TIME,
-			    q.CONTENT
+	        	CQ.NO,
+			    CQ.MEMBER_NO,
+			    M.NICK AS MEMBER_NAME,
+			    CQ.QUEST_NO,
+			    Q.TITLE AS QUEST_NAME,
+			    CQ.RATE,
+			    CQ.IMG_PATH,
+			    CQ.COM_TIME,
+			    Q.CONTENT,
+			    Q.POINT
 			FROM
-			    COM_QUEST cq
+			    COM_QUEST CQ
 			JOIN
-			    MEMBER m ON cq.MEMBER_NO = m.NO
+			    MEMBER M ON CQ.MEMBER_NO = M.NO
 			JOIN
-			    QUEST q ON cq.QUEST_NO = q.NO
+			    QUEST Q ON CQ.QUEST_NO = Q.NO
 			WHERE STATE = '1'
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
@@ -43,33 +61,60 @@
 	<select id="myList" resultType="com.kh.questrip.complete.vo.CompleteVo">
 	        SELECT
 			    M.NICK AS MEMBER_NAME,
-	        	CQ.NO,
+			    CQ.NO,
 			    CQ.MEMBER_NO,
+			    QC.NAME AS CATEGORY_NAME,
 			    CQ.QUEST_NO,
 			    CQ.RATE,
 			    CQ.IMG_PATH,
 			    CQ.COM_TIME,
-                CQ.STATE,
-                CQ.REJEC_REASON,
-			    Q.QUE_CATE_NO , 
-			    Q.LOC_CATE_NO ,
-			    Q.TITLE, 
-			    Q.CONTENT, 
-			    Q.POINT, 
-			    Q.ENROLL_DATE, 
-			    Q.IMG_PATH, 
-			    Q.LATITUDE, 
-			    Q.LONGITUDE, 
+			    CQ.STATE,
+			    CQ.REJEC_REASON,
+			    Q.QUE_CATE_NO,
+			    Q.LOC_CATE_NO,
+			    Q.TITLE,
+			    Q.CONTENT,
+			    Q.POINT,
+			    Q.ENROLL_DATE,
+			    Q.IMG_PATH,
+			    Q.LATITUDE,
+			    Q.LONGITUDE,
 			    Q.DEL_YN,
-			    Q.HEAD_CNT
+			    Q.HEAD_CNT,
+			    ROUND(AVG(CQ.RATE), 2) AS RATING
 			FROM
 			    COM_QUEST CQ
-			JOIN
+			LEFT JOIN
 			    MEMBER M ON CQ.MEMBER_NO = M.NO
-			JOIN
+			LEFT JOIN
 			    QUEST Q ON CQ.QUEST_NO = Q.NO
-			WHERE CQ.MEMBER_NO = #{memberNo}
-	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+			JOIN
+			    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
+			WHERE
+			    CQ.MEMBER_NO = #{memberNo}
+			GROUP BY
+			    M.NICK,
+			    CQ.NO,
+			    CQ.MEMBER_NO,
+			    QC.NAME,
+			    CQ.QUEST_NO,
+			    CQ.RATE,
+			    CQ.IMG_PATH,
+			    CQ.COM_TIME,
+			    CQ.STATE,
+			    CQ.REJEC_REASON,
+			    Q.QUE_CATE_NO,
+			    Q.LOC_CATE_NO,
+			    Q.TITLE,
+			    Q.CONTENT,
+			    Q.POINT,
+			    Q.ENROLL_DATE,
+			    Q.IMG_PATH,
+			    Q.LATITUDE,
+			    Q.LONGITUDE,
+			    Q.DEL_YN,
+			    Q.HEAD_CNT
+			    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
 	
 	<update id="updatePoint">
@@ -87,7 +132,7 @@
             JOIN member_title mt1 ON m1.ACCUMULATE >= mt1.POINT
             WHERE m1.NO = m.NO
         )
-        WHERE m.NO = #{no}
+        WHERE m.NO = #{memberNo}
     </update>
 </mapper>
 

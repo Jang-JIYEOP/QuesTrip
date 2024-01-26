@@ -44,4 +44,8 @@ public class CompleteService {
 		return dao.updateTitle(sst, vo);
 	}
 
+	public List<CompleteVo> list(SearchInfoVo vo) {
+		return dao.list(vo,sst);
+	}
+
 }

@@ -35,4 +35,8 @@ public class CompleteDao {
 		return sst.update("CompleteMapper.updateTitle", vo);
 	}
 
+	public List<CompleteVo> list(SearchInfoVo vo, SqlSessionTemplate sst) {
+		return sst.selectList("CompleteMapper.list", vo);
+	}
+
 }
