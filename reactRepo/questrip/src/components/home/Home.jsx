@@ -4,6 +4,7 @@ import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
 import Page from '../page/Page';
 import { useNavigate } from 'react-router-dom';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 
 
@@ -108,7 +109,8 @@ const StyledHomeDiv = styled.div`
 const Home = () => {
 
     const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
-    
+    const loginNumber = sessionStorage.getItem('loginInfo');
+const {setLoginInfo} = useLoginMemory();
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
     const [boardBestList, setBoardBestList] = useState([]);
@@ -128,6 +130,10 @@ const Home = () => {
     }
 
     useEffect(() => {
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
+
         setSearchInfoVo({
           locCateNo : 1,
           pageNo : 1,
