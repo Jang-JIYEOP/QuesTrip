@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Page from '../page/Page';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useLoginMemory } from '../community/context/LoginContext';
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 
 const StyledDiaryListDiv = styled.div`
@@ -100,8 +101,12 @@ const StyledDiaryListDiv = styled.div`
 
 const DiaryList = () => {
     const [pageTotal, setPageTotal] = useState([]);
+    const location = useLocation();
+    
+    const searchVo = location.state ? location.state.searchVo : null;
     const [searchInfoVo , setSearchInfoVo] = useState({
-
+        search: searchVo? searchVo.search : '',
+        searchContent: searchVo? searchVo.searchContent : '',
         pageNo : 1,
         limit : 10,
     

@@ -85,6 +85,7 @@ const Seach = () => {
     const navigate = useNavigate();
     const communityVoList = location.state.communityVoList;
     const diaryVoList = location.state.diaryVoList;
+    const searchVo = location.state.searchVo;
 
     console.log(diaryVoList);
     console.log(communityVoList);
@@ -94,6 +95,15 @@ const Seach = () => {
         navigate(`/community/detail/${id}`);
         
     };
+
+    const plusCommunityClick = () => {
+        navigate(`/community/list`, {state: {searchVo}});
+    };
+
+    const plusDiaryClick = () => {
+        navigate(`/diary/list`, {state: {searchVo}});
+    };
+
 
     return ( 
         <StlyedSearchDiv>
@@ -130,7 +140,7 @@ const Seach = () => {
                             }
                         </tbody>
                     </table>
-                    <div id='plus'><b>+더보기</b></div>
+                    <div id='plus' onClick={plusCommunityClick}><b>+더보기</b></div>
                 </div>
             </div>
             <div className='board'>
@@ -166,7 +176,7 @@ const Seach = () => {
                             }
                         </tbody>
                     </table>
-                    <div id='plus'><b>+더보기</b></div>
+                    <div id='plus' onClick={plusDiaryClick}><b>+더보기</b></div>
                 </div>
             </div>
         </StlyedSearchDiv>

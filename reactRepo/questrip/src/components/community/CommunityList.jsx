@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLoginMemory } from './context/LoginContext';
 import Page from '../page/Page';
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const StyledCommunityListDiv = styled.div`
     width: 100%;
@@ -97,18 +98,23 @@ const StyledCommunityListDiv = styled.div`
 
 
 const CommunityList = () => {
-    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
+    const {setLoginInfo} = useLoginMemory();
+    const location = useLocation();
+    
+    const searchVo = location.state ? location.state.searchVo : null;
     const [pageTotal, setPageTotal] = useState([]);
     const loginNumber = sessionStorage.getItem('loginInfo');
+    console.log(searchVo);
+    
     const [searchInfoVo , setSearchInfoVo] = useState({
 
+        search: searchVo? searchVo.search : '',
+        searchContent: searchVo? searchVo.searchContent : '',
         pageNo : 1,
         limit : 10,
     
     }
     );
-
-    
 
     const navigate = useNavigate();
 
@@ -144,11 +150,17 @@ const CommunityList = () => {
                 setBoardBestList(data.bestList);
             });
     }
+
     useEffect( () => {
         loadBoardVoList();
         setLoginInfo({no : loginNumber});
+        console.log(searchVo);
+        
     }, [searchInfoVo] );
 
+
+ 
+    
     const handleSearchSubmit = (event) => {
         event.preventDefault();
         const search = event.target.search.value;
