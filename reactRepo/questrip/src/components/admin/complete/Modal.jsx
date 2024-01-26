@@ -86,6 +86,8 @@ const Modal = ({ isOpen, closeModal, vo}) => {
         setComleteVo({
           no : vo.no,
           state : 2,
+          point: vo.point,
+          memberNo : vo.memberNo,
       })
     }
   };
