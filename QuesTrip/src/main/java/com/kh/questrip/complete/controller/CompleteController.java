@@ -47,6 +47,11 @@ public class CompleteController {
 	public Map<String, String> update(@RequestBody CompleteVo vo) {
 		System.out.println(vo);
 		int result = service.update(vo);
+		
+		int updatePoint = service.updatePoint(vo);
+		
+		int updateTitle = service.updateTitle(vo);
+		
 		Map<String, String> map = new HashMap<>();
 		
 		map.put("msg", "good");

@@ -27,4 +27,12 @@ public class CompleteDao {
 		return sst.selectList("CompleteMapper.myList",vo);
 	}
 
+	public int updatePoint(SqlSessionTemplate sst, CompleteVo vo) {
+		return sst.update("CompleteMapper.updatePoint", vo);
+	}
+
+	public int updateTitle(SqlSessionTemplate sst, CompleteVo vo) {
+		return sst.update("CompleteMapper.updateTitle", vo);
+	}
+
 }

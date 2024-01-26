@@ -10,7 +10,7 @@ public class CompleteVo {
 	private String rate;
 	private String comTime;
 	private String state;
-	
+	private String point;
 	private String questName;
 	private String memberName;
 	private String content;

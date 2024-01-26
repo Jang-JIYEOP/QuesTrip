@@ -36,4 +36,12 @@ public class CompleteService {
 		return dao.myList(sst,vo);
 	}
 
+	public int updatePoint(CompleteVo vo) {
+		return dao.updatePoint(sst, vo);
+	}
+
+	public int updateTitle(CompleteVo vo) {
+		return dao.updateTitle(sst, vo);
+	}
+
 }
