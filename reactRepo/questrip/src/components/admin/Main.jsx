@@ -12,6 +12,8 @@ import CommunityList from './community/CommunityList';
 import IconList from './icon/IconList';
 import CompleteList from './complete/CompleteList';
 import CompleteDetail from './complete/CompleteDetail';
+import NoticeWrite from './notice/NoticeWrite';
+import NoticeDetail from './notice/NoticeDetail';
 
 const Main = () => {
     return (
@@ -22,6 +24,8 @@ const Main = () => {
                 <Route path='/member/list' element={<MemberList/>}></Route>
                 <Route path='/quest/list' element={<QuestList/>}></Route>
                 <Route path='/notice/list' element={<NoticeList/>}></Route>
+                <Route path='/notice/write' element={<NoticeWrite/>}></Route>
+                <Route path='/notice/detail' element={<NoticeDetail/>}></Route>
                 <Route path='/dairy/list' element={<DiaryList/>}></Route>
                 <Route path='/community/list' element={<CommunityList/>}></Route>
                 <Route path='/complete/list' element={<CompleteList/>}></Route>

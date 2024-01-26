@@ -43,4 +43,12 @@ public class MemberDao {
 	public List<PointVo> pageList(SqlSessionTemplate sst, SearchInfoVo vo) {
 		return sst.selectList("MemberMapper.pageList", vo);
 	}
+
+	public int findMaxNo(SqlSessionTemplate sst) {
+		return sst.selectOne("MemberMapper.findMaxNo");
+	}
+
+	public int insertIcon(SqlSessionTemplate sst, int memberNo) {
+		return sst.insert("MemberMapper.insertIcon", memberNo);
+	}
 }

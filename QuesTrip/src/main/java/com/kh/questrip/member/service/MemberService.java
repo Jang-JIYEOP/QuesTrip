@@ -47,6 +47,14 @@ public class MemberService {
 	public int point(SearchInfoVo vo) {
 		return dao.point(sst, vo);
 	}
+
+	public int findMaxNo() {
+		return dao.findMaxNo(sst);
+	}
+
+	public int insertIcon(int memberNo) {
+		return dao.insertIcon(sst, memberNo);
+	}
 	
 
 }

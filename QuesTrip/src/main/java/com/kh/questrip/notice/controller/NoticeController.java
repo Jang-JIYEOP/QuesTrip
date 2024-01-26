@@ -49,8 +49,18 @@ public class NoticeController {
 		System.out.println(service.listAll());
 		return service.listAll();
 	}
+	
+	//공지사항 작성
 	@PostMapping("write")
-	public void write(@RequestBody NoticeVo vo) {
-		int result = service.write(vo);
+	public int write(@RequestBody NoticeVo vo) {
+		System.out.println("공지 vo"+vo);
+		return service.write(vo);
+	}
+	
+	//공지사항 삭제
+	@PostMapping("delete")
+	public int delete(@RequestBody NoticeVo vo) {
+		System.out.println("삭제vo"+ vo);
+		return service.delete(vo);
 	}
 }

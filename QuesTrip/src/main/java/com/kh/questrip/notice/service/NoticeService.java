@@ -33,5 +33,8 @@ public class NoticeService {
 
 		return dao.write(vo,sst);
 	}
+	public int delete(NoticeVo vo) {
+		return dao.delete(vo, sst);
+	}
 	
 }
