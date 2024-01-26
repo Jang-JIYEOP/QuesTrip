@@ -42,13 +42,13 @@
 	    <if test="searchContent != null">
 		    <bind name="pattern" value="'%' + searchContent + '%'"/>
 		    <if test="search == 'title'">
-		        AND CB.TITLE LIKE #{pattern}
+		        AND TITLE LIKE #{pattern}
 		    </if>
 		    <if test="search == 'content'">
-		        AND CB.CONTENT LIKE #{pattern}
+		        AND CONTENT LIKE #{pattern}
 	        </if>
 	      	<if test="search == 'writer'">
-            	AND CB.MEMBER_NO = (SELECT NO
+            	AND MEMBER_NO = (SELECT NO
                         			FROM MEMBER
                            			WHERE NICK = #{pattern})
         	</if> 

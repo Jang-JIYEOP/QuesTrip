@@ -3,26 +3,59 @@ import styled from 'styled-components';
 
 const StyledWrqpDiv = styled.div`
     width: 100%;
-    height: 100%;
+    height: 1000%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    #item{
+    justify-content: center;
+
+    #item {
         width: 100%;
         height: 100%;
         display: grid;
         grid-template-columns: 2fr 3fr;
         grid-template-rows: 1fr 1fr 1fr;
-        & > #img {
-            grid-row: span 3;
+        gap: 10px;
+    }
 
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover; // or contain
-      }
+    #item #img {
+        grid-row: span 3;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
+    }
+
+    #item #title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    #item #price {
+        color: #4682B4;
+        font-weight: bold;
+    }
+
+    #item button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4682B4;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #item button:hover {
+        background-color: #357ca5;
     }
 `;
 

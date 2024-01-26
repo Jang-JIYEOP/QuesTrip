@@ -12,7 +12,36 @@ const StyledCommunityListDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-
+    #searchArea {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    form {
+        display: flex;
+        align-items: center;
+        select, input[type="text"] {
+            margin-right: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="submit"] {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4682B4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #357ca5;
+        }
+    }
+}
     & > table {
         width: 100%;
         border-collapse: collapse;

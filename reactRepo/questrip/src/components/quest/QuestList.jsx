@@ -5,58 +5,85 @@ import QuestListItem from './QuestListItem';
 import Page from '../page/Page';
 
 const StyledQuestListDiv = styled.div`
-  width: 100% ;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 3fr 9fr 1fr;
-  place-items: center center;
-  
-  & > div {
-    width: 100%;
+  width: 100%;
     height: 100%;
-  }
-  
-  & #searchArea{
-    grid-column: span 3;
-    border: 1px solid black;
-    & > form{
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      place-items: center center;
-      & >div  {
-        width: 100%;
-        height: 100%;
-        & > select {
-          width: 200px;
-        }
-    }
-    }  
-  }
-
-  & #itemArea{
-    width: 100%;
-    height: 100%;
-    grid-column: span 3;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    place-items: center center;
-    & > div {
-      width: 80%;
-      height: 80%;
-      border: 1px solid red;
-
-    }
-    
-    
+    grid-template-rows: auto auto auto;
+    gap: 30px;
+    place-items: start center;
+  & > div {
+    width: 100%;
+    height: 90%;
   }
-  #pageArea{
+  
+  #searchArea {
     grid-column: span 3;
-  }
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+
+#searchArea form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+#searchArea form div {
+    display: flex;
+    flex-direction: column;
+}
+
+#searchArea form b {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#searchArea form select, #searchArea form input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#searchArea form input[type="submit"] {
+    padding: 10px;
+    border: none;
+    color: #fff;
+    background-color: #4682B4;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#searchArea form input[type="submit"]:hover {
+    background-color: #357ca5;
+}
+
+#itemArea {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    place-items: start center;
+}
+
+#itemArea div {
+    width: 90%;
+    background-color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 15px;
+}
+
+#pageArea {
+    grid-column: span 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 `;
 
 
