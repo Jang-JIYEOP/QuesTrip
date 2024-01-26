@@ -17,5 +17,20 @@ public class CompleteVo {
 	private String imgPath;
 	private String rejecReason;
 	
+	///////////////////////////////
+	private String locCateNo;
+	private String locName;
+	private String queName;
+	private String title;
+	private String enrollDate;
+	private String latitude;
+	private String longitude;
+	private String delYn;
+	private String rating;
+	private String headCnt;
+	private String queCateNo;
+	private String rateCnt;
+	private String categoryName;
+	
 	
 }

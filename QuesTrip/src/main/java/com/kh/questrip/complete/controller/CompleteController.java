@@ -33,7 +33,7 @@ public class CompleteController {
 		vo.setPageNo(Integer.toString(start));
 		
 		int pageTotal = (int)Math.ceil((double)service.allList()/Integer.parseInt(vo.getLimit()));
-			
+		
 		List<CompleteVo> questVoList = new ArrayList<CompleteVo>();
 
 		questVoList = service.pageList(vo);		
@@ -63,16 +63,17 @@ public class CompleteController {
 
 	@PostMapping("mylist")
 	public Map<String, Object> myList(@RequestBody SearchInfoVo vo){
+		System.out.println(vo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
 		vo.setPageNo(Integer.toString(start));
 		
-		int pageTotal = (int)Math.ceil((double)service.allList()/Integer.parseInt(vo.getLimit()));
+		int pageTotal = (int)Math.ceil((double)service.list(vo).size()/Integer.parseInt(vo.getLimit()));
 			
 		List<CompleteVo> questVoList = service.myList(vo);
 
 		map.put("pageTotal", pageTotal);
-		
+		System.out.println(questVoList);
 		map.put("voList",questVoList);
 		
 		return map;

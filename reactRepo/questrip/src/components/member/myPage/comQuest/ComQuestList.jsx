@@ -92,12 +92,12 @@ const ComQuestList = () => {
 
   
 const loginNumber = sessionStorage.getItem('loginInfo');
-const {setLoginInfo} = useLoginMemory();
 const [comQuestVoList,setComQuestVoList] = useState();
 const [pageTotal, setpageTotal] = useState([]);
 const [searchInfoVo,setSearchInfoVo] = useState({
     pageNo : 1,
-      limit : 4,
+    limit : 6,
+    memberNo: loginNumber,
 });
 
 const loadQuestCategoryVoList = () => {
@@ -110,18 +110,15 @@ const loadQuestCategoryVoList = () => {
     })
     .then(resp => resp.json())
     .then(data => {
-        setComQuestVoList(data);
+        setComQuestVoList(data.voList);
         setpageTotal(data.pageTotal);
-        console.log(pageTotal);
-        console.log(comQuestVoList);
+        console.log(data.pageTotal);
+        console.log(data.voList);
     });
   }
 
   
   useEffect(() => {
-    if(loginNumber !== null){
-      setLoginInfo({no : loginNumber});
-  }
     loadQuestCategoryVoList();
   },[searchInfoVo]);
 
@@ -136,11 +133,16 @@ const loadQuestCategoryVoList = () => {
     return (
         <StyledQuestListDiv>
           <div id='itemArea'>
-            {/* {comQuestVoList.map( (vo) => {
+          {
+                        comQuestVoList?.length === 0 
+                        ?
+                        <h1>로딩중...</h1>
+                        :comQuestVoList?.map( (vo) => {
+                            console.log(vo);
                   return <QuestListItem key = {vo.no} vo = {vo} />
                 }
               )
-            } */}
+            }
           </div>
           <div id='pageArea'>
             <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
