@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { useQuestMemory } from '../community/context/QuestContext';
 import QuestListItem from './QuestListItem';
 import Page from '../page/Page';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledQuestListDiv = styled.div`
   width: 100%;
     height: 100%;
+    margin-top: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;
@@ -90,6 +92,8 @@ const StyledQuestListDiv = styled.div`
 const QuestList = () => {
 
   
+const loginNumber = sessionStorage.getItem('loginInfo');
+const {setLoginInfo} = useLoginMemory();
   const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
   const [locateCategoryVoList, setLocateCategoryVoList] = useState([]);
   const [questCategoryVoList, setQuestCategoryVoList] = useState([]);
@@ -111,6 +115,10 @@ const QuestList = () => {
   }
 
   useEffect(() => {
+    if(loginNumber !== null){
+      setLoginInfo({no : loginNumber});
+  }
+
     loadQuestCategoryVoList();
     loadLocateCategoryVoList();
     setSearchInfoVo({

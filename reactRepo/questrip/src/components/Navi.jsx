@@ -3,18 +3,23 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledNaviDiv = styled.div`
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-auto-columns: 1fr;
-    grid-auto-flow: column;
-    place-items: center center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #4aaeff;
     color: white;
+    border-radius: 8px;
     font-size: 1rem;
     border-bottom: 1px solid lightgray;
-    & > div > a{
-            text-decoration: none;
+    a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        transition: color 0.3s ease;
+        &:hover {
+            color: #f8f9fa;
+        }
     }
 `;
 

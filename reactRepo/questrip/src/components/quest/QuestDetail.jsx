@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MapContainer from '../map/MapContainer';
 import { useQuestMemory } from '../community/context/QuestContext';
 import Modal from './Modal';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledQuestListDiv = styled.div`
   width: 100%;
@@ -36,6 +37,7 @@ const StyledQuestListDiv = styled.div`
 
 
 const QuestDetail = () => {
+  const {setLoginInfo} = useLoginMemory();
   const loginNumber = sessionStorage.getItem('loginInfo');
   
   const [modalOpen, setModalOpen] = useState(false);
@@ -50,6 +52,10 @@ const QuestDetail = () => {
   const { setSearchInfoVo } = useQuestMemory();
   console.log(vo);
   useEffect(() => {
+    if(loginNumber !== null){
+      setLoginInfo({no : loginNumber});
+  }
+
     setSearchInfoVo({
       locCateNo: 1,
       pageNo: 0,

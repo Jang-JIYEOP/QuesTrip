@@ -64,21 +64,37 @@ const StyledHeaderDiv = styled.div`
 `;
 
 const StyledSearchDiv = styled.div`
-    width: 100%;
-    height: 100%;
-    
-
-    & > form{
-        width: 100%;
-        height: 100%;
-        margin: 20px;
-        & > select{
-            height: 30%;
-        
+margin-top: 50px;
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        select {
+            margin-right: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
         }
-        & :nth-child(2) {
-            width: 30%;
-            height: 30%;
+        input[type="text"] {
+            margin-right: 10px;
+            flex-grow: 1;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="submit"] {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4682B4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #357ca5;
         }
     }
 `;
@@ -159,18 +175,7 @@ const Header = () => {
         } 
         
     }, [searchVo] )
-    // new Promise( (resolve)=>{
-    //     loadDiaryVoList();
-    //     resolve();
-    // } )
-    // .then( ()=>{
-    //     loadCommunityVoList();
-    // } )
-    // .then( ()=>{
-    //     if(searchVo.search === 'title' || searchVo.search === 'writer' || searchVo.search === 'content' ){
-    //         navigate('/search', { state:  {communityVoList,diaryVoList}  });
-    //     } 
-    // } );
+   
     
 
     return (
@@ -197,9 +202,9 @@ const Header = () => {
                             <div class="icon">
                                 <img src={loginMemberVo.photo} alt="아이콘" />
                             </div> 
-                            <div class="title">{loginMemberVo.memberTitle}</div>
+                            <div class="title"> <strong>[{loginMemberVo.memberTitle}]</strong></div>
                             <div class="nickname">{loginMemberVo.nick}</div>
-                            <div class="point">포인트 : {loginMemberVo.point}</div>
+                            <div class="point">💰 {loginMemberVo.point}</div>
                             <div class="my-page" onClick={()=>{
                                 navigate("/myPage", {state: {loginMemberVo}});
                             }}>마이페이지</div>
