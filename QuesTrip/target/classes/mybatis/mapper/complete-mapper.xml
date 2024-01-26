@@ -42,23 +42,52 @@
 	
 	<select id="myList" resultType="com.kh.questrip.complete.vo.CompleteVo">
 	        SELECT
-	        	cq.NO,
-			    cq.MEMBER_NO,
-			    m.NICK AS MEMBER_NAME,
-			    cq.QUEST_NO,
-			    q.TITLE AS QUEST_NAME,
-			    cq.RATE,
-			    cq.IMG_PATH,
-			    cq.COM_TIME,
-			    q.CONTENT
+			    M.NICK AS MEMBER_NAME,
+	        	CQ.NO,
+			    CQ.MEMBER_NO,
+			    CQ.QUEST_NO,
+			    CQ.RATE,
+			    CQ.IMG_PATH,
+			    CQ.COM_TIME,
+                CQ.STATE,
+                CQ.REJEC_REASON,
+			    Q.QUE_CATE_NO , 
+			    Q.LOC_CATE_NO ,
+			    Q.TITLE, 
+			    Q.CONTENT, 
+			    Q.POINT, 
+			    Q.ENROLL_DATE, 
+			    Q.IMG_PATH, 
+			    Q.LATITUDE, 
+			    Q.LONGITUDE, 
+			    Q.DEL_YN,
+			    Q.HEAD_CNT
 			FROM
-			    COM_QUEST cq
+			    COM_QUEST CQ
 			JOIN
-			    MEMBER m ON cq.MEMBER_NO = m.NO
+			    MEMBER M ON CQ.MEMBER_NO = M.NO
 			JOIN
-			    QUEST q ON cq.QUEST_NO = q.NO
+			    QUEST Q ON CQ.QUEST_NO = Q.NO
 			WHERE CQ.MEMBER_NO = #{memberNo}
 	    OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
+	
+	<update id="updatePoint">
+        UPDATE member
+            SET POINT = POINT + #{point},
+                ACCUMULATE = ACCUMULATE + #{point}
+        WHERE NO = #{memberNo}
+    </update>
+    
+    <update id="updateTitle">
+        UPDATE member m
+        SET m.MEMBER_TITLE_NO = (
+            SELECT MAX(mt1.NO)
+            FROM member m1
+            JOIN member_title mt1 ON m1.ACCUMULATE >= mt1.POINT
+            WHERE m1.NO = m.NO
+        )
+        WHERE m.NO = #{no}
+    </update>
 </mapper>
 

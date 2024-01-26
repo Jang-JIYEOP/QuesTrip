@@ -63,7 +63,7 @@ const MapContainer = (props) => {
     if (questVoList.length === 1) {
       setMapStyles({
         width: '23%',
-        height: '42%',
+        height: '40%',
       });
     }
     return ()=>{ 
