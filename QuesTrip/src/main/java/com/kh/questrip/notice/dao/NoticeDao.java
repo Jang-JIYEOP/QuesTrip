@@ -22,5 +22,8 @@ public class NoticeDao {
 	public int write(NoticeVo vo, SqlSessionTemplate sst) {
 		return sst.insert("NoticeMapper.write",vo);
 	}
+	public int delete(NoticeVo vo, SqlSessionTemplate sst) {
+		return sst.update("NoticeMapper.delete", vo);
+	}
 
 }

@@ -78,7 +78,7 @@ const IconList = () => {
             console.log('실행');
             setModalOpen(true);
           }}>
-          퀘스트 수행하기
+          아이콘 등록하기
         </button>
 
         <Modal isOpen={modalOpen} closeModal={closeModal}/>

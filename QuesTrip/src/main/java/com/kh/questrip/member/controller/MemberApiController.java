@@ -1,4 +1,3 @@
-
 package com.kh.questrip.member.controller;
 
 import java.util.HashMap;
@@ -43,7 +42,13 @@ public class MemberApiController {
 		System.out.println(vo);
 		String verificationCode = emailCode();
 	    vo.setEmailCode(verificationCode);
-		return service.join(vo);
+	    int result = 0;
+	    if( service.join(vo)==1) {
+	    	int memberNo = service.findMaxNo();
+	    	
+	    	result = service.insertIcon(memberNo);
+	    }
+		return result;
 	}
 	
 	//로그인

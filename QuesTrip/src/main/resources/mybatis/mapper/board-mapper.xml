@@ -297,7 +297,23 @@
 
   </select>
   
+  <select id="findMaxNo" >
+  	SELECT MAX(NO) AS MEMBER_NO 
+  	FROM MEMBER;
+  </select>
   
-  
+  <insert id="insertIcon" parameterType="int">
+  	INSERT MEMBER_ICON
+  	INTO
+  	(
+  		MEMBER_NO,
+  		ICON_NO
+  	)
+  	VALUES
+  	(
+  		#{memberNo},
+  		1
+  	)
+  </insert>
   
 </mapper>

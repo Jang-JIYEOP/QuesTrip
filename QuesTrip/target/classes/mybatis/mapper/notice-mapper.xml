@@ -3,78 +3,90 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="NoticeMapper">
-  <select id="list" resultType="com.kh.questrip.notice.vo.NoticeVo">
-	SELECT
-	    NO,
-	    ADMIN_NO,
-	    TITLE,
-	    CONTENT,
-	    ENROLL_DATE,
-	    DEL_YN
-	FROM NOTICE_BOARD
-	WHERE DEL_YN = 'N'
-	<if test="searchContent != null">
-	    <bind name="pattern" value="'%' + searchContent + '%'"/>
-	    <if test="search == 'title'">
-	        AND TITLE LIKE #{pattern}
+	<select id="list" resultType="com.kh.questrip.notice.vo.NoticeVo">
+	   SELECT
+	       NO,
+	       ADMIN_NO,
+	       TITLE,
+	       CONTENT,
+	       TO_CHAR(ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
+	       DEL_YN
+	   FROM NOTICE_BOARD
+	   WHERE DEL_YN = 'N'
+	   <if test="searchContent != null">
+	       <bind name="pattern" value="'%' + searchContent + '%'"/>
+	       <if test="search == 'title'">
+	           AND TITLE LIKE #{pattern}
+	       </if>
+	       <if test="search == 'content'">
+	           AND CONTENT LIKE #{pattern}
 	    </if>
-	    <if test="search == 'content'">
-	        AND CONTENT LIKE #{pattern}
-    </if>
-</if>
-  </select>
-  
-  
-  <select id="pageList" resultType="com.kh.questrip.notice.vo.NoticeVo">
-	SELECT
-	    NB.NO,
-	    NB.ADMIN_NO,
-	    NB.TITLE,
-	    NB.CONTENT,
-	    NB.ENROLL_DATE,
-	    NB.DEL_YN,
-	    A.ID
-	FROM NOTICE_BOARD NB
-	JOIN ADMIN A ON A.NO = NB.ADMIN_NO
-	WHERE DEL_YN = 'N'
-	<if test="searchContent != null">
-	    <bind name="pattern" value="'%' + searchContent + '%'"/>
-	    <if test="search == 'title'">
-	        AND NB.TITLE LIKE #{pattern}
+	</if>
+	  </select>
+	  
+	  
+	  <select id="pageList" resultType="com.kh.questrip.notice.vo.NoticeVo">
+	   SELECT
+	       NB.NO,
+	       NB.ADMIN_NO,
+	       NB.TITLE,
+	       NB.CONTENT,
+	       TO_CHAR(NB.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
+	       NB.DEL_YN,
+	       A.ID
+	   FROM NOTICE_BOARD NB
+	   JOIN ADMIN A ON A.NO = NB.ADMIN_NO
+	   WHERE DEL_YN = 'N'
+	   <if test="searchContent != null">
+	       <bind name="pattern" value="'%' + searchContent + '%'"/>
+	       <if test="search == 'title'">
+	           AND NB.TITLE LIKE #{pattern}
+	       </if>
+	       <if test="search == 'content'">
+	           AND NB.CONTENT LIKE #{pattern}
 	    </if>
-	    <if test="search == 'content'">
-	        AND NB.CONTENT LIKE #{pattern}
-    </if>
-</if>
-        
-	OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
-  </select>
+	</if>
+		ORDER BY
+		NB.NO DESC
+	        
+	   OFFSET #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+	  </select>
+	  
+	  <select id="listAll" resultType="com.kh.questrip.notice.vo.NoticeVo">
+	     SELECT
+	        NO
+	      ,ADMIN_NO
+	      ,TITLE
+	      ,CONTENT
+	      ,TO_CHAR(ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE
+	      ,DEL_YN
+	   FROM NOTICE_BOARD
+	   
+	   
+	  </select>
+	 
+	 <insert id="write" >
+	     INSERT INTO NOTICE_BOARD
+		(
+		    NO, 
+		    TITLE,
+		    CONTENT,
+		    ADMIN_NO
+		)
+		VALUES
+		(
+		    SEQ_NOTICE_BOARD_NO.NEXTVAL
+		    , #{title}
+		    , #{content}
+		    , 1
+		)
+	  </insert>
   
-  <select id="listAll" resultType="com.kh.questrip.notice.vo.NoticeVo">
-  	SELECT
-  		NO
-		,ADMIN_NO
-		,TITLE
-		,CONTENT
-		,ENROLL_DATE
-		,DEL_YN
-	FROM NOTICE_BOARD
-	
-  </select>
- 
- <insert id="write" >
-  	INSERT INTO NOTICE_BOARD
-(
-    NO, 
-    TITLE,
-    CONTENT,
-)
-VALUES
-(
-    SEQ_NOTICE_BOARD_NO.NEXTVAL
-    ,#{title}
-    ,#{content}
-);
-  </insert>
+  <update id="delete">
+  	UPDATE NOTICE_BOARD 
+  		SET
+  			DEL_YN='Y'
+  	WHERE NO = #{no}
+  </update>
   
 </mapper>

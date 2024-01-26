@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Page from '../../page/Page';
+import { useNavigate } from 'react-router-dom';
 
 const StyledListDiv = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     height: 100%;
 
     & > table {
@@ -57,12 +58,18 @@ const NoticeList = () => {
     const [boardVoList , setBoardVoList] = useState([]);
 const [pageTotal, setPageTotal] = useState([]);
 const [searchInfoVo , setSearchInfoVo] = useState({
-
+    
     pageNo : 1,
     limit : 15,
 
 }
 );
+
+const navigate = useNavigate();
+
+const handleWrtieBtn = () =>{
+    navigate("../notice/write");
+}
 
 const handlePageChange = (pageNumber) => {
     setSearchInfoVo((prevSearchInfoVo) => ({
@@ -71,9 +78,9 @@ const handlePageChange = (pageNumber) => {
     }));
   };
   
-// const handleRowClick = (vo) => {
-//     navigate('/notice/detail', { state:  {vo}  });
-// };
+const handleRowClick = (vo) => {
+    navigate('/admin/notice/detail', { state:  {vo}  });
+};
 
 const loadBoardVoList = () => {
     fetch("http://127.0.0.1:8888/questrip/api/notice/list",{
@@ -111,7 +118,7 @@ useEffect( () => {
                 </thead>
                 <tbody>
                     {boardVoList.map((vo) => (
-                        <tr key={vo.no}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
                             <td>{vo.id}</td>
                             <td>{vo.title}</td>
 
@@ -122,7 +129,7 @@ useEffect( () => {
                 </tbody>
             </table>
             <div id='writeBtn'>
-                <button>작성하기</button>
+                <button onClick={handleWrtieBtn}>작성하기</button>
             </div>
             <div id='pageArea'>
                 <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>

@@ -118,7 +118,7 @@
 		GROUP BY
 		    M.NO, P.GET_POINT, P.EOE, P.SOURCE, P.CHANGES, P.ENROLL_DATE
 		ORDER BY
-		    P.ENROLL_DATE 
+		    P.ENROLL_DATE DESC
 		OFFSET
 		    #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 </select>
@@ -135,6 +135,25 @@
 		WHERE 
 	    	MEMBER_NO = #{memberNo}
 	</select>
+	
+	<select id="findMaxNo" resultType="Integer">
+	  	SELECT MAX(NO) AS MEMBER_NO 
+	  	FROM MEMBER
+  	</select>
+	  
+  	<insert id="insertIcon" parameterType="int">
+	  	INSERT INTO
+	  		MEMBER_ICON
+	  	(
+	  		MEMBER_NO,
+	  		ICON_NO
+	  	)
+	  	VALUES
+	  	(
+	  		#{memberNo},
+	  		1
+	  	)
+	</insert>
 
 
 
