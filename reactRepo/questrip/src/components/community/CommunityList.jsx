@@ -99,6 +99,7 @@ const StyledCommunityListDiv = styled.div`
 const CommunityList = () => {
     const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
     const [pageTotal, setPageTotal] = useState([]);
+    const loginNumber = sessionStorage.getItem('loginInfo');
     const [searchInfoVo , setSearchInfoVo] = useState({
 
         pageNo : 1,
@@ -106,6 +107,9 @@ const CommunityList = () => {
     
     }
     );
+
+    
+
     const navigate = useNavigate();
 
     const handlePageChange = (pageNumber) => {
@@ -142,7 +146,7 @@ const CommunityList = () => {
     }
     useEffect( () => {
         loadBoardVoList();
-        
+        setLoginInfo({no : loginNumber});
     }, [searchInfoVo] );
 
     const handleSearchSubmit = (event) => {

@@ -107,6 +107,8 @@ const DiaryList = () => {
     
     }
     );
+    const loginNumber = sessionStorage.getItem('loginInfo');
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
 
     const navigate = useNavigate();
 
@@ -146,7 +148,7 @@ const DiaryList = () => {
     
     useEffect( () => {
         loadDiaryVoList();
-        
+        setLoginInfo({no : loginNumber});
     }, [searchInfoVo] );
 
     const handleSearchSubmit = (event) => {
