@@ -101,7 +101,7 @@ const Header = () => {
         event.preventDefault();
         const search = event.target.search.value;
         const searchContent = event.target.searchContent.value;
-        navigate('/search', { state:  {search,searchContent}  });
+        // navigate('/search', { state:  {search,searchContent}  });
         
         setSearchVo({
             search,
@@ -113,66 +113,65 @@ const Header = () => {
       };
 
 
-    const loadCommunityVoList = () => {
-        
-        fetch("http://127.0.0.1:8888/questrip/api/community/list", {
+      const loadCommunityVoList = async () => {
+        const resp = await fetch("http://127.0.0.1:8888/questrip/api/community/list", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json", 
             },
             body : JSON.stringify(searchVo),
-        })
-        .then(resp => resp.json())
-        .then((data) => {
-            setCommunityVoList(data.voList);
-            console.log(data.voList);
-        })
-        ;
+        });
+    
+        const data = await resp.json();
+        return data.voList;
     }
-    const loadDiaryVoList = () => {
-        fetch("http://127.0.0.1:8888/questrip/api/diary/list", {
+    
+    const loadDiaryVoList = async () => {
+        const resp = await fetch("http://127.0.0.1:8888/questrip/api/diary/list", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json", 
             },
             body : JSON.stringify(searchVo),
-        })
-        .then(resp => resp.json())
-        .then((data) => {        
-            setDiaryVoList(data.voList);
-            console.log(data.voList);
-        })
-        ;
+        });
+    
+        const data = await resp.json();
+        return data.voList;
     }
 
     useEffect( ()=>{
-        setLoginInfo({no : loginNumber});
+        if(searchVo.search === 'title' || searchVo.search === 'writer' || searchVo.search === 'content'){
+        const fetchData = async () => {
+            try {
+                const newDiaryVoList = await loadDiaryVoList();
+                const newCommunityVoList = await loadCommunityVoList();
         
-    }, [] )
-
-    useEffect( ()=>{
-
-        new Promise( (resolve)=>{
-            loadDiaryVoList();
-            resolve();
-        } )
-        .then( ()=>{
-            loadCommunityVoList();
-        } )
-        .then( ()=>{
-            if(searchVo !== null){
-                console.log("if passed");
-                navigate('/search', { state:  {communityVoList,diaryVoList}  });
-            } 
-        } );
+                setDiaryVoList(newDiaryVoList);
+                setCommunityVoList(newCommunityVoList);
+                
+                   navigate('/search', { state:  {searchVo,communityVoList: newCommunityVoList, diaryVoList: newDiaryVoList}  });
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            
+            fetchData();
+        } 
         
     }, [searchVo] )
-
-    // useEffect( ()=>{
-    //     loadCommunityVoList();
+    // new Promise( (resolve)=>{
     //     loadDiaryVoList();
-    //     navigate('/search', { state:  {communityVoList,diaryVoList}  });
-    // }, [searchVo] )
+    //     resolve();
+    // } )
+    // .then( ()=>{
+    //     loadCommunityVoList();
+    // } )
+    // .then( ()=>{
+    //     if(searchVo.search === 'title' || searchVo.search === 'writer' || searchVo.search === 'content' ){
+    //         navigate('/search', { state:  {communityVoList,diaryVoList}  });
+    //     } 
+    // } );
+    
 
     return (
         <StyledHeaderDiv>

@@ -5,27 +5,40 @@ import Page from '../page/Page';
 
 const StyledIconListDiv = styled.div`
 
-    width: 100% ;
+width: 100%;
     height: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 3fr 12fr 1fr;
+    gap: 20px;
     place-items: center center;
     & > div {
     }
 
     
-    & #searchArea{
+    #searchArea {
         width: 100%;
         height: 100%;
-
-        & button {
-        width: 50%;
-        height: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        button {
+            width: 40%;
+            padding: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #4682B4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ca5;
+        }
     }
-
-    }
-
     & #itemArea{
         width: 100%;
         height: 100%;
@@ -33,6 +46,7 @@ const StyledIconListDiv = styled.div`
         display: grid;
         grid-template-columns: 1fr  1fr;
         grid-template-rows: 1fr 1fr 1fr;
+        gap: 20px;
         place-items: center center;
         & > div {
             width: 80%;
@@ -49,7 +63,7 @@ const StyledIconListDiv = styled.div`
         #pageArea{
             width: 100%;
             height: 100%;
-        grid-column: span 2;
+            grid-column: span 2;
       }
     }
 `;
