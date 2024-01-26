@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuestMemory } from '../community/context/QuestContext';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledQuestListDiv = styled.div`
         width: 100%;
@@ -34,8 +35,13 @@ const navigate = useNavigate();
 const location = useLocation();
 const vo = location.state.vo;
 const {setSearchInfoVo} = useQuestMemory();
+const loginNumber = sessionStorage.getItem('loginInfo');
+const {setLoginInfo} = useLoginMemory();
 useEffect(() => {
      
+    if(loginNumber !== null){
+        setLoginInfo({no : loginNumber});
+    }
 setSearchInfoVo({
   locCateNo : 1,
   pageNo : 0,

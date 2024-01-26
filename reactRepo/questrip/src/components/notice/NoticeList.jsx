@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Page from '../page/Page';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const NoticeList = () => {
 
@@ -104,6 +105,9 @@ const navigate = useNavigate();
 
 const [boardVoList , setBoardVoList] = useState([]);
 const [pageTotal, setPageTotal] = useState([]);
+
+const loginNumber = sessionStorage.getItem('loginInfo');
+const {setLoginInfo} = useLoginMemory();
 const [searchInfoVo , setSearchInfoVo] = useState({
 
     pageNo : 1,
@@ -152,6 +156,9 @@ const handleSearchSubmit = (event) => {
 
   };
 useEffect( () => {
+    if(loginNumber !== null){
+        setLoginInfo({no : loginNumber});
+    }
     loadBoardVoList();
     
 }, [searchInfoVo] );

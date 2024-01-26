@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IconListItem from './IconListItem';
 import Page from '../page/Page';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledIconListDiv = styled.div`
 
@@ -71,6 +72,7 @@ width: 100%;
       
       
 const IconShop = () => {
+    const {setLoginInfo} = useLoginMemory();
     const [boardVoList , setBoardVoList] = useState([]);
     const [pageTotal, setPageTotal] = useState([]);
     let loginNumber = '';
@@ -139,6 +141,10 @@ const IconShop = () => {
 
 
     useEffect( () => {
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
+    
         loadBoardVoList();
     }, [searchInfoVo,type] );
 

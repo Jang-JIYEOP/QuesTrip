@@ -63,7 +63,7 @@ const QuestListItem = ({vo}) => {
             <div id="queCate">{vo.categoryName}</div>
             <div id="headCnt"> {vo.headCnt} 명</div>
             <div id="rate">❤   {vo.rating}</div>
-            <div id="point">🧭  {vo.point}</div>
+            <div id="point">💰  {vo.point}</div>
         </StyledWrqpDiv>
     );
 };
