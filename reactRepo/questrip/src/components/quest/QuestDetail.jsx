@@ -10,33 +10,75 @@ const StyledQuestListDiv = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 3fr 1fr 2fr 2fr;
-  grid-template-rows: 4fr 0.7fr 2fr;
-  place-items: center center;
-
-  & > div {
-    width: 100%;
-    height: 100%;
-    border: 1px solid lightgray;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 15px;
+  padding: 20px;
+  margin-bottom: 20px; 
+  #img {
+    grid-column: span 3;
+    border-radius: 10px;
+    overflow: hidden;
   }
   #map {
     grid-column: span 2;
+    border-radius: 10px;
+    overflow: hidden;
   }
-  #img {
-    grid-column: span 2;
+  #map {
+    height: 400px;
   }
-  #content {
-    grid-column: span 3;
+  #img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #content{
+    grid-column: span 5;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    font-size: 1.2rem;
+    text-align: left;
+  }
+  #title, #headCnt, #queCateNo, #rating,  #point {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  #point {
+    flex-direction: column;
+    gap: 10px;
+  }
+  #point button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4682B4;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #357ca5;
+    }
   }
   #modal {
-  width: 400px;
-  height: 300px;
-}
+    width: 400px;
+    height: 300px;
+  }
 `;
 
 
 
 const QuestDetail = () => {
+
   const {setLoginInfo} = useLoginMemory();
   const loginNumber = sessionStorage.getItem('loginInfo');
   
@@ -71,13 +113,13 @@ const QuestDetail = () => {
       <div id="img">
         <img src={vo.imgPath} alt="퀘스트예시사진" />
       </div>
-      <div id="title">위치이름: {vo.title}</div>
-      <div id="headCnt">인원수: {vo.headCnt}</div>
-      <div id="queCateNo">분류: {vo.queCateNo}</div>
-      <div id="rating">평균 별점: {vo.rating}</div>
-      <div id="content">내용: {vo.content}</div>
+      
+      <div id="title">🎯{vo.title}</div>
+      <div id="headCnt">👬 {vo.headCnt}명</div>
+      <div id="queCateNo">{vo.categoryName}와(과) 함께</div>
+      <div id="rating">🍀 {vo.rating}</div>
       <div id="point" style={{ zIndex: pointZIndex }}>
-        <div>포인트: {vo.point}</div>
+        <div>💰 {vo.point}</div>
         <button
           className="btn"
           onClick={() => {
@@ -88,12 +130,9 @@ const QuestDetail = () => {
         >
           퀘스트 수행하기
         </button>
-
         <Modal isOpen={modalOpen} closeModal={closeModal} questNo = {vo.no} memberNo = {loginNumber}/>
-
-
-
       </div>
+            <div id="content">{vo.content}</div>
     </StyledQuestListDiv>
   );
 };

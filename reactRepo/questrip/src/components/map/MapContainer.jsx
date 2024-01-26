@@ -62,8 +62,8 @@ const MapContainer = (props) => {
     // questVoList이 비어있을 때 처리할 내용
     if (questVoList.length === 1) {
       setMapStyles({
-        width: '30.2%',
-        height: '39.8%',
+        width: '23%',
+        height: '42%',
       });
     }
     return ()=>{ 

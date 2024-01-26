@@ -66,13 +66,19 @@ const customModalStyles = {
       }
       
     }
-    #rate {
-      /* width: 100%;
-      & select {
-        width: 50px;
-        margin-left: 50px
-      } */
-    }
+    
+      button, input[type="submit"] {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4682B4;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        &:hover {
+          background-color: #357ca5;
+        }
+      }
       
     }
     `;
