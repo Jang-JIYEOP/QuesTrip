@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css'; // Quill 스타일 시트
 
 import styled from 'styled-components';
 import Write from './ReactQuill';
+import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledCDiaryWriteDiv = styled.div`
     width: 100%;
@@ -26,11 +27,15 @@ const StyledCDiaryWriteDiv = styled.div`
 
 const CommunityWrite = () => {
     const [content, setContent] = useState('');
-
+    const loginNumber = sessionStorage.getItem('loginInfo');
+    const {loginMemberVo, setLoginMemberVo, setLoginInfo} = useLoginMemory();
     const handleQuillChange = (value) => {
         setContent(value);
     };
 
+    useEffect(()=>{
+        setLoginInfo({no : loginNumber});
+    }, [])
     console.log(content);
     return (
         <StyledCDiaryWriteDiv>

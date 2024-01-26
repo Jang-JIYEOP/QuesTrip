@@ -46,6 +46,11 @@ const StyledListDiv = styled.div`
         width: 100%;
         text-align: center;
     }
+
+    #writeBtn{
+        width: 100%;
+        text-align: right;
+    }
 `;
 
 const NoticeList = () => {
@@ -116,6 +121,9 @@ useEffect( () => {
                     ))}
                 </tbody>
             </table>
+            <div id='writeBtn'>
+                <button>작성하기</button>
+            </div>
             <div id='pageArea'>
                 <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
             </div>
