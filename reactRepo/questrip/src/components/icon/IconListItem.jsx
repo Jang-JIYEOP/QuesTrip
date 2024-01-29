@@ -107,11 +107,8 @@ const IconListItem = ({vo, type}) => {
                 },
                 body : JSON.stringify(buyerVo),
             })
-            .then(resp => {
-                // if(!resp.ok){
-                //     throw new Error("구매실패");
-                // }
-                resp.json()})
+            .then(resp => 
+                resp.json())
             .then(data => {
                 console.log("토탈 페이지",data.msg);
                 if(func.func==='buy'){
@@ -124,6 +121,7 @@ const IconListItem = ({vo, type}) => {
                     }
                 }
                 else if(func.func==='update'){
+                    console.log("update 실행");
                     if(data.msg === "good"){
                         alert("대표아이콘 변경 성공!");
                         window.location.reload();

@@ -72,38 +72,49 @@ public class IconController {
 		if(result != 1) {
 			map.put("msg", "bad");
 		}
-		return map;
+		System.out.println(map.get("msg"));
+		System.out.println(map);
+		return map; 
 	}
 	@PostMapping("buy")
 	@Transactional(rollbackFor = Exception.class)
-	public Map<String, String> buy(@RequestBody buyerVo vo) throws Exception {
-		System.out.println("바이"+vo);
-
+	public Map<String, String> buy(@RequestBody buyerVo vo) {
 		Map<String, String> map = new HashMap<>();
+		try {
+
+			System.out.println("바이"+vo);
+
+			
+			map.put("msg", "bad");
+			
+			int memberPointUpdate = service.memberPointUpdate(vo);
+			if(memberPointUpdate == 0) {
+				map.put("msg", "lack");
+				System.out.println("예외야 외");
+				throw new Exception();
+			}
+			
+			int pointInsert	= service.pointInsert(vo);
+			if(pointInsert != 1) {
+				System.out.println("포인트 테이블에 인서트 오류");
+				throw new Exception();
+			}
+			
+			int memberIconInsert = service.memberIconInsert(vo);
+			if(memberIconInsert != 1) {
+				System.out.println("멤버아이콘 인서트 오류");
+				throw new Exception();
+			}
+			
+			System.out.println(memberIconInsert);
+			map.put("msg", "good");
+			System.out.println(map.get("msg"));
+			return map;
 		
-		map.put("msg", "bad");
-		
-		int memberPointUpdate = service.memberPointUpdate(vo);
-		if(memberPointUpdate == 0) {
+		} catch (Exception e) {
 			map.put("msg", "lack");
-			System.out.println("예외야 외");
-			throw new Exception();
+			return map;
 		}
-		
-		int pointInsert	= service.pointInsert(vo);
-		if(pointInsert != 1) {
-			System.out.println("포인트 테이블에 인서트 오류");
-		}
-		
-		int memberIconInsert = service.memberIconInsert(vo);
-		if(memberIconInsert != 1) {
-			System.out.println("멤버아이콘 인서트 오류");
-		}
-		
-		System.out.println(memberIconInsert);
-		map.put("msg", "good");
-		System.out.println(map.get("msg"));
-		return map;
 	}
 
 	

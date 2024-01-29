@@ -53,17 +53,25 @@ const QuestListItem = ({vo}) => {
     const handleClickQuestList = () => {
         navigate('/quest/detail', { state:  {vo}  });
     };
-
+    console.log("아아아아아아",vo);
     return (
         <StyledWrqpDiv onClick={handleClickQuestList}>
             <div id="img">
                 <img src={vo.imgPath} alt="퀘스트이미지" />
             </div>
-            <div id="title">{vo.title}</div>
+            <div id="title">{vo.title.length >= 4 ? `${vo.title.slice(0, 5)}` : vo.title}</div> 
             <div id="queCate">{vo.categoryName}</div>
             <div id="headCnt"> {vo.headCnt} 명</div>
             <div id="rate">❤   {vo.rating}</div>
             <div id="point">💰  {vo.point}</div>
+            
+            
+            {vo.rejecReason !== null ? (
+                <div>{vo.rejecReason} </div>
+            ) : null}
+            
+                
+            
         </StyledWrqpDiv>
     );
 };

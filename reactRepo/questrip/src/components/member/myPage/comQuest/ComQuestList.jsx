@@ -85,6 +85,27 @@ const StyledQuestListDiv = styled.div`
     justify-content: center;
     align-items: center;
 }
+#buttonArea {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+        button {
+            width: 40%;
+            padding: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #4682B4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ca5;
+        }
+    }
 `;
 
 
@@ -93,12 +114,15 @@ const ComQuestList = () => {
   
 const loginNumber = sessionStorage.getItem('loginInfo');
 const [comQuestVoList,setComQuestVoList] = useState();
+
 const [pageTotal, setpageTotal] = useState([]);
 const [searchInfoVo,setSearchInfoVo] = useState({
-    pageNo : 1,
-    limit : 6,
-    memberNo: loginNumber,
+  pageNo : 1,
+  limit : 6,
+  memberNo: loginNumber,
+  state : 1,
 });
+
 
 const loadQuestCategoryVoList = () => {
     fetch("http://127.0.0.1:8888/questrip/api/complete/mylist",{
@@ -129,26 +153,44 @@ const loadQuestCategoryVoList = () => {
       pageNo: pageNumber,
     }));
   };
- 
-    return (
-        <StyledQuestListDiv>
-          <div id='itemArea'>
-          {
-                        comQuestVoList?.length === 0 
-                        ?
-                        <h1>로딩중...</h1>
-                        :comQuestVoList?.map( (vo) => {
-                            console.log(vo);
-                  return <QuestListItem key = {vo.no} vo = {vo} />
-                }
-              )
-            }
-          </div>
-          <div id='pageArea'>
-            <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
-          </div>
-        </StyledQuestListDiv>
-    );
-};
+  
+  const clickOne=() => {
+    setSearchInfoVo((prevSearchInfoVo) => ({
+      ...prevSearchInfoVo,
+      state: 1,
+    }));
+  }
+  const clickTwo=() => {
+    setSearchInfoVo((prevSearchInfoVo) => ({
+      ...prevSearchInfoVo,
+      state: 2,
+    }));
+  }
+  const clickThree=() => {
+    setSearchInfoVo((prevSearchInfoVo) => ({
+      ...prevSearchInfoVo,
+      state: 3,
+    }));
+  }
 
+  return (
+    <StyledQuestListDiv>
+      <div id="buttonArea">
+        <button onClick={clickOne}>완료 요청</button>
+        <button onClick={clickTwo}>완료된 퀘스트</button>
+        <button onClick={clickThree}>반려된 퀘스트</button>
+      </div>
+      <div id='itemArea'>
+        {comQuestVoList?.length === 0 ? (
+          <h1>로딩중...</h1>
+        ) : (
+          comQuestVoList?.map((vo) => <QuestListItem key={vo.no} vo={vo} />)
+        )}
+      </div>
+      <div id='pageArea'>
+        <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
+      </div>
+    </StyledQuestListDiv>
+  );
+};
 export default ComQuestList;
