@@ -49,4 +49,8 @@ public class QuestService {
 		return dao.complete(sst, vo);
 	}
 
+	public int checkComplete(ComQuestVo vo) {
+		return dao.checkComplete(sst, vo);
+	}
+
 }

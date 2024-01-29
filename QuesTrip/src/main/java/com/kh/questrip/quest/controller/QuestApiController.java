@@ -113,4 +113,23 @@ public class QuestApiController {
 				
 		return path+fileName;
 	}
+	
+	//반려 또는 미수행 퀘스트 출력
+	@PostMapping("checkComplete")
+	public boolean checkComplete(@RequestBody ComQuestVo vo) {
+		try {
+			
+			int result = service.checkComplete(vo);
+			System.out.println("result: "+result);
+			
+			//true가 출력
+			if(result == 3) {
+				return true;
+			}else {
+				return false;
+			}
+		}catch(NullPointerException e) {
+			return true;
+		}
+	}
 }

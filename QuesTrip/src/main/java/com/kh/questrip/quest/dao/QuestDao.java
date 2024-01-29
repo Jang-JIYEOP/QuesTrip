@@ -32,4 +32,8 @@ public class QuestDao {
 		return sst.insert("QuestMapper.complete", vo);
 	}
 
+	public int checkComplete(SqlSessionTemplate sst, ComQuestVo vo) {
+		return sst.selectOne("QuestMapper.checkComplete", vo);
+	}
+
 }

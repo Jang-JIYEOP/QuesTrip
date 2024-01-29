@@ -90,7 +90,6 @@ const customModalStyles = {
   };
   const navigate = useNavigate();
   const handleSubmit = (event) =>{
-    console.log("함수실행");
     event.preventDefault();
 
     const title = event.target.title.value;

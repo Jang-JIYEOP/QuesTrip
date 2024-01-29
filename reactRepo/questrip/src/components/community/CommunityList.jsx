@@ -104,7 +104,6 @@ const CommunityList = () => {
     const searchVo = location.state ? location.state.searchVo : null;
     const [pageTotal, setPageTotal] = useState([]);
     const loginNumber = sessionStorage.getItem('loginInfo');
-    console.log(searchVo);
     
     const [searchInfoVo , setSearchInfoVo] = useState({
 
@@ -153,8 +152,9 @@ const CommunityList = () => {
 
     useEffect( () => {
         loadBoardVoList();
-        setLoginInfo({no : loginNumber});
-        console.log(searchVo);
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
         
     }, [searchInfoVo] );
 

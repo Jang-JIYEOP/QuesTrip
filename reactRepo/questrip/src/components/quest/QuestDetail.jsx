@@ -78,10 +78,9 @@ const StyledQuestListDiv = styled.div`
 
 
 const QuestDetail = () => {
-
   const {setLoginInfo} = useLoginMemory();
   const loginNumber = sessionStorage.getItem('loginInfo');
-  
+  const [checkBoolean, setCheckBoolean] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [pointZIndex, setPointZIndex] = useState(1);
 
@@ -91,9 +90,15 @@ const QuestDetail = () => {
   };
   const location = useLocation();
   const vo = location.state.vo;
+  // console.log(vo);
+
+  const [comQuestVo, setComQuestVo] = useState({ 
+    questNo: vo.no,
+    memberNo: loginNumber,
+  });
   const { setSearchInfoVo } = useQuestMemory();
-  console.log(vo);
   useEffect(() => {
+    checkComplete();
     if(loginNumber !== null){
       setLoginInfo({no : loginNumber});
   }
@@ -104,6 +109,23 @@ const QuestDetail = () => {
       limit: 0,
     });
   }, []);
+
+
+  const checkComplete = () =>{
+    fetch("http://127.0.0.1:8888/questrip/api/quest/checkComplete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", 
+        },
+        body : JSON.stringify(comQuestVo)
+      })
+      .then(resp => resp.json())
+      .then(data => {
+          console.log("data",data);
+          setCheckBoolean(data);
+        });
+    }
+  
 
   return (
     <StyledQuestListDiv>
@@ -120,16 +142,18 @@ const QuestDetail = () => {
       <div id="rating">🍀 {vo.rating}</div>
       <div id="point" style={{ zIndex: pointZIndex }}>
         <div>💰 {vo.point}</div>
-        <button
-          className="btn"
-          onClick={() => {
-            console.log('실행');
-            setModalOpen(true);
-            setPointZIndex(0); // modal이 열릴 때 point의 z-index 값을 0으로 변경합니다.
-          }}
-        >
-          퀘스트 수행하기
-        </button>
+        {loginNumber === null || !checkBoolean ? null : (
+          <button
+            className="btn"
+            onClick={() => {
+              console.log("실행");
+              setModalOpen(true);
+              setPointZIndex(0);
+            }}
+          >
+            퀘스트 수행하기
+          </button>
+        )}
         <Modal isOpen={modalOpen} closeModal={closeModal} questNo = {vo.no} memberNo = {loginNumber}/>
       </div>
             <div id="content">{vo.content}</div>

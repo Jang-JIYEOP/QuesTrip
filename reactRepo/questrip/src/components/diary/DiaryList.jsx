@@ -153,7 +153,9 @@ const DiaryList = () => {
     
     useEffect( () => {
         loadDiaryVoList();
-        setLoginInfo({no : loginNumber});
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
     }, [searchInfoVo] );
 
     const handleSearchSubmit = (event) => {

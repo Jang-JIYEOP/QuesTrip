@@ -49,7 +49,6 @@ const IconList = () => {
             .then(resp => resp.json()) 
             .then(data => {
                 setIconVoList(data);
-                console.log(data);
             })
             ;
     }
@@ -75,7 +74,6 @@ const IconList = () => {
             <button
           className="btn"
           onClick={() => {
-            console.log('실행');
             setModalOpen(true);
           }}>
           아이콘 등록하기
