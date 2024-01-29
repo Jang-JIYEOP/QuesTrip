@@ -26,6 +26,7 @@
 			    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 			WHERE
 			    CQ.MEMBER_NO = #{memberNo}
+			    AND CQ.STATE = #{state}
 			
 	</select>
 	<select id="pageList" resultType="com.kh.questrip.complete.vo.CompleteVo">
@@ -92,6 +93,7 @@
 			    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 			WHERE
 			    CQ.MEMBER_NO = #{memberNo}
+			    AND CQ.STATE = #{state}
 			GROUP BY
 			    M.NICK,
 			    CQ.NO,

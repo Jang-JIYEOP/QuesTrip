@@ -15,5 +15,6 @@ public class SearchInfoVo {
 	private String boardNo;
 	private String search;
 	private String searchContent;
+	private String state;
 	
 }
