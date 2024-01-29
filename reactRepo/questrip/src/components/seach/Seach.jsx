@@ -87,8 +87,6 @@ const Seach = () => {
     const diaryVoList = location.state.diaryVoList;
     const searchVo = location.state.searchVo;
 
-    console.log(diaryVoList);
-    console.log(communityVoList);
 
     const handleRowClick = (id) => {
         // 클릭한 게시글의 상세 페이지로 이동
@@ -124,10 +122,7 @@ const Seach = () => {
                         <tbody>
 
                             {
-                                communityVoList.length === 0 
-                                ?
-                                <h1>로딩중...</h1>
-                                :
+                                
                                 communityVoList.map( vo => 
                                     <tr key={vo.no} onClick={() => handleRowClick(vo.no)}>
                                     <td>{vo.title}</td>
@@ -160,10 +155,7 @@ const Seach = () => {
                         <tbody>
 
                             {
-                                diaryVoList.length === 0 
-                                ?
-                                <h1>로딩중...</h1>
-                                :
+                                
                                 diaryVoList.map( vo => 
                                     <tr key={vo.no} onClick={() => handleRowClick(vo.no)}>
                                     <td>{vo.title}</td>

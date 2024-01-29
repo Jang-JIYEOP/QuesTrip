@@ -44,7 +44,9 @@ const MemberMemoryProvider = ({children}) => {
     }
 
     useEffect(() => {
-        loadLoginMember();
+        
+            loadLoginMember();
+        
     },[loginInfo]);
     
     const loginMember = {

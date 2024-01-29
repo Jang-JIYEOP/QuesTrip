@@ -185,5 +185,12 @@
 		    )
 		
 	</insert>
+	
+	
+	<select id="checkComplete" resultType="Integer">
+		SELECT NVL(STATE, 0) AS RESULT_STATE
+	    FROM COM_QUEST
+	    WHERE MEMBER_NO = #{memberNo} AND QUEST_NO = #{questNo}
+	</select>
 </mapper>
 
