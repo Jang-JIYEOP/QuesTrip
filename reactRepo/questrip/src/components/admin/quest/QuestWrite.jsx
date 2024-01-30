@@ -7,6 +7,9 @@ const StyledWriteDiv = styled.div`
     height: 100%;
 
     padding-right: 20%;
+    #submit{
+        text-align: right;
+    }
     & > form {
         width: 100%;
         height: 100%;
@@ -18,9 +21,7 @@ const StyledWriteDiv = styled.div`
         & > div {
             width: 100%;
             height: 100%;
-            display: flex;
             align-items: center;
-            justify-content: center;
             padding: 10px;
 
             select,
@@ -60,6 +61,7 @@ const StyledWriteDiv = styled.div`
             grid-column: span 3;
         }
         #adress {
+            width: 100%;
             grid-column: span 2;
         }
 
@@ -70,6 +72,26 @@ const StyledWriteDiv = styled.div`
 `;
 
 const QuestWrite = () => {
+    const [locateCategoryVoList, setLocateCategoryVoList] = useState([]);
+    const [questCategoryVoList, setQuestCategoryVoList] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+  
+
+    const loadLocateCategoryVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/locatecategory/list")
+        .then(resp => resp.json())
+        .then(data => {
+            setLocateCategoryVoList(data);
+        });
+      }
+    
+      const loadQuestCategoryVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/questcategory/list")
+        .then(resp => resp.json())
+        .then(data => {
+            setQuestCategoryVoList(data);
+        });
+      }
     const [coordinates, setCoordinates] = useState({
         lat : '',
         lng : '',
@@ -77,13 +99,26 @@ const QuestWrite = () => {
     const [fileObj,setFileObj] = useState();
 
     const handleChangeFile = (e) => {
+        const file = e.target.files[0];
         setFileObj(e.target.files[0]);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              setSelectedImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+          }
     };
 
     // 좌표값을 받아오는 함수
     const handleCoordinatesChange = (newCoordinates) => {
         setCoordinates(newCoordinates);
     };
+
+    useEffect(() => {
+        loadLocateCategoryVoList();
+        loadQuestCategoryVoList();
+    },[])
 
     const handleSubmit = (event) =>{
         event.preventDefault();
@@ -130,27 +165,34 @@ const QuestWrite = () => {
         <StyledWriteDiv>
             <form onSubmit={handleSubmit}>
                 <div id="queCate">
-                    <select name = 'queCateNo'>
-                        <option value="1">옵션 1</option>
-                        <option value="2">옵션 2</option>
-                    </select>
+                    <select name="queCateNo">
+                    <option value=''>분류</option>
+                    {questCategoryVoList.map((qcvl) => 
+                    <option key={qcvl.no} value={qcvl.no}>{qcvl.name}</option>
+                    )}
+                </select>
                 </div>
                 <div id="point">
-                    <select name='point'>
-                        <option value="1">포인트 1</option>
-                        <option value="2">포인트 2</option>
-                    </select>
+                <select name="point">
+                  <option value=''>포인트</option>
+                  {Array.from({length: 10}, (_, i) => (i + 1) * 50).map((num) => 
+                    <option key={num} value={num}>{num}</option>
+                  )}
+                </select>
                 </div>
                 <div id="headCnt">
-                    <select name='headCnt'>
-                        <option value="1">헤드 1</option>
-                        <option value="2">헤드 2</option>
-                    </select>
+                        <select name="headCnt">
+                        <option value=''>인원수</option>
+                        {Array.from({length: 10}, (_, i) => i + 1).map((num) => 
+                            <option key={num} value={num}>{num}명</option>
+                        )}
+                        </select>
                 </div>
                 <div id="locCateNo">
-                    <select name='locCateNo'>
-                        <option value="1">지역 1</option>
-                        <option value="2">지역 2</option>
+                    <select name="locCateNo">
+                    {locateCategoryVoList.map((lcvl) => 
+                        <option key={lcvl.no} value={lcvl.no}>{lcvl.name}</option>
+                    )}
                     </select>
                 </div>
                 <div id="adress">
@@ -165,7 +207,15 @@ const QuestWrite = () => {
                 <div id="upload">
                     <input type="file" multiple name='f' onChange={handleChangeFile}/>
                 </div>
-                <div>
+                <br/>
+                <div id="img">
+                    {selectedImage ? (
+                    <img src={selectedImage} alt="Selected" style={{ width: '100%', height: '100%' }} />
+                    ) : (
+                        ''
+                        )}
+                </div>
+                <div id="submit">
                     <input type="submit" value="등록하기" />
                 </div>
             </form>

@@ -39,4 +39,8 @@ public class CompleteDao {
 		return sst.selectList("CompleteMapper.list", vo);
 	}
 
+	public int insertPoint(CompleteVo vo, SqlSessionTemplate sst) {
+		return sst.insert("CompleteMapper.pointInsert", vo);
+	}
+
 }

@@ -72,8 +72,10 @@ const Modal = ({ isOpen, closeModal, vo}) => {
   const [showReason, setShowReason] = useState(false); // 반려사유 표시 여부
   const [comleteVo, setComleteVo] = useState([]);
   const navigate = useNavigate();
-
+  
   const handleSubmit = (event) => {
+    console.log("이벤트 안에 ", vo);
+    
     event.preventDefault();
     if(event.target.title.value!==''){
       setComleteVo({
@@ -88,12 +90,14 @@ const Modal = ({ isOpen, closeModal, vo}) => {
           state : 2,
           point: vo.point,
           memberNo : vo.memberNo,
+          questName : vo.questName,
       })
     }
   };
 
 
   const updateComplete = () => {
+    console.log("콤플리트",comleteVo);
     fetch("http://127.0.0.1:8888/questrip/api/complete/update",{
         method: "POST",
         headers: {
