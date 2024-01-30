@@ -93,16 +93,15 @@ const customModalStyles = {
         setFileObj(event.target.files[0]);
         
         if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
+          const reader = new FileReader();
+          reader.onload = () => {
+            setSelectedImage(reader.result);
+          };
+          reader.readAsDataURL(file);
+        }
       };
-      reader.readAsDataURL(file);
-    }
-  };
     
   const handleSubmit = (event) =>{
-    console.log("함수실행");
     event.preventDefault();
 
     const rate = event.target.rate.value;
@@ -121,6 +120,7 @@ const customModalStyles = {
     .then( data => {
         if(data.msg === "good"){
             alert("퀘스트 작성 완료 !");
+            window.location.reload();
         }else{
             alert("퀘스트 작성 실패 ...");
         }

@@ -109,12 +109,19 @@ const StyledHomeDiv = styled.div`
 const Home = () => {
 
     const {questVoList, searchInfoVo, setSearchInfoVo, pageTotal, handlePageChange} = useQuestMemory();
+    const [locateCategoryVoList, setLocateCategoryVoList] = useState([]);
     const loginNumber = sessionStorage.getItem('loginInfo');
-const {setLoginInfo} = useLoginMemory();
+    const {setLoginInfo} = useLoginMemory();
     const [selectedQuest, setSelectedQuest] = useState(null);
     const mapContainerRef = useRef(null);
     const [boardBestList, setBoardBestList] = useState([]);
-
+    const loadLocateCategoryVoList = () => {
+        fetch("http://127.0.0.1:8888/questrip/api/locatecategory/list")
+        .then(resp => resp.json())
+        .then(data => {
+            setLocateCategoryVoList(data);
+        });
+      }
     const loadBoardVoList = () => {
         fetch("http://127.0.0.1:8888/questrip/api/community/list", {
             method: "POST",
@@ -160,6 +167,7 @@ const {setLoginInfo} = useLoginMemory();
 
     useEffect( ()=>{
         loadBoardVoList();
+        loadLocateCategoryVoList();
     }, [])
 
     const handleRowClick = (id) => {
@@ -202,9 +210,9 @@ const {setLoginInfo} = useLoginMemory();
                     <b id='questHead'>평점 순 퀘스트 </b>
                     <form onSubmit={handleSubmit}>
                         <select name="search">
-                            <option value="1">서울</option>
-                            <option value="2">강릉</option>
-                            <option value="3">인천</option>
+                            {locateCategoryVoList.map((lcvl) => 
+                                <option key={lcvl.no} value={lcvl.no}>{lcvl.name}</option>
+                            )}
                         </select>
                         <input type="submit" value="검색"/>
                     </form>
@@ -212,7 +220,7 @@ const {setLoginInfo} = useLoginMemory();
                         {questVoList.map((questVo) => (
                             <div key={questVo.no} onClick={() => handlePClick(questVo)}>
                                 <div>⚔    {questVo.title}   ⚔  </div>
-                                <div>🕸    {questVo.rating}     </div>
+                                <div>⭐    {questVo.rating}     </div>
                             </div>
                         ))}
 

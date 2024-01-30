@@ -47,11 +47,14 @@ public class CompleteController {
 	public Map<String, String> update(@RequestBody CompleteVo vo) {
 		System.out.println(vo);
 		int result = service.update(vo);
-		
+		System.out.println(result);
 		int updatePoint = service.updatePoint(vo);
-		
+		System.out.println("멤버포인트 업뎃"+updatePoint);
 		int updateTitle = service.updateTitle(vo);
+		System.out.println("칭호 업뎃"+updateTitle);
+		int insertPoint = service.insertPoint(vo);
 		
+		System.out.println("포인트인서트"+insertPoint);
 		Map<String, String> map = new HashMap<>();
 		
 		map.put("msg", "good");
@@ -78,4 +81,7 @@ public class CompleteController {
 		
 		return map;
 	}
+	
+
+	
 }

@@ -146,7 +146,6 @@ const {setLoginInfo} = useLoginMemory();
     });
 
   };
-  
  
     return (
         <StyledQuestListDiv>

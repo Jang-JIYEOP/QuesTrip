@@ -139,7 +139,7 @@ const QuestDetail = () => {
       <div id="title">🎯{vo.title}</div>
       <div id="headCnt">👬 {vo.headCnt}명</div>
       <div id="queCateNo">{vo.categoryName}와(과) 함께</div>
-      <div id="rating">🍀 {vo.rating}</div>
+      <div id="rating">⭐ {vo.rating}</div>
       <div id="point" style={{ zIndex: pointZIndex }}>
         <div>💰 {vo.point}</div>
         {loginNumber === null || !checkBoolean ? null : (

@@ -48,4 +48,8 @@ public class CompleteService {
 		return dao.list(vo,sst);
 	}
 
+	public int insertPoint(CompleteVo vo) {
+		return dao.insertPoint(vo,sst);
+	}
+
 }
