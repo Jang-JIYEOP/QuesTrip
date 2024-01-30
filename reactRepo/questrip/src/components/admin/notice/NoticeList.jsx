@@ -61,7 +61,7 @@ const [searchInfoVo , setSearchInfoVo] = useState({
     
     pageNo : 1,
     limit : 15,
-
+    state: 1,
 }
 );
 

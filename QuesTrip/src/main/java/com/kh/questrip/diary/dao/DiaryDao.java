@@ -20,6 +20,7 @@ public class DiaryDao {
 		return sst.selectOne("DiaryMapper.list", vo);
 	}
 	
+	
 	//일기 삭제
 	public int delete(SqlSessionTemplate sst, DiaryVo vo) {
 		return sst.delete("DiaryMapper.delete", vo);
@@ -80,5 +81,10 @@ public class DiaryDao {
 
 	public List<DiaryVo> search(SqlSessionTemplate sst, SearchVo vo) {
 		return sst.selectList("DiaryMapper.search",vo);
+	}
+	
+	//관리자 일기 삭제
+	public int adminDelete(SqlSessionTemplate sst, DiaryVo vo) {
+		return sst.update("DiaryMapper.adminDelete", vo);
 	}
 }

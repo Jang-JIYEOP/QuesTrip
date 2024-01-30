@@ -59,7 +59,7 @@ const CommunityList = () => {
 
         pageNo : 1,
         limit : 10,
-    
+        state : 1,
     }
     );
     const navigate = useNavigate();
@@ -101,6 +101,10 @@ const CommunityList = () => {
         
     }, [searchInfoVo] );
 
+    const handleRowClick = (vo) => {
+        navigate('/admin/community/detail', { state:  {vo}  });
+    };
+
     return (
         <StyledListDiv>
 
@@ -116,7 +120,7 @@ const CommunityList = () => {
                 </thead>
                 <tbody>
                     {boardVoList.map((vo) => (
-                        <tr key={vo.no}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
                             <td>{vo.nick}</td>
                             <td>{vo.title}</td>
                             <td>{vo.hit}</td>

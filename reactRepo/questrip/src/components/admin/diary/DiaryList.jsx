@@ -59,7 +59,7 @@ const DiaryList = () => {
 
         pageNo : 1,
         limit : 15,
-    
+        state : 1,
     }
     );
 
@@ -97,6 +97,10 @@ const DiaryList = () => {
             });
 
     }
+
+    const handleRowClick = (vo) => {
+        navigate('/admin/diary/detail', { state:  {vo}  });
+    };
     
     useEffect( () => {
         loadDiaryVoList();
@@ -118,7 +122,7 @@ const DiaryList = () => {
                 </thead>
                 <tbody>
                     {diaryVoList.map((vo) => (
-                        <tr key={vo.no}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
                             <td>{vo.nick}</td>
                             <td>{vo.title}</td>
                             <td>{vo.hit}</td>

@@ -35,7 +35,7 @@ const tabs = [
   { key: 'quest', label: '등록퀘스트관리' },
   { key: 'complete', label: '퀘스트완료요청' },
   { key: 'notice', label: '공지사항관리' },
-  { key: 'dairy', label: '일기관리' },
+  { key: 'diary', label: '일기관리' },
   { key: 'community', label: '커뮤니티관리' },
   { key: 'icon', label: '아이콘관리' },
 ];

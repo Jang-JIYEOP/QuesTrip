@@ -90,4 +90,8 @@ public class BoardDao {
 		return sst.selectList("BoardMapper.search");
 	}
 
+	public int adminDelete(SqlSessionTemplate sst, BoardVo vo) {
+		return sst.update("BoardMapper.adminDelete", vo);
+	}
+
 }

@@ -48,13 +48,13 @@ public class BoardApiController {
 	//게시글 목록 조회
 	@PostMapping("list")
 	public Map<String, Object> list(@RequestBody SearchInfoVo vo){
+		System.out.println("vo:"+vo);
 		
 		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
 		
 		vo.setPageNo(Integer.toString(start));
 		
 		int pageTotal = (int)Math.ceil((double)service.list(vo)/Integer.parseInt(vo.getLimit()));
-		
 		List<BoardVo> boardVoList = service.pageList(vo);
 		List<BoardVo> BoarBestList = service.best();
 		Map<String, Object> map = new HashMap<>();
@@ -139,6 +139,12 @@ public class BoardApiController {
 	@PostMapping("detail/delete")
 	public int delete(@RequestBody BoardVo vo) {
 		return service.delete(vo);
+	}
+	
+	//관리자 게시글 삭제
+	@PostMapping("admin/delete")
+	public int adminDelete(@RequestBody BoardVo vo) {
+		return service.adminDelete(vo);
 	}
 	
 	@GetMapping("listall")
