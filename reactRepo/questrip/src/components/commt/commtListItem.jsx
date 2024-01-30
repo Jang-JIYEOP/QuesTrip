@@ -11,6 +11,10 @@ const StlyedCommtListItemDiv = styled.div`
     grid-template-columns: 1fr;
     
     margin-top: 10px;
+    #underContentInput{
+        border: none;
+    }
+
     #img{
         grid-row: span 2;
     }
@@ -52,6 +56,8 @@ const StlyedCommtListItemDiv = styled.div`
     #write{
         grid-column: span 3;
     }
+    
+    
 `;
 
 
@@ -244,7 +250,7 @@ const CommtListItem = ({vo}) => {
         <StlyedCommtListItemDiv>
             <div id='divv' onClick={showInputBox}>
                 <div id='img'><img src={vo.icon} alt="이미지" /></div>
-                <div>{vo.memberTitle}</div>
+                <div><b>[{vo.memberTitle}]</b></div>
                 <div>{vo.enrollDate}</div>
                 {
                     loginMemberVo && loginMemberVo.nick === vo.nick ? (

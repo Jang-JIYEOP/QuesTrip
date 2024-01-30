@@ -27,10 +27,27 @@ const StyledCommunityDetailDiv = styled.div`
         grid-column: span 3;
         place-items: center;
     }
+    .main{
+        text-align: left;
+    }
 
     #reply{
         grid-column: span 3;
         
+    }
+    #contentInput{
+        width: 80%;
+        margin-top: 10px;
+        margin-left: 5%;
+        border-bottom: solid 1px lightgray;
+        & > *{
+             
+            border: none;
+
+        }
+        & > input{
+            width: 93%;
+        }
     }
 `;
 
@@ -245,6 +262,9 @@ const CommunityDetail = () => {
 
     return (
         <StyledCommunityDetailDiv>
+            
+
+
             <div>{boardDetailVo.title}</div>
             <div className='writeDate'>작성일 : {boardDetailVo.enrollDate}</div>
             
@@ -271,8 +291,8 @@ const CommunityDetail = () => {
                     
                 })
             }
-                <div>
-                    <input type="text" id='contentInput'/> 
+                <div id='contentInput'>
+                    <input type="text" placeholder='댓글을 입력해주세요.'/> 
                     <button onClick={handleSubmit}>작성</button>
                 </div>
                 <div id='pageArea'>
