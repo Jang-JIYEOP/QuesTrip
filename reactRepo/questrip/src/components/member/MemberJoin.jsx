@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledJoinDiv = styled.div`
@@ -75,6 +76,7 @@ const MemberJoin = () => {
     const [emailAuth, setEmailAuth] = useState(0);
     const [selectedEmailOption, setSelectedEmailOption] = useState('directInput');
 
+    const navigate = useNavigate();
     useEffect(()=>{
         if(MemberVo.id){
             fetch("http://127.0.0.1:8888/questrip/api/member/join/dupCheck", {
@@ -160,7 +162,7 @@ const MemberJoin = () => {
         if(idDupCheck !== 0 && nickDupCheck !== 0 && MemberVo.pwd !== null && emailAuth !== 0){
             
             alert("회원가입을 축하합니다.")
-            
+            navigate("/member/login")
             fetch("http://127.0.0.1:8888/questrip/api/member/join", {
                     method: "POST",
                     headers: {
