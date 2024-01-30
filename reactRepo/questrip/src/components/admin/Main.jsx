@@ -16,6 +16,8 @@ import NoticeWrite from './notice/NoticeWrite';
 import NoticeDetail from './notice/NoticeDetail';
 import DiaryDetail from './diary/DiaryDetail';
 import CommunityDetail from './community/CommunityDetail';
+import MemberDetail from './memberList/MemberDetail';
+import QuestDetail from './quest/QuestDetail';
 
 const Main = () => {
     return (

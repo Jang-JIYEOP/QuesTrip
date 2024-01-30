@@ -45,16 +45,21 @@ const MapContainer = (props) => {
         lng: questVoList[0].longitude,
       });
     } 
+    
     else{
-      setMapCenter({
-        lat : props.vo.latitude,
-        lng : props.vo.longitude,
-      })
-      setQuestVoList((prevQuestVoList) => [
+      
+
+        setMapCenter({
+          lat : props.vo.latitude,
+          lng : props.vo.longitude,
+        })
+        setQuestVoList((prevQuestVoList) => [
+          
+          ...prevQuestVoList,
+          props.vo,
+        ]);
         
-        ...prevQuestVoList,
-        props.vo,
-      ]);
+      
     }
   }, [questVoList]);
 

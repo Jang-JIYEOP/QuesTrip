@@ -28,9 +28,9 @@
 					AND Q.LOC_CATE_NO = #{locCateNo}
 				</if>
 				
-				<if test="title != null and title != '' ">	
-					AND Q.TITLE = #{title}
-				</if>
+				<if test="title != null and title != '' ">    
+		            AND Q.TITLE LIKE '%' || #{title} || '%'
+		        </if>
 				
 				<if test="point != null and point != '' ">	
 					AND Q.POINT >= #{point}
@@ -73,8 +73,8 @@
 		        AND Q.LOC_CATE_NO = #{locCateNo}
 		    </if>
 		    
-		    <if test="title != null and title != '' "> 
-		        AND Q.TITLE = #{title}
+		    <if test="title != null and title != '' ">    
+		        AND Q.TITLE LIKE '%' || #{title} || '%'
 		    </if>
 		    
 		    <if test="point != null and point != '' "> 

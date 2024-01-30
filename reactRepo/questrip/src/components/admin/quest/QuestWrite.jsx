@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AddressInput from './AddressInput';
+import { useNavigate } from 'react-router-dom';
 
 const StyledWriteDiv = styled.div`
     width: 60%;
@@ -119,6 +120,7 @@ const QuestWrite = () => {
         loadLocateCategoryVoList();
         loadQuestCategoryVoList();
     },[])
+    const navigate = useNavigate();
 
     const handleSubmit = (event) =>{
         event.preventDefault();
@@ -154,6 +156,7 @@ const QuestWrite = () => {
         .then( data => {
             if(data.msg === "good"){
                 alert("퀘스트 작성 완료 !");
+                navigate("/admin/quest/list")
             }else{
                 alert("퀘스트 작성 실패 ...");
             }

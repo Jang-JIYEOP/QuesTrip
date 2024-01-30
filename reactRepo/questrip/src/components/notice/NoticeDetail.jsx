@@ -5,27 +5,51 @@ import { useQuestMemory } from '../community/context/QuestContext';
 import { useLoginMemory } from '../community/context/LoginContext';
 
 const StyledQuestListDiv = styled.div`
+         width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr 9fr 1fr;
+    place-items: center center;
+    gap: 20px;
+    padding: 20px;
+
+    & > div {
         width: 100%;
         height: 100%;
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-        grid-template-rows: 1fr 9fr 1fr;
-        place-items: center center;
+        border: 1px solid lightgray;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-        & > div {
-            width: 100%;
-            height: 100%;
-            border: 1px solid lightgray;
-        }
-        #content{
-            grid-column: span 2; 
-            
-        }
+    #title, #enrollDate {
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-        & button {
-            grid-column: span 2; 
+    #content {
+        grid-column: span 2; 
+        font-size: 16px;
+    }
 
+    button {
+        grid-column: span 2; 
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        &:hover {
+            background-color: #2980b9;
         }
+    }
     `;
 
 const NoticeDetail = () => {
@@ -56,7 +80,7 @@ return (
         <StyledQuestListDiv>
             <div id='title'>제목 : {vo.title}</div>
             <div id='enrollDate'>작성일자 : {vo.enrollDate}</div>
-            <div id='content'>내용 : {vo.content}</div>
+            <div id='content'> {vo.content}</div>
             <button onClick={() => handleBackClick(vo)}>목록으로</button>
         </StyledQuestListDiv>
     );

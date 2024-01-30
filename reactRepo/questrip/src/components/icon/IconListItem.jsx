@@ -59,7 +59,7 @@ const StyledWrqpDiv = styled.div`
     }
 `;
 
-const IconListItem = ({vo, type}) => {
+const IconListItem = ({ vo, type}) => {
     console.log("타입",type.nowType);
     let loginNumber = '';
     if(sessionStorage.getItem('loginInfo')){
@@ -148,12 +148,13 @@ const IconListItem = ({vo, type}) => {
                 </div>
                 <div id="title">{vo.title}</div>
                 <div id="price">{vo.price}</div>
-                
-                <button onClick={() => handleButtonClick(vo)}>
-                    {type.nowType === "shop" ? "구매하기" : "대표아이콘으로지정"}
-                </button>
+    
+                {loginNumber && (
+                    <button onClick={() => handleButtonClick(vo)}>
+                        {type.nowType === "shop" ? "구매하기" : "대표아이콘으로지정"}
+                    </button>
+                )}
             </div>
-            
         </StyledWrqpDiv>
     );
 };
