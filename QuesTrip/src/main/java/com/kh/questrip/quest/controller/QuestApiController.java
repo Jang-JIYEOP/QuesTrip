@@ -31,6 +31,7 @@ public class QuestApiController {
 	//지역별 퀘스트 조회
 	@PostMapping("list")
 	public Map<String, Object> list(@RequestBody SearchInfoVo vo){
+		System.out.println(vo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		//pageNo의 값 바꿔주기 페이지 1에 리스트 10를 불러올거면 (페이지와 리미트를 가지고 조회하는 매퍼 하나)
 		//1페이지 : pageNo = 0, limit = 10
@@ -114,6 +115,19 @@ public class QuestApiController {
 		return path+fileName;
 	}
 	
+	@PostMapping("delete")
+	public Map<String, Object> delete(@RequestBody QuestVo vo) {
+		System.out.println("퀘스트브이오"+ vo);
+		int result = service.delete(vo);
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		return map;
+	}
 	//반려 또는 미수행 퀘스트 출력
 	@PostMapping("checkComplete")
 	public boolean checkComplete(@RequestBody ComQuestVo vo) {

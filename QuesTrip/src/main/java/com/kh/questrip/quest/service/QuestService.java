@@ -53,4 +53,8 @@ public class QuestService {
 		return dao.checkComplete(sst, vo);
 	}
 
+	public int delete(QuestVo vo) {
+		return dao.delete(vo,sst);
+	}
+
 }
