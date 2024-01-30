@@ -94,4 +94,8 @@ public class BoardService {
 		return dao.search(sst,vo);
 	}
 
+	public int adminDelete(BoardVo vo) {
+		return dao.adminDelete(sst, vo);
+	}
+
 }

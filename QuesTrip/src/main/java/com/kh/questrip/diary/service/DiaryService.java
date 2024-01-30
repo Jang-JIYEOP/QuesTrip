@@ -88,4 +88,8 @@ public class DiaryService {
 	public List<DiaryVo> search(SearchVo vo) {
 		return dao.search(sst,vo);
 	}
+
+	public int adminDelete(DiaryVo vo) {
+		return dao.adminDelete(sst, vo);
+	}
 }

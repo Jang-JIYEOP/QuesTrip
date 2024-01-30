@@ -135,6 +135,12 @@ public class DiaryController {
 		return service.delete(vo);
 	}
 	
+	//관리자 일기 삭제
+	@PostMapping("admin/delete")
+	public int adminDelete(@RequestBody DiaryVo vo) {
+		return service.adminDelete(vo);
+	}
+	
 	@GetMapping("listall")
 	public List<DiaryVo> listAll(){
 		System.out.println(service.listAll());

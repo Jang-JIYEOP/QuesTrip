@@ -12,6 +12,7 @@
 	       ENROLL_DATE,
 	       DEL_YN
 	   FROM NOTICE_BOARD
+	   <if test="state == null">
 	   WHERE DEL_YN = 'N'
 	   <if test="searchContent != null">
 	       <bind name="pattern" value="'%' + searchContent + '%'"/>
@@ -21,6 +22,7 @@
 	       <if test="search == 'content'">
 	           AND CONTENT LIKE #{pattern}
 	    </if>
+	</if>
 	</if>
 	  </select>
 	  
@@ -36,6 +38,7 @@
 	       A.ID
 	   FROM NOTICE_BOARD NB
 	   JOIN ADMIN A ON A.NO = NB.ADMIN_NO
+	   <if test="state == null">
 	   WHERE DEL_YN = 'N'
 	   <if test="searchContent != null">
 	       <bind name="pattern" value="'%' + searchContent + '%'"/>
@@ -45,6 +48,7 @@
 	       <if test="search == 'content'">
 	           AND NB.CONTENT LIKE #{pattern}
 	    </if>
+	</if>
 	</if>
 		ORDER BY
 		NB.NO DESC
@@ -83,10 +87,13 @@
 	  </insert>
   
   <update id="delete">
-  	UPDATE NOTICE_BOARD 
-  		SET
-  			DEL_YN='Y'
-  	WHERE NO = #{no}
+  	UPDATE NOTICE_BOARD
+	  SET
+	    DEL_YN = CASE
+	                WHEN DEL_YN = 'Y' THEN 'N'
+	                WHEN DEL_YN = 'N' THEN 'Y'
+	             END
+	  WHERE NO = #{no}
   </update>
   
 </mapper>

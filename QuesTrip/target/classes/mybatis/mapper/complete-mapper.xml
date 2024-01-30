@@ -155,6 +155,6 @@
                 FROM MEMBER
                 WHERE NO = #{memberNo})
         )
-    </insert>
+    </insert>                                      
 </mapper>
 

@@ -163,7 +163,7 @@ const MyInfoList = () => {
 
     const handleClickNickDupCheck = () => {
         let userNick = document.getElementById("userNickInput").value;
-        const regex = /^[a-zA-Z0-9]{6,20}$/;
+        const regex = /^[a-zA-Z0-9가-힣]{4,20}$/;
 
         if(userNick === ''){
             alert("닉네임을 입력하세요.")

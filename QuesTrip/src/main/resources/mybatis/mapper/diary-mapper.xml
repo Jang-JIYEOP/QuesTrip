@@ -30,6 +30,16 @@
   	 	WHERE NO = #{no}
   </update>
   
+  <update id="adminDelete">
+	  UPDATE DIARY
+	  SET
+	    DEL_YN = CASE
+	                WHEN DEL_YN = 'Y' THEN 'N'
+	                WHEN DEL_YN = 'N' THEN 'Y'
+	             END
+	  WHERE NO = #{no}
+  </update>
+  
   <select id="list" resultType="Integer">
   	SELECT
 	    COUNT(NO) AS CNT
@@ -172,8 +182,11 @@
 	    MEMBER M ON CB.MEMBER_NO = M.NO
 	LEFT JOIN
 	    DIARY_LIKE CL ON CB.NO = CL.DIARY_NO -- 좋아요 테이블 조인
-	WHERE 
-	    CB.DEL_YN = 'N'
+	    <if test="state == null">
+	    	WHERE 
+	   			 CB.DEL_YN = 'N'
+	    
+	
 	    <if test="searchContent != null">
 		    <bind name="pattern" value="'%' + searchContent + '%'"/>
 		    <if test="search == 'title'">
@@ -188,7 +201,7 @@
                            			WHERE NICK = #{pattern})
         	</if> 
     	</if>
-        
+       </if>
 	GROUP BY 
 	    CB.NO,
 	    M.NICK,
