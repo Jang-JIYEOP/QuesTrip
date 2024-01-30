@@ -63,6 +63,7 @@ const QuestList = () => {
     const handleRowClick = (vo) => {
         navigate('/admin/quest/detail', { state:  {vo}  });
     };
+    console.log(questVoList);
     return (
         <StyledListDiv>
             <table>
@@ -70,6 +71,7 @@ const QuestList = () => {
                     <tr>
 
                     <th>제목</th>
+                    
                     <th>평균별점</th>
                     <th>포인트</th>
                     <th>인원수</th>

@@ -161,13 +161,13 @@ const IconShop = () => {
             <div id="itemArea">
 
                 {boardVoList.map( (vo) => {
-                            return <IconListItem key = {vo.no} vo = {vo} type = { type }/>
+                            return <IconListItem key = {vo.no} vo = {vo} type = { type } loginNumber= { loginNumber }/>
                         }
                     )
                 }
             </div>
             <div id='pageArea'>
-                <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
+                <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange} />
             </div>
 
         </StyledIconListDiv>

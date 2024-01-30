@@ -85,6 +85,9 @@ const StyledQuestListDiv = styled.div`
     justify-content: center;
     align-items: center;
 }
+#submit{
+  margin-top: 42px;
+}
 `;
 
 
@@ -200,7 +203,7 @@ const {setLoginInfo} = useLoginMemory();
                 <input name = "title" type="text"/>
               </div>  
                
-              <div>
+              <div id='submit'>
                 <input type="submit" value="검색" />
               </div>
             </form>
