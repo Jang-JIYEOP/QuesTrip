@@ -37,7 +37,6 @@ const tabs = [
   { key: 'notice', label: '공지사항관리' },
   { key: 'dairy', label: '일기관리' },
   { key: 'community', label: '커뮤니티관리' },
-  { key: 'membertitle', label: '칭호관리' },
   { key: 'icon', label: '아이콘관리' },
 ];
 

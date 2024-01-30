@@ -120,10 +120,21 @@ public class MemberApiController {
 		return String.valueOf(code);
 	}
 	
-	@GetMapping("listall")
-	public List<MemberVo> list() {
-		System.out.println("실행완료"+service.list());
-		return service.list();
+	@PostMapping("listall")
+	public Map<String, Object> list(@RequestBody SearchInfoVo vo) {
+		int start = (Integer.parseInt(vo.getPageNo())-1)*Integer.parseInt(vo.getLimit());
+		System.out.println(vo);
+		vo.setPageNo(Integer.toString(start));
+		
+		int pageTotal = (int)Math.ceil((double)service.list(vo)/Integer.parseInt(vo.getLimit()));
+		
+		List<MemberVo> ListVoList = service.memberPageList(vo);
+		System.out.println("포인트vo: "+ ListVoList);
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageTotal", pageTotal);
+		map.put("voList", ListVoList);
+		
+		return map;
 	}
 	
 	//마이페이지 정보 수정

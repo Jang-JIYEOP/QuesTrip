@@ -82,23 +82,16 @@
 	
 </select>
 
-<select id="list" resultType="com.kh.questrip.member.vo.MemberVo">
-	SELECT 
-	    M.NO,
-	    IT.TITLE AS ICON_NAME,
-	    MT.NO AS TITLE_NO,
-	    MT.TITLE AS TITLE_NAME,
-	    M.ID,
-	    M.PWD,
-	    M.NICK,
-	    M.EMAIL,
-	    M.POINT,
-	    M.ENROLL_DATE,
-	    M.DEL_YN
-	FROM MEMBER M
-	JOIN ICON IT ON M.ICON_NO = IT.NO
-	JOIN MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
+<select id="list" resultType="Integer">
+	SELECT
+	    	COUNT(NO) AS CNT
+	    
+		FROM 
+		    MEMBER
+		
 </select>
+	
+	
 
 <select id="pageList" resultType="com.kh.questrip.member.vo.PointVo">
   		
@@ -108,7 +101,7 @@
 		    P.EOE,
 		    P.SOURCE,
 		    P.CHANGES,
-		    P.ENROLL_DATE
+		    TO_CHAR(P.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE
 		FROM
 		    POINT P
 		JOIN
@@ -119,6 +112,38 @@
 		    M.NO, P.GET_POINT, P.EOE, P.SOURCE, P.CHANGES, P.ENROLL_DATE
 		ORDER BY
 		    P.ENROLL_DATE DESC
+		OFFSET
+		    #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
+</select>
+
+<select id="memberPageList" resultType="com.kh.questrip.member.vo.MemberVo">
+  		
+	  	SELECT
+		    M.NO,
+		    M.NICK,
+		    MT.TITLE AS TITLE_NAME,
+		    I.TITLE AS ICON_NAME,
+		    M.EMAIL,
+		    M.POINT,
+		    TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
+		    M.DEL_YN
+		FROM
+		    MEMBER M
+		JOIN
+			ICON I ON M.ICON_NO = I.NO
+		JOIN
+			MEMBER_TITLE MT ON M.MEMBER_TITLE_NO = MT.NO
+		GROUP BY
+		    M.NO,
+		    M.NICK,
+		    MT.TITLE,
+		    I.TITLE,
+		    M.EMAIL,
+		    M.POINT,
+		    M.ENROLL_DATE,
+		    M.DEL_YN
+		ORDER BY
+		    M.ENROLL_DATE DESC
 		OFFSET
 		    #{pageNo} ROWS FETCH NEXT #{limit} ROWS ONLY
 </select>

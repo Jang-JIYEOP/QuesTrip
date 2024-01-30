@@ -61,6 +61,28 @@ const StyledHeaderDiv = styled.div`
 
     .logout {
     }
+
+    #login-button {
+        width: 50%;
+        margin-left: 20%;
+        margin-top: 20%;
+        background-color: #4682B4;
+        color: #fff;
+        padding: 8px 12px; /* Adjusted padding for a smaller button */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        /* Center the text */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #login-button:hover {
+        background-color: #357ca5;
+    }
 `;
 
 const StyledSearchDiv = styled.div`
@@ -217,10 +239,12 @@ const Header = () => {
 
                     </div>  
                     :
-                    <div onClick={() => {
-                        navigate("member/login");
-                    }}>로그인</div>
-            }
+                    (
+                        <div id="login" onClick={() => navigate("member/login")}>
+                            <div id="login-button">로그인</div>
+                        </div>
+                    )}
+            
         </StyledHeaderDiv>
     );
 };

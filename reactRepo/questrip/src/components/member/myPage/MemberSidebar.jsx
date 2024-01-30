@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from 'react';
 import Writing from './writingList/Writing';
 import MyInfoList from './myInfo/MyInfoList';

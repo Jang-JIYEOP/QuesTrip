@@ -4,64 +4,53 @@ import styled from 'styled-components';
 import Page from '../../page/Page';
 
 const StyledListDiv = styled.div`
-width: 100%;
-    height: 100%;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    width: 100%;
+    height: 100%;
 
     & > table {
         width: 100%;
         border-collapse: collapse;
-        background-color: white;
-        border-radius: 8px; /* 모서리 둥글게 */
 
-        &  tr {
-            height: 40px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-            transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
-
-            &:hover {
-                background-color: #87CEEB; /* 하늘색 */
-            }
+        
+        th, td {
+            height: 15px;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        tr > th:nth-child(1){
+            width: 150px;
+        }
+        tr > th:nth-child(3){
+            width: 200px;
+        }
+        tr > th:nth-child(4){
+            width: 80px;
+        }
+        th {
+            background-color: #f2f2f2;
         }
 
-        & > thead > tr > th {
-            padding: 10px;
-            background-color: #4682B4; /* 더 진한 파란색 */
-            color: white;
-            text-align: left;
-            border-radius: 8px 8px 0 0; /* 상단 모서리만 둥글게 */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
-        & > tbody > .bestThree {
-            background-color: #d3d3d3; /* 연한 회색 */
-        }
-
-        & > tbody > tr > td {
-            padding: 10px;
+        tbody tr:hover {
+            background-color: #e0e0e0;
         }
     }
 
-    & > #pageArea {
-        margin-top: 20px;
+    #pageArea {
+        margin-top: auto;
+        width: 100%;
+        text-align: center;
     }
 
-    & > button {
-        padding: 10px;
-        background-color: #4682B4; /* 더 진한 파란색 */
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
-
-        &:hover {
-            background-color: #357ca5; /* 더 진한 파란색 */
-        }
+    #writeBtn{
+        width: 100%;
+        text-align: right;
     }
 `;
 const CommunityList = () => {
@@ -128,7 +117,7 @@ const CommunityList = () => {
                 <tbody>
                     {boardVoList.map((vo) => (
                         <tr key={vo.no}>
-                            <td>{vo.memberName}</td>
+                            <td>{vo.nick}</td>
                             <td>{vo.title}</td>
                             <td>{vo.hit}</td>
                             <td>{vo.enrollDate}</td>

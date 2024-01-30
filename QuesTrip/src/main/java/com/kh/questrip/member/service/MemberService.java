@@ -32,8 +32,8 @@ public class MemberService {
 	public int dupCheck(MemberVo vo) {
 		return dao.dupCheck(sst, vo);
 	}
-	public List<MemberVo> list() {
-		return dao.list(sst);
+	public List<MemberVo> memberPageList(SearchInfoVo vo) {
+		return dao.memberPageList(sst, vo);
 	}
 
 	public int edit(MemberVo vo) {
@@ -55,6 +55,12 @@ public class MemberService {
 	public int insertIcon(int memberNo) {
 		return dao.insertIcon(sst, memberNo);
 	}
+
+	public int list(SearchInfoVo vo) {
+		return dao.list(sst, vo);
+	}
+
+	
 	
 
 }

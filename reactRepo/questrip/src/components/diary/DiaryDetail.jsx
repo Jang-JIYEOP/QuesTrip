@@ -43,7 +43,9 @@ const DiaryDetail = () => {
 
 
     useEffect(() => {
-        setLoginInfo({no : loginNumber});
+        if(loginNumber !== null){
+            setLoginInfo({no : loginNumber});
+        }
         // API를 호출하여 게시글의 상세 정보를 가져옵니다.
         fetch(`http://127.0.0.1:8888/questrip/api/diary/detail/?no=${id}`, {
             method: "POST",
