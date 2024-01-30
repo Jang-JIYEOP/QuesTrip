@@ -22,9 +22,9 @@
 <!--             COUNT(CQ.RATE) AS RATE_CNT -->
 		FROM QUEST Q
 		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
-		WHERE 
-			Q.DEL_YN = 'N' 
 				<if test="locCateNo !=null and locCateNo != '' ">
+		WHERE 
+					Q.DEL_YN = 'N' 
 					AND Q.LOC_CATE_NO = #{locCateNo}
 				</if>
 				
@@ -67,9 +67,9 @@
 		FROM QUEST Q
 		LEFT JOIN COM_QUEST CQ ON Q.NO = CQ.QUEST_NO
 		LEFT JOIN QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
+		    <if test="locCateNo !=null and locCateNo != '' ">
 		WHERE 
 		    Q.DEL_YN = 'N'       
-		    <if test="locCateNo !=null and locCateNo != '' ">
 		        AND Q.LOC_CATE_NO = #{locCateNo}
 		    </if>
 		    
@@ -119,6 +119,7 @@
 		JOIN
 		    QUEST_CATEGORY QC ON Q.QUE_CATE_NO = QC.NO
 	</select>
+	
 	<insert id="insertQuest" useGeneratedKeys="true" keyProperty="questData.no">
     INSERT INTO QUEST (
     	NO
@@ -138,6 +139,7 @@
     VALUES (
     	SEQ_QUEST_NO.NEXTVAL
    	</insert>
+   	
    	<insert id="write">
 		INSERT INTO QUEST
 		(
@@ -192,5 +194,15 @@
 	    FROM COM_QUEST
 	    WHERE MEMBER_NO = #{memberNo} AND QUEST_NO = #{questNo}
 	</select>
+
+    <update id="delete">
+	    UPDATE QUEST
+	  		SET
+	    DEL_YN = CASE
+	                WHEN DEL_YN = 'Y' THEN 'N'
+	                WHEN DEL_YN = 'N' THEN 'Y'
+	             END
+	  	WHERE NO = #{no}
+    </update>
 </mapper>
 

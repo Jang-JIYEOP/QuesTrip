@@ -182,7 +182,7 @@ const loadQuestCategoryVoList = () => {
       </div>
       <div id='itemArea'>
         {comQuestVoList?.length === 0 ? (
-          <h1>로딩중...</h1>
+          <div>리스트가 없습니다.</div>
         ) : (
           comQuestVoList?.map((vo) => <QuestListItem key={vo.no} vo={vo} />)
         )}

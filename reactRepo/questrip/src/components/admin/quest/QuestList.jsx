@@ -60,6 +60,9 @@ const QuestList = () => {
     const handleClickQuestWriter = () => {
         navigate('/admin/quest/write');
     };
+    const handleRowClick = (vo) => {
+        navigate('/admin/quest/detail', { state:  {vo}  });
+    };
     return (
         <StyledListDiv>
             <table>
@@ -76,7 +79,7 @@ const QuestList = () => {
                 </thead>
                 <tbody>
                     {questVoList.map((vo) => (
-                        <tr key={vo.no}>
+                        <tr key={vo.no} onClick={() => handleRowClick(vo)}>
 
                             <td>{vo.title}</td>
                             <td>{vo.rating}</td>
@@ -88,7 +91,9 @@ const QuestList = () => {
                     ))}
                 </tbody>
             </table>
+
             <div className='div'><button onClick={handleClickQuestWriter}>등록하기</button></div>
+            
             <div id='pageArea'>
                 <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
             </div>

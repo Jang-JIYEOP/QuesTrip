@@ -36,4 +36,9 @@ public class QuestDao {
 		return sst.selectOne("QuestMapper.checkComplete", vo);
 	}
 
+	public int delete(QuestVo vo, SqlSessionTemplate sst) {
+		return sst.update("QuestMapper.delete", vo);
+	}
+
+	
 }
