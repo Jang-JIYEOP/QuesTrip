@@ -28,8 +28,8 @@ public class MemberDao {
 		return sst.selectOne("MemberMapper.dupCheck", vo);
 	}
 
-	public List<MemberVo> list(SqlSessionTemplate sst) {
-		return sst.selectList("MemberMapper.list");
+	public List<MemberVo> memberPageList(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectList("MemberMapper.memberPageList", vo);
 	}
 
 	public int edit(SqlSessionTemplate sst, MemberVo vo) {
@@ -50,5 +50,9 @@ public class MemberDao {
 
 	public int insertIcon(SqlSessionTemplate sst, int memberNo) {
 		return sst.insert("MemberMapper.insertIcon", memberNo);
+	}
+
+	public int list(SqlSessionTemplate sst, SearchInfoVo vo) {
+		return sst.selectOne("MemberMapper.list", vo);
 	}
 }

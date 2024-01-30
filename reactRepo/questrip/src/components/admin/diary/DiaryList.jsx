@@ -93,6 +93,7 @@ const DiaryList = () => {
             .then(data => {
                 setDiaryVoList(data.voList);
                 setPageTotal(data.pageTotal);
+                console.log("data", data.voList);
             });
 
     }
@@ -118,7 +119,7 @@ const DiaryList = () => {
                 <tbody>
                     {diaryVoList.map((vo) => (
                         <tr key={vo.no}>
-                            <td>{vo.memberName}</td>
+                            <td>{vo.nick}</td>
                             <td>{vo.title}</td>
                             <td>{vo.hit}</td>
                             <td>{vo.enrollDate}</td>

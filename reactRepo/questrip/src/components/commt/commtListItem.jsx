@@ -25,7 +25,7 @@ const StlyedCommtListItemDiv = styled.div`
     }
     #content{
         text-align: left;
-        margin-left: 10px;
+        margin-left: 1%;
         grid-column: span 3;
         border-bottom: 1px solid lightgray;
         font-size: 18px;

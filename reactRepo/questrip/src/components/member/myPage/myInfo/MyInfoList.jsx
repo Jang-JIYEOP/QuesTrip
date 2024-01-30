@@ -22,7 +22,7 @@ const MyInfoList = () => {
     const [nickDupCheck, setNickDupCheck] = useState(0);
     const [emailAuth, setEmailAuth] = useState(0);
     const [isVerificationCodeVisible, setVerificationCodeVisible] = useState(false);
-    console.log("loginMemberVooooooo" , loginMemberVo);
+    const [completeEmailAuth, setCompleteEmailAuth] = useState(false);
     const [emailPrefix, emailSuffix] = loginMemberVo.email.split("@");
 
     useEffect( ()=>{
@@ -110,6 +110,7 @@ const MyInfoList = () => {
         if (MemberVo.emailCode === userAuthCodeInput) {
             alert('이메일이 성공적으로 인증되었습니다.');
             setEmailAuth(prevEmailAuth => prevEmailAuth + 1);
+            setCompleteEmailAuth(true);
         } else {
             alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
             setEmailAuth(0);
@@ -192,7 +193,7 @@ const MyInfoList = () => {
                     <div>
                         <b>닉네임</b>
                         <div>
-                            <input type="text" id='userNickInput' name='nick' placeholder='닉네임 입력(문자, 숫자 포함 8~20자)'/>
+                            <input type="text" id='userNickInput' name='nick' defaultValue={loginMemberVo.nick} />
                             <button type='button' onClick={handleClickNickDupCheck}>중복확인</button>
                         </div>
                     </div>
@@ -216,16 +217,16 @@ const MyInfoList = () => {
                     <div>
                         <b>비밀번호</b>
                         <div>
-                            <input type="password" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck}/>
+                            <input type="password" id='userPwdInput' placeholder='비밀번호 입력(8자 ~ 16자, 영문, 특수 문자 사용)' onChange={pwdCheck} disabled={!completeEmailAuth}/>
                         </div>
                     </div>
                     <div>
                         <b>비밀번호 확인</b>
                             <div>
-                                <input type="password" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck}/>
+                                <input type="password" id='userPwdCheckInput' placeholder='비밀번호 확인' onChange={pwdCheck} disabled={!completeEmailAuth}/>
                                 <div>{pwdMsg}</div>
                             </div>
-                        </div>
+                    </div>
                     
                     
                     <div id='joinButton'>

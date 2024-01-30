@@ -9,7 +9,7 @@
 	       ADMIN_NO,
 	       TITLE,
 	       CONTENT,
-	       TO_CHAR(ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
+	       ENROLL_DATE,
 	       DEL_YN
 	   FROM NOTICE_BOARD
 	   WHERE DEL_YN = 'N'

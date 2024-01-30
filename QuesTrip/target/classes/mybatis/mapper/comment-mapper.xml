@@ -13,6 +13,7 @@
 		
 		WHERE 
 	    	DEL_YN = 'N'
+	    	AND PARENT_NO IS NULL
 	    	AND BOARD_NO = #{boardNo}
 	</select>
 	
@@ -22,7 +23,7 @@
 		    CB.MEMBER_NO,
 		    CB.CONTENT,
 		    M.NICK,
-		    CB.ENROLL_DATE,
+		    TO_CHAR(CB.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
 		    CB.DEL_YN,
 		    COUNT(CL.MEMBER_NO) AS LIKES_COUNT
 		FROM
@@ -50,7 +51,7 @@
 		    C.NO AS NO,
 		    M.NICK AS NICK,
 		    C.CONTENT,
-		    C.ENROLL_DATE,
+		    TO_CHAR(C.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
 		    MT.TITLE AS MEMBER_TITLE ,
 		    C.DEL_YN,
 		    C.MEMBER_NO,
@@ -113,7 +114,7 @@
   		MEMBER_NO,
   		BOARD_NO,
   		CONTENT,
-  		ENROLL_DATE,
+  		TO_CHAR(ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
   		PARENT_NO	
   	)
   	VALUES
@@ -165,7 +166,7 @@
 		    C.NO AS NO,
 		    M.NICK AS NICK,
 		    C.CONTENT,
-		    C.ENROLL_DATE,
+		    TO_CHAR(C.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
 		    MT.TITLE AS MEMBER_TITLE ,
 		    C.DEL_YN,
 		    C.MEMBER_NO,

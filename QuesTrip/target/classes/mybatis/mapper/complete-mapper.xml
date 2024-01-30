@@ -38,7 +38,7 @@
 			    Q.TITLE AS QUEST_NAME,
 			    CQ.RATE,
 			    CQ.IMG_PATH,
-			    CQ.COM_TIME,
+			    TO_CHAR(CQ.COM_TIME, 'YYYY/MM/DD HH24:MI') AS COM_TIME,
 			    Q.CONTENT,
 			    Q.POINT
 			FROM
@@ -76,7 +76,7 @@
 			    Q.TITLE,
 			    Q.CONTENT,
 			    Q.POINT,
-			    Q.ENROLL_DATE,
+			    TO_CHAR(Q.ENROLL_DATE, 'YYYY/MM/DD HH24:MI') AS ENROLL_DATE,
 			    Q.IMG_PATH,
 			    Q.LATITUDE,
 			    Q.LONGITUDE,
@@ -136,5 +136,25 @@
         )
         WHERE m.NO = #{memberNo}
     </update>
+    
+     <insert id="pointInsert">
+        INSERT INTO POINT (
+            NO
+            , MEMBER_NO
+            , GET_POINT
+            , EOE
+            , SOURCE
+            , CHANGES) 
+        VALUES (
+            SEQ_POINT_NO.NEXTVAL
+            , #{memberNo}
+            , #{point}
+            , 'C'
+            , #{questName}
+            , (SELECT POINT
+                FROM MEMBER
+                WHERE NO = #{memberNo})
+        )
+    </insert>
 </mapper>
 

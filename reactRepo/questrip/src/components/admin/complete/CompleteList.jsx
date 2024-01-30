@@ -87,6 +87,7 @@ import { useNavigate } from 'react-router-dom';
         .then(data => {
             
             setBoardVoList(data.voList);
+            console.log("data",data.voList);
             setPageTotal(data.pageTotal);
     
         });

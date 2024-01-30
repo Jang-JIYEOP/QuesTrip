@@ -36,6 +36,9 @@ const StyledListDiv = styled.div`
             background-color: #e0e0e0;
         }
     }
+    .div{
+        text-align: right;
+    }
 
     #pageArea {
         margin-top: auto;
@@ -55,15 +58,14 @@ const QuestList = () => {
       });
     },[]);
     const handleClickQuestWriter = () => {
-        navigate('/quest/write');
+        navigate('/admin/quest/write');
     };
     return (
         <StyledListDiv>
             <table>
                 <thead>
                     <tr>
-                    <th>지역</th>
-                    <th>분류</th>
+
                     <th>제목</th>
                     <th>평균별점</th>
                     <th>포인트</th>
@@ -75,8 +77,7 @@ const QuestList = () => {
                 <tbody>
                     {questVoList.map((vo) => (
                         <tr key={vo.no}>
-                            <td>{vo.locName}</td>
-                            <td>{vo.queName}</td>
+
                             <td>{vo.title}</td>
                             <td>{vo.rating}</td>
                             <td>{vo.point}</td>
@@ -87,6 +88,7 @@ const QuestList = () => {
                     ))}
                 </tbody>
             </table>
+            <div className='div'><button onClick={handleClickQuestWriter}>등록하기</button></div>
             <div id='pageArea'>
                 <Page pageTotal={pageTotal} currentPage={searchInfoVo.pageNo} handlePageChange={handlePageChange}/>
             </div>
