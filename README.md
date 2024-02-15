@@ -52,4 +52,7 @@ QuesTrip은 여행과 동시에 새로운 경험을 찾고자 하는 이들을 �
     정보수정 : 이메일 인증을 통해 회원정보를 수정할 수 있다.
 
 결과물
-
+![Screenshot_20240215_114717_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/ec411269-f468-47c0-aff1-5047bfe6e750)
+![Screenshot_20240215_114818_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/c5b56691-a270-4de6-93d1-a91d3165933a)
+![Screenshot_20240215_114835_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/41f7dba2-dcec-493a-9efa-e9fb1b6a5cee)
+![Screenshot_20240215_114937_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/0b59e0c9-968f-4865-af82-ba284383c5bc)
