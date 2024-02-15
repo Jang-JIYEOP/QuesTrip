@@ -56,3 +56,4 @@ QuesTrip은 여행과 동시에 새로운 경험을 찾고자 하는 이들을 �
 ![Screenshot_20240215_114818_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/c5b56691-a270-4de6-93d1-a91d3165933a)
 ![Screenshot_20240215_114835_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/41f7dba2-dcec-493a-9efa-e9fb1b6a5cee)
 ![Screenshot_20240215_114937_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/0b59e0c9-968f-4865-af82-ba284383c5bc)
+![Screenshot_20240215_115845_Chrome](https://github.com/Jang-JIYEOP/QuesTrip/assets/142884497/979cc968-adf3-487a-9f3d-ec4d1b4500d3)
